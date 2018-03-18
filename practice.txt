@@ -14,3 +14,5 @@ gaven 1 2 3
 
 
 Whoa whoa here is a test go
+
+all == >> and << should be gone
