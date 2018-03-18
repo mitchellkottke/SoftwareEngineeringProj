@@ -11,8 +11,8 @@ gaven 1 2 3
 
 
 Whoa whoa here is a test go
-<<<<<<< HEAD
-=======
 
 all == >> and << should be gone
->>>>>>> test-brach
+
+
+Fix er up
