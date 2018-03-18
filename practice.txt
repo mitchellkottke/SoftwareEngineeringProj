@@ -8,10 +8,6 @@ gaven 1 2 3
 
 creating merge error
 gaven 1 2 3
-<<<<<<< HEAD
-=======
->>>>>>> Jaron
 
 
 Whoa whoa here is a test go
->>>>>>> test-brach
