@@ -3,11 +3,8 @@ test test, 7, 8, 9
 test test 10, 11, 12
 conflicts
 hello - Kirsi
-<<<<<<< HEAD
 
 gaven 1 2 3
 
 creating merge error
-=======
 gaven 1 2 3
->>>>>>> Jaron
