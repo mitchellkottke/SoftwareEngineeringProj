@@ -8,4 +8,4 @@ ml
 /build
 /captures
 .externalNativeBuild
-app/.idea/misc.xml
+/.idea/misc.xml
