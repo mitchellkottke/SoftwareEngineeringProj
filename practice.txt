@@ -12,5 +12,12 @@ gaven 1 2 3
 
 Whoa whoa here is a test go
 
+<<<<<<< HEAD
 all == >> and << should be gone 2.0
 
+=======
+all == >> and << should be gone
+
+
+Fix er up
+>>>>>>> master
