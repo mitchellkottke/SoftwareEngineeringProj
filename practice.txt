@@ -21,3 +21,5 @@ all == >> and << should be gone
 
 Fix er up
 >>>>>>> master
+
+Line here
