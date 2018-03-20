@@ -3,16 +3,14 @@ test test, 7, 8, 9
 test test 10, 11, 12
 conflicts
 hello - Kirsi
-<<<<<<< HEAD
 
 gaven 1 2 3
 
 creating merge error
-=======
 gaven 1 2 3
->>>>>>> Jaron
 
 
 Whoa whoa here is a test go
 
-all == >> and << should be gone
+all == >> and << should be gone 2.0
+
