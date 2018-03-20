@@ -9,14 +9,8 @@ gaven 1 2 3
 creating merge error
 gaven 1 2 3
 
-
-Whoa whoa here is a test go
 all == >> and << should be gone 2.0
 
 Fix er up
-<<<<<<< HEAD
->>>>>>> master
 
 Line here
-=======
->>>>>>> master
