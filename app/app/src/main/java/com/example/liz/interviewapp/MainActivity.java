@@ -12,10 +12,6 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 /* example comment for git */
-<<<<<<< HEAD
 //Hello - Kirsi
 //liz's comment
-=======
-//liz's comment
 //Sydney's Comment
->>>>>>> 6156d7b7506739bdaba890c7955b0d3cd9a7a9cb
