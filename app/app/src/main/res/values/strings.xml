@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">InterviewApp</string>
+    <string name="Record_Video">Record Video</string>
 </resources>
