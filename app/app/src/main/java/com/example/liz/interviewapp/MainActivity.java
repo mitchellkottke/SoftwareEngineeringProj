@@ -14,16 +14,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    /**
+     * @author ghutch
+     * @param view
+     * This function transitions to RecordVideoActivity
+     */
     public void switchToVideo(View view) {
         Intent myIntent = new Intent(this, RecordVideoActivity.class);
         startActivity(myIntent);
 
     }
 }
-/* example comment for git */
-//Hello - Kirsi
-//liz's comment
-//Sydney's Comment
-//Gaven's comment
-//Test comment
-//Jaron's comment
