@@ -57,7 +57,12 @@ public class RecordVideoActivity extends Activity {
         if (requestCode == ACTIVITY_START_CAMERA_APP && resultCode == RESULT_OK) {
             Uri videoUri = data.getData();
             viewOfVideo.setVideoURI(videoUri);
+
+            Toast.makeText(getApplicationContext(), "Video has been saved", Toast.LENGTH_LONG).show();
         }
+       if(resultCode != RESULT_OK) {
+           Toast.makeText(getApplicationContext(), "ERROR video not saved", Toast.LENGTH_LONG).show();
+       }
     }
 }
 //    @Override
