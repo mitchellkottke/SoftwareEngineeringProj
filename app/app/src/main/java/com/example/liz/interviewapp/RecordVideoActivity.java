@@ -22,13 +22,7 @@ public class RecordVideoActivity extends AppCompatActivity {
         myVideoView = findViewById(R.id.videoView);
     }
 
-    /**
-     * @author ghutch
-     * @param myView
-     * This function creates an intent to capture video,
-     * and then ensures that the intent is not null.
-     * It then sends the intent to onActivityResult.
-     */
+
     public void recordVideo(View myView){
         Intent myVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         if(myVideoIntent.resolveActivity(getPackageManager()) != null) {
@@ -36,15 +30,7 @@ public class RecordVideoActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * @author ghutch
-     * @param requestCode
-     * @param resultCode
-     * @param myVideoIntent
-     * This function creates a uri from the intent,
-     * and then sets the videoview's uri to that uri.
-     * It should then start playback for the video.
-     */
+    
     protected void onActivityResult(int requestCode, int resultCode, Intent myVideoIntent) {
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             Uri videoUri = myVideoIntent.getData();
