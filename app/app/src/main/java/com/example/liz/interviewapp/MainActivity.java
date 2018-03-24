@@ -16,12 +16,24 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * @author ghutch
-     * @param view
+     * @param myView
      * This function transitions to RecordVideoActivity
      */
-    public void switchToVideo(View view) {
+    public void switchToVideo(View myView) {
         Intent myIntent = new Intent(this, RecordVideoActivity.class);
         startActivity(myIntent);
-
     }
+
+    /**
+     * @author ghutch
+     * @param myView
+     * This function transitions to FlashcardsActivity
+     */
+    public void switchToFlashcards(View myView) {
+        Intent myIntent = new Intent(this, FlashcardsActivity.class);
+        startActivity(myIntent);
+    }
+
+
+
 }

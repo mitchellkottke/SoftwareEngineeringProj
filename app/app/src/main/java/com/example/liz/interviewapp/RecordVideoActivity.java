@@ -16,7 +16,6 @@ import java.io.File;
 public class RecordVideoActivity extends Activity {
 
 
-    private static final int REQUEST_CODE = 1;
     private Button recordView, playView;
     private VideoView viewOfVideo;
     private int ACTIVITY_START_CAMERA_APP = 0;
@@ -27,17 +26,15 @@ public class RecordVideoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_video);
-        recordView = (Button) findViewById(R.id.recordButton);
-        playView = (Button) findViewById(R.id.playbackButton);
-        viewOfVideo = (VideoView) findViewById(R.id.videoView);
+        recordView = findViewById(R.id.recordButton);
+        playView =  findViewById(R.id.playbackButton);
+        viewOfVideo = findViewById(R.id.videoView);
 
 
-        //setting listeners for buttons
         recordView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //"Standard Intent action that can be sent to have the camera
-                // application capture a video and return it"
+
                 Intent playBackIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
                 startActivityForResult(playBackIntent, ACTIVITY_START_CAMERA_APP);
             }
