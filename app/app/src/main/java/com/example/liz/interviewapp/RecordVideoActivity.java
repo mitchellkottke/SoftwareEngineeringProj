@@ -11,13 +11,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.VideoView;
+import android.widget.TextView;
 import java.io.File;
 
 public class RecordVideoActivity extends Activity {
 
 
-    private Button recordView, playView;
+    private Button recordView, playView, homeButton;
     private VideoView viewOfVideo;
+    private TextView questionView;
     private int ACTIVITY_START_CAMERA_APP = 0;
 
 
@@ -29,6 +31,8 @@ public class RecordVideoActivity extends Activity {
         recordView = findViewById(R.id.recordButton);
         playView =  findViewById(R.id.playbackButton);
         viewOfVideo = findViewById(R.id.videoView);
+        questionView = findViewById(R.id.questionView);
+        questionView.setText("Given the pointer to the head node of a linked list, reverse the linked list.");
 
 
         recordView.setOnClickListener(new View.OnClickListener() {
@@ -58,5 +62,10 @@ public class RecordVideoActivity extends Activity {
        if(resultCode != RESULT_OK) {
            Toast.makeText(getApplicationContext(), "ERROR video not saved", Toast.LENGTH_LONG).show();
        }
+    }
+
+    public void switchToHome(View myView) {
+        Intent myIntent = new Intent(this, MainActivity.class);
+        startActivity(myIntent);
     }
 }
