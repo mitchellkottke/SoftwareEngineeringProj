@@ -75,7 +75,7 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
 
     public void getQuestion(View v)
     {
-        String targetURL = "http://ukko.d.umn.edu:48821/getTechnical";
+        String targetURL = getString(R.string.serverURL) + "/getTechnical";
         StringRequest sr = new StringRequest(Request.Method.GET, targetURL,
                 new Response.Listener<String>() {
                     @Override
