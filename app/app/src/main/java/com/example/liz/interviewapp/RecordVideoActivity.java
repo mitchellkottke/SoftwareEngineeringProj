@@ -10,12 +10,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.VideoView;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
 import java.io.File;
 
 
@@ -28,6 +35,7 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
     private int ACTIVITY_START_CAMERA_APP = 0;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
+    public RestRequests requests; //our RestRequests class
 
 
     @Override
@@ -46,7 +54,7 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         NavigationView navigationView=(NavigationView)findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        requests = RestRequests.getInstance(getApplicationContext());
                 recordView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,8 +75,23 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
 
     public void getQuestion(View v)
     {
-        questionView.setText("");
-        questionView.setText("Name three types of fragmentation?\n");
+        String targetURL = "http://ukko.d.umn.edu:48821/getTechnical";
+        StringRequest sr = new StringRequest(Request.Method.GET, targetURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("GET", response.toString());
+                        questionView.setText(response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error", error.toString());
+                        questionView.setText(error.toString());
+                    }
+                });
+        requests.addToRequestQueue(sr);
     }
 
 
