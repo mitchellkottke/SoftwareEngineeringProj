@@ -33,7 +33,4 @@ public class MainActivity extends AppCompatActivity {
         Intent myIntent = new Intent(this, FlashcardsActivity.class);
         startActivity(myIntent);
     }
-
-
-
 }

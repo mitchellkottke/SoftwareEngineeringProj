@@ -22,7 +22,7 @@
     <Button
         android:id="@+id/getQuestion"
         android:layout_width="109dp"
-        android:layout_height="47dp"
+        android:layout_height="51dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="42dp"

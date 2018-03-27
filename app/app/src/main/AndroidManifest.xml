@@ -17,16 +17,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:label="@string/Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RecordVideoActivity" />
-        <activity android:name=".FlashcardsActivity" />
-        <activity android:name=".ResourcesActivity"></activity>
+        <activity android:name=".RecordVideoActivity"
+            android:label="@string/Record_Video"/>
+
+        <activity android:name=".FlashcardsActivity"
+            android:label="@string/Flashcards"/>
+
+        <activity android:name=".ResourcesActivity"
+            android:label="@string/Resources"></activity>
     </application>
 
 </manifest>
