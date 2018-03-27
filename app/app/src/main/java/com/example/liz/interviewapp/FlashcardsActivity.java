@@ -25,8 +25,6 @@ import java.io.File;
  */
 public class FlashcardsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    private Button home, getAnswer, getQuestion;
-    private TextView qAView;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
 
@@ -41,6 +39,8 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         NavigationView navigationView=(NavigationView)findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
+        TextView tv = (TextView)findViewById(R.id.qAView);
+        tv.setText("");
     }
 
     @Override
@@ -73,20 +73,17 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         return false;
     }
 
-    public void switchToHome(View myView) {
-        Intent myIntent = new Intent(this, MainActivity.class);
-        startActivity(myIntent);
-    }
-
     public void getQuestion(View v)
     {
         TextView tv = (TextView)findViewById(R.id.qAView);
+        tv.setText("");
         tv.setText("Name three types of fragmentation?\n");
     }
 
     public void getAnswer(View v)
     {
         TextView tv = (TextView)findViewById(R.id.qAView);
+        tv.setText("");
         tv.append("External, Internal, and Data fragmentation");
     }
 

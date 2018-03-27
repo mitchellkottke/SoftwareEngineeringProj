@@ -8,65 +8,57 @@
     tools:context="com.example.liz.interviewapp.FlashcardsActivity">
 
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/qAView"
-        android:layout_width="243dp"
-        android:layout_height="305dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="88dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/getQuestion"
-        android:layout_width="109dp"
-        android:layout_height="47dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="getQuestion"
-        android:text="@string/Get_Question"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/getAnswer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/qAView"
-        app:layout_constraintVertical_bias="0.754" />
+        <Button
+            android:id="@+id/get_question"
+            android:layout_width="121dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="128dp"
+            android:background="@color/colorMaroon"
+            android:onClick="getQuestion"
+            android:text="get question"
+            android:textColor="#ffffff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/getAnswer"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qAView" />
 
-    <Button
-        android:id="@+id/getAnswer"
-        android:layout_width="116dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="getAnswer"
-        android:text="@string/Get_Answer"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.173"
-        app:layout_constraintStart_toEndOf="@+id/getQuestion"
-        app:layout_constraintTop_toBottomOf="@+id/qAView"
-        app:layout_constraintVertical_bias="0.761" />
+        <Button
+            android:id="@+id/getAnswer"
+            android:layout_width="111dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginTop="128dp"
+            android:background="@color/colorMaroon"
+            android:onClick="getAnswer"
+            android:text="get answer"
+            android:textColor="#ffffff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/get_question"
+            app:layout_constraintTop_toBottomOf="@+id/qAView" />
 
-    <Button
-        android:id="@+id/home"
-        android:layout_width="65dp"
-        android:layout_height="59dp"
-        android:layout_marginBottom="8dp"
-        android:onClick="switchToHome"
-        android:text="Home"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toTopOf="@+id/qAView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    </LinearLayout>
+        <TextView
+            android:id="@+id/qAView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view"

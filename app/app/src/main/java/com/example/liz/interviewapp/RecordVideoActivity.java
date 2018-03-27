@@ -38,7 +38,7 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         playView =  findViewById(R.id.playbackButton);
         viewOfVideo = findViewById(R.id.videoView);
         questionView = findViewById(R.id.questionView);
-        questionView.setText("Given the pointer to the head node of a linked list, reverse the linked list.");
+        //questionView.setText("Given the pointer to the head node of a linked list, reverse the linked list.");
         mDrawerLayout= (DrawerLayout) findViewById(R.id.nav_drawer);
         mToggle = new ActionBarDrawerToggle(RecordVideoActivity.this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
@@ -62,7 +62,15 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
                 viewOfVideo.start();
             }
         });
+        questionView.setText("");
     }
+
+    public void getQuestion(View v)
+    {
+        questionView.setText("");
+        questionView.setText("Name three types of fragmentation?\n");
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -94,8 +102,6 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         return false;
     }
 
-
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ACTIVITY_START_CAMERA_APP && resultCode == RESULT_OK) {
             Uri videoUri = data.getData();
@@ -106,10 +112,5 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
        if(resultCode != RESULT_OK) {
            Toast.makeText(getApplicationContext(), "ERROR video not saved", Toast.LENGTH_LONG).show();
        }
-    }
-
-    public void switchToHome(View myView) {
-        Intent myIntent = new Intent(this, MainActivity.class);
-        startActivity(myIntent);
     }
 }
