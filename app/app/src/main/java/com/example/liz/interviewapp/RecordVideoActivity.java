@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,18 +18,20 @@ import android.widget.VideoView;
 import android.widget.TextView;
 import java.io.File;
 
-public class RecordVideoActivity extends AppCompatActivity {
+
+public class RecordVideoActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private Button recordView, playView, homeButton;
     private VideoView viewOfVideo;
     private TextView questionView;
     private int ACTIVITY_START_CAMERA_APP = 0;
-
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mToggle;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_video);
         recordView = findViewById(R.id.recordButton);
@@ -33,9 +39,15 @@ public class RecordVideoActivity extends AppCompatActivity {
         viewOfVideo = findViewById(R.id.videoView);
         questionView = findViewById(R.id.questionView);
         questionView.setText("Given the pointer to the head node of a linked list, reverse the linked list.");
+        mDrawerLayout= (DrawerLayout) findViewById(R.id.nav_drawer);
+        mToggle = new ActionBarDrawerToggle(RecordVideoActivity.this, mDrawerLayout, R.string.open, R.string.close);
+        mDrawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        NavigationView navigationView=(NavigationView)findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
-
-        recordView.setOnClickListener(new View.OnClickListener() {
+                recordView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -44,13 +56,45 @@ public class RecordVideoActivity extends AppCompatActivity {
             }
         });
 
-        playView.setOnClickListener(new View.OnClickListener() {
+                playView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 viewOfVideo.start();
             }
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(mToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.nav_home){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+        if (id == R.id.nav_recordVideo){
+            Intent intent = new Intent(this, RecordVideoActivity.class);
+            startActivity(intent);
+        }
+        if (id == R.id.nav_flashcards){
+            Intent intent = new Intent(this, FlashcardsActivity.class);
+            startActivity(intent);
+        }
+        if (id == R.id.nav_resources){
+            Intent intent = new Intent(this, ResourcesActivity.class);
+            startActivity(intent);
+        }
+        return false;
+    }
+
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ACTIVITY_START_CAMERA_APP && resultCode == RESULT_OK) {
