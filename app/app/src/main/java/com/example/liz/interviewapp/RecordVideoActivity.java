@@ -14,7 +14,7 @@ import android.widget.VideoView;
 import android.widget.TextView;
 import java.io.File;
 
-public class RecordVideoActivity extends Activity {
+public class RecordVideoActivity extends AppCompatActivity {
 
 
     private Button recordView, playView, homeButton;
