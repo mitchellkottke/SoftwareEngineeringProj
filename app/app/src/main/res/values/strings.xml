@@ -6,4 +6,7 @@
     <string name="Get_Question">Get Question</string>
     <string name="Get_Answer">Get Answer</string>
     <string name="Resources">Resources</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="serverURL">http://ukko.d.umn.edu:48821</string>
 </resources>
