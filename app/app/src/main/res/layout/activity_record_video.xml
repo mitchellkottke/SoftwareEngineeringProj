@@ -56,23 +56,6 @@
             app:layout_constraintStart_toEndOf="@+id/recordButton" />
 
 
-    <Button
-        android:id="@+id/homeButton"
-        android:layout_width="59dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="21dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="7dp"
-        android:onClick="switchToHome"
-        android:text="Home"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        app:layout_constraintBottom_toTopOf="@+id/videoView"
-        app:layout_constraintEnd_toStartOf="@+id/questionView"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/questionView"
             android:layout_width="wrap_content"
