@@ -43,7 +43,7 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_video);
         recordView = findViewById(R.id.recordButton);
-        playView =  findViewById(R.id.playbackButton);
+         playView =  findViewById(R.id.playbackButton);
         viewOfVideo = findViewById(R.id.videoView);
         questionView = findViewById(R.id.questionView);
         //questionView.setText("Given the pointer to the head node of a linked list, reverse the linked list.");
