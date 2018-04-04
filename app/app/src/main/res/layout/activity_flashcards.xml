@@ -22,6 +22,7 @@
             android:layout_marginStart="48dp"
             android:layout_marginTop="128dp"
             android:background="@color/colorMaroon"
+            android:fontFamily="@font/textbook"
             android:onClick="getQuestion"
             android:text="get question"
             android:textColor="#ffffff"
@@ -39,6 +40,7 @@
             android:layout_marginEnd="48dp"
             android:layout_marginTop="128dp"
             android:background="@color/colorMaroon"
+            android:fontFamily="@font/textbook"
             android:onClick="getAnswer"
             android:text="@string/Get_Answer"
             android:textColor="#ffffff"
@@ -55,6 +57,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/textbook"
             android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +69,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/nav_menu">
+        android:background="@color/colorMaroon"
+        app:menu="@menu/nav_menu"
+        app:itemTextColor="@color/colorWhite"
+        app:theme="@style/NavigationDrawerStyle">
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
