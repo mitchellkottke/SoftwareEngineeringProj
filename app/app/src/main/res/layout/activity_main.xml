@@ -70,7 +70,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/nav_menu">
+        android:background="@color/colorMaroon"
+        app:menu="@menu/nav_menu"
+        app:itemTextColor="@color/colorWhite"
+        app:theme="@style/NavigationDrawerStyle">
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
