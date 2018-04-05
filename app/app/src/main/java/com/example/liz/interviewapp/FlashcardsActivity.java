@@ -10,12 +10,24 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.VideoView;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 
 /**
@@ -27,6 +39,8 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
+    public RestRequests requests; //our RestRequests class
+    public String answerString; //the answer response
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +54,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         NavigationView navigationView=(NavigationView)findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
         TextView tv = (TextView)findViewById(R.id.qAView);
+        requests = RestRequests.getInstance(getApplicationContext());
         tv.setText("");
     }
 
@@ -75,16 +90,39 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
 
     public void getQuestion(View v)
     {
-        TextView tv = (TextView)findViewById(R.id.qAView);
-        tv.setText("");
-        tv.setText("Name three types of fragmentation?\n");
+        String targetURL = getString(R.string.serverURL) + "/getFlash";
+        final TextView tv = (TextView)findViewById(R.id.qAView);
+        JsonArrayRequest sr = new JsonArrayRequest(Request.Method.GET, targetURL, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                        public void onResponse (JSONArray response){
+                        try {
+                        JSONObject flashcard = response.getJSONObject(0);
+                        answerString = flashcard.getString("answer");
+
+//                        Log.d("GET", response.toString());
+                        tv.setText(flashcard.getString("question"));
+
+                    }catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                        }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error", error.toString());
+                        tv.setText(error.toString());
+                    }
+                });
+        requests.addToRequestQueue(sr);
     }
 
     public void getAnswer(View v)
     {
         TextView tv = (TextView)findViewById(R.id.qAView);
-        tv.setText("");
-        tv.append("External, Internal, and Data fragmentation");
+        tv.setText(answerString);
     }
 
 
