@@ -15,6 +15,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 
 public class LogIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -43,15 +45,12 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
             case R.id.googleLogIn:
                 signIn();
                 break;
+            case R.id.googleLogOut:
+                signOut();
+                break;
         }
-
-
     }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
 
     private void signIn() {
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
@@ -60,12 +59,23 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
     }
 
     private void signOut() {
+        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(@NonNull Status status) {
+                updateUI(false);
+            }
+        });
 
     }
 
     private void updateUI(boolean isLogin) {
-        Intent main = new Intent(this, MainActivity.class);
-        startActivity(main);
+        if(isLogin) {
+            Intent main = new Intent(this, MainActivity.class);
+            startActivity(main);
+        }
+        else{
+            signIn.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -75,6 +85,9 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
         if(result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
             updateUI(true);
+        }
+        else {
+            updateUI(false);
         }
 
     }
@@ -91,4 +104,8 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
     }
 
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 }
