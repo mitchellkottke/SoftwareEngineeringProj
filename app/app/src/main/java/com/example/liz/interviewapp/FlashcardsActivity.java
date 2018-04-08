@@ -27,6 +27,7 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.File;
 
@@ -53,9 +54,11 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         NavigationView navigationView=(NavigationView)findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-        TextView tv = (TextView)findViewById(R.id.qAView);
+        TextView tv = (TextView)findViewById(R.id.qAView); //Question view
+        TextView answerView = (TextView)findViewById(R.id.answerView);
         requests = RestRequests.getInstance(getApplicationContext());
         tv.setText("");
+        final Button answerButton = (Button)findViewById(R.id.getAnswer);
     }
 
     @Override
@@ -88,10 +91,24 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         return false;
     }
 
+    /**
+     * getQuestion changes the name of the buttons, textViews, and updates the view with a new flashcard question.
+     * @author Jaron
+     * @param v the view
+     */
     public void getQuestion(View v)
     {
         String targetURL = getString(R.string.serverURL) + "/getFlash";
         final TextView tv = (TextView)findViewById(R.id.qAView);
+        TextView answerView = (TextView) findViewById(R.id.answerView);
+        answerView.setText(R.string.hidden_Answer); //Resets the answer field to default on click
+        Button getQuestionButton = (Button)findViewById(R.id.get_question);
+        getQuestionButton.setText(R.string.new_Question);
+        Button answerButton = (Button)findViewById(R.id.getAnswer);
+            if(answerButton.getText().toString() == getString(R.string.hide_Answer)) {
+                hideAnswer(v);
+            }
+
         JsonArrayRequest sr = new JsonArrayRequest(Request.Method.GET, targetURL, null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -119,12 +136,34 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         requests.addToRequestQueue(sr);
     }
 
-    public void getAnswer(View v)
+    public void showAnswer(View v)
     {
-        TextView tv = (TextView)findViewById(R.id.qAView);
-        tv.setText(answerString);
+        TextView answerView = (TextView)findViewById(R.id.answerView);
+        answerView.setText(answerString);
+
+        Button answerButton = (Button)findViewById(R.id.getAnswer);
+        answerButton.setText(R.string.hide_Answer); //change button to hide Answer
+        answerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                hideAnswer(v);
+            }
+        });
     }
 
+    public void hideAnswer(View v)
+    {
+        TextView answerView = (TextView)findViewById(R.id.answerView);
+        answerView.setText("Answer Hidden");
 
+        Button answerButton = (Button)findViewById(R.id.getAnswer);
+        answerButton.setText(R.string.Get_Answer); //change button to hide Answer
+        answerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                showAnswer(v);
+            }
+        });
+    }
 
 }
