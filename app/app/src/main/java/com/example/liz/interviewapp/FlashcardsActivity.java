@@ -101,7 +101,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         String targetURL = getString(R.string.serverURL) + "/getFlash";
         final TextView tv = (TextView)findViewById(R.id.qAView);
         TextView answerView = (TextView) findViewById(R.id.answerView);
-        answerView.setText(R.string.hidden_Answer); //Resets the answer field to default on click
+        answerView.setText(""); //Resets the answer field to default on click
         Button getQuestionButton = (Button)findViewById(R.id.get_question);
         getQuestionButton.setText(R.string.new_Question);
         Button answerButton = (Button)findViewById(R.id.getAnswer);
@@ -154,7 +154,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
     public void hideAnswer(View v)
     {
         TextView answerView = (TextView)findViewById(R.id.answerView);
-        answerView.setText("Answer Hidden");
+        answerView.setText("");
 
         Button answerButton = (Button)findViewById(R.id.getAnswer);
         answerButton.setText(R.string.Get_Answer); //change button to hide Answer
