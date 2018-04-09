@@ -3,7 +3,7 @@
 ## Implementing UMD Fonts
 Under the Attributes look for fontFamily, then hit the drop down button and all the imported UMD fonts will appear. __textbook.otf__ will be the default normal text. 
 
-##Changing A Blank Activity to Navigation Drawer Activity
+## Changing A Blank Activity to Navigation Drawer Activity
 1. Go into the activity layout xml file under the Res -> Layout folders.
 2. Then in the second line of the xml file change the constrait layout to a drawer layout: 
 	`android.support.v4.widget.DrawerLayout`
