@@ -70,3 +70,20 @@ mToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, R.string.o
     }
 ```
 8. Please check out the MainActivity's code to see where things are placed.
+
+## Add Option/Link to the Menu
+1. Go to nav_menu.xml in the Res -> Menu folder.
+2. Add a new item with this code: 
+```xml
+<item android:id="@+id/id_name
+	android:title="Page Name">
+</item>
+```
+3. Then you will have to add in all the Activity java pages and add to the __onNavigationItemSelected__ funtion a new if statement to activate the button on the navigation drawer. Add this if statement using the id that was declared in the nav_menu.xml file.
+```java
+if (id == R.id.id_name){
+    Intent intent = new Intent(this, NEWACTIVITY.class);
+    startActivity(intent);
+}
+```
+
