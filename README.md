@@ -1,7 +1,14 @@
 # teamNULL
 
-## Implementing UMD Fonts
+## Implementing UMD Fonts & Colors
 Under the Attributes look for fontFamily, then hit the drop down button and all the imported UMD fonts will appear. __textbook.otf__ will be the default normal text. 
+
+The UMD Maroon and Gold colors are implmented into the app. The id for the marroon and gold colors are:
+```
+@color/colorMaroon 
+@color/colorGold
+```
+These can easily be added by adding it into the background section under the attributes of the button and or other item added.
 
 ## Changing A Blank Activity to Navigation Drawer Activity
 1. Go into the activity layout xml file under the Res -> Layout folders.
