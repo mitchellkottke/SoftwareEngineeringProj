@@ -79,11 +79,13 @@ mToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, R.string.o
 	android:title="Page Name">
 </item>
 ```
-3. Then you will have to add in all the Activity java pages and add to the __onNavigationItemSelected__ funtion a new if statement to activate the button on the navigation drawer. Add this if statement using the id that was declared in the nav_menu.xml file.
+3. Add this code in the __onNaviagationItemSelected__ funtion in __ALL__ the activity pages. Make sure to use the new id that was declared in the nav_menu file. 
 ```java
 if (id == R.id.id_name){
     Intent intent = new Intent(this, NEWACTIVITY.class);
     startActivity(intent);
 }
 ```
+
+__NOTE:__ That id's may not appear automatically. If this is occuring build and clean the project.
 
