@@ -20,8 +20,10 @@ import com.google.android.gms.common.api.Status;
 
 public class LogIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
+
     private SignInButton signIn;
     private Button signOut;
+    GoogleSignInOptions signInOptions;
     private static final int REQ_CODE = 9001;
     GoogleApiClient googleApiClient;
 
@@ -58,7 +60,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
     }
 
-    private void signOut() {
+    protected void signOut() {
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
@@ -68,13 +70,14 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
     }
 
-    private void updateUI(boolean isLogin) {
+    public void updateUI(boolean isLogin) {
         if(isLogin) {
             Intent main = new Intent(this, MainActivity.class);
             startActivity(main);
         }
         else{
-            signIn.setVisibility(View.VISIBLE);
+            Intent logInIntent = new Intent(this, LogIn.class);
+            startActivity(logInIntent);
         }
 
     }

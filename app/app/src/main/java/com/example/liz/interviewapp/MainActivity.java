@@ -11,10 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import com.example.liz.interviewapp.LogIn;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
+    private LogIn logIn;
 
 
     @Override
@@ -57,6 +59,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(this, ResourcesActivity.class);
             startActivity(intent);
         }
+        if (id == R.id.nav_logout){
+            Intent intent = new Intent(this, LogIn.class);
+            startActivity(intent);
+        }
         return false;
     }
 
@@ -79,4 +85,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent myIntent = new Intent(this, FlashcardsActivity.class);
         startActivity(myIntent);
     }
+
 }

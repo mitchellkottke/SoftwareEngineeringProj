@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:background="@mipmap/background1"
     tools:context="com.example.liz.interviewapp.LogIn"
     tools:layout_editor_absoluteY="81dp">
@@ -20,10 +21,10 @@
         app:layout_constraintStart_toStartOf="parent"></com.google.android.gms.common.SignInButton>
 
     <Button
+        android:id="@+id/googleLogOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Logout"
-        android:id="@+id/googleLogOut"
-        />
+        android:visibility="invisible" />
 
 </android.support.constraint.ConstraintLayout>

@@ -15,6 +15,9 @@
     <item android:id="@+id/nav_resources"
         android:title="Resources">
     </item>
+    <item android:id="@+id/nav_logout"
+        android:title="Logout">
+    </item>
 
 
 </menu>
