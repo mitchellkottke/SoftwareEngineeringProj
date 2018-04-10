@@ -1,4 +1,4 @@
-# teamNULL
+# Tech Prep
 
 ## Implementing UMD Fonts & Colors
 Under the Attributes look for fontFamily, then hit the drop down button and all the imported UMD fonts will appear. __textbook.otf__ will be the default normal text. 
