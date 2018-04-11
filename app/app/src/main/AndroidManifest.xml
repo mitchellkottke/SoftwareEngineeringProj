@@ -33,6 +33,7 @@
             android:label="@string/Resources" />
         <activity android:name=".LogIn"
             android:label="Log In">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
