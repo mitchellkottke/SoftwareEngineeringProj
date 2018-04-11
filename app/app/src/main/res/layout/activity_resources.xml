@@ -14,6 +14,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <Button
             android:id="@+id/button6"
             android:layout_width="match_parent"
@@ -29,6 +30,7 @@
             android:background="@color/colorGold"
             android:onClick="linkCareer"
             android:text="Career and Internship Services" />
+
 
         <Button
             android:id="@+id/button4"
