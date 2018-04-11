@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:background="@mipmap/background1"
+    android:background="@color/colorMaroon"
     tools:context="com.example.liz.interviewapp.LogIn"
     tools:layout_editor_absoluteY="81dp">
 
@@ -26,5 +25,16 @@
         android:layout_height="wrap_content"
         android:text="Logout"
         android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="310dp"
+        android:layout_height="309dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/googleLogIn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/umdcareerserviceswhite" />
 
 </android.support.constraint.ConstraintLayout>
