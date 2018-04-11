@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.net.Uri;
 
 
 /**
@@ -31,6 +33,22 @@ public class ResourcesActivity extends AppCompatActivity implements NavigationVi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         NavigationView navigationView=(NavigationView)findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+
+    public void linkCareer(View view) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW,Uri.parse("http://d.umn.edu/career-internship-services"));
+        startActivity(browserIntent);
+    }
+
+    public void linkCS(View view) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW,Uri.parse("https://scse.d.umn.edu/about/departments-and-programs/computer-science-department/faculty-staff"));
+        startActivity(browserIntent);
+    }
+
+    public void linkHandbook(View view) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW,Uri.parse("http://d.umn.edu/career-internship-services/career-handbook"));
+        startActivity(browserIntent);
     }
 
     @Override
