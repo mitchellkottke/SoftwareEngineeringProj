@@ -123,6 +123,10 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
             Intent intent = new Intent(this, ResourcesActivity.class);
             startActivity(intent);
         }
+        if (id == R.id.nav_myAccount){
+            Intent intent = new Intent(this, LogIn.class);
+            startActivity(intent);
+        }
         return false;
     }
 

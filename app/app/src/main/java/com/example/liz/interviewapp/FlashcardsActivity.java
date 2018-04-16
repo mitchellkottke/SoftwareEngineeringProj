@@ -88,7 +88,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
             Intent intent = new Intent(this, ResourcesActivity.class);
             startActivity(intent);
         }
-        if (id == R.id.nav_logout){
+        if (id == R.id.nav_myAccount){
             Intent intent = new Intent(this, LogIn.class);
             startActivity(intent);
         }

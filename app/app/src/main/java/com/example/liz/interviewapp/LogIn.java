@@ -27,8 +27,6 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
     private static final int REQ_CODE = 9001;
     GoogleApiClient googleApiClient;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,13 +41,13 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
     @Override
     public void onClick(View view) {
 
-        switch(view.getId()) {
-            case R.id.googleLogIn:
-                signIn();
-                break;
-            case R.id.googleLogOut:
-                signOut();
-                break;
+        if(view.getId() == R.id.googleLogIn)
+        {
+            signIn();
+        }
+
+        else {
+            signOut(view);
         }
     }
 
@@ -60,7 +58,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
     }
 
-    protected void signOut() {
+    protected void signOut(View view) {
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
