@@ -40,6 +40,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+
+    /**
+     * This function takes a boolean value to transition between different activities.
+     * It holds all the logic necessary for the navigation side bar.
+     * @param item
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
