@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 
 import org.json.JSONArray;
@@ -111,16 +112,16 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
                 hideAnswer(v);
             }
 
-        JsonArrayRequest sr = new JsonArrayRequest(Request.Method.GET, targetURL, null,
-                new Response.Listener<JSONArray>() {
+        JsonObjectRequest sr = new JsonObjectRequest(Request.Method.GET, targetURL, null,
+                new Response.Listener<JSONObject>() {
                     @Override
-                        public void onResponse (JSONArray response){
+                        public void onResponse (JSONObject response){
                         try {
-                        JSONObject flashcard = response.getJSONObject(0);
-                        answerString = flashcard.getString("answer");
+                       // JSONObject flashcard = response.getJSONObject();
+                        answerString = response.getString("answer");
 
 //                        Log.d("GET", response.toString());
-                        tv.setText(flashcard.getString("question"));
+                        tv.setText(response.getString("question"));
 
                     }catch (JSONException e) {
                         e.printStackTrace();
