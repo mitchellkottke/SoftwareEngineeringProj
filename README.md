@@ -100,3 +100,8 @@ __NOTE:__ That id's may not appear automatically. If this is occuring build and 
 Everyone will have to generate their own google-services.JSON file in order to get the Google login working on their devicies.
 
 1. Go to https://console.developers.google.com
+2. Add a new project
+3. Go to https://developers.google.com/identity/sign-in/android/start-integrating
+4. Scroll down to button that says "Configure A Project" and click it
+5. Select the project you just created
+6. 
