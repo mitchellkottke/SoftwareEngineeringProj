@@ -108,4 +108,4 @@ Everyone will have to generate their own google-services.JSON file in order to g
 7. On 'Congifure your OAuth client' page select 'Android' from the drop down
 8. Package name: com.example.liz.interviewapp
 9. For SHA-1 signing certificate: Open Android Studio > Select 'Gradle' from top right side bar > Select 'app(root)' > Select 'Android' > Select 'signingReport' > Copy and paste SHA1 key 
-![ ](https://stackoverflow.com/questions/15727912/sha-1-fingerprint-of-keystore-certificate/15727931)
+![ ](https://i.stack.imgur.com/3QcBI.png)
