@@ -52,6 +52,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         requests = RestRequests.getInstance(getApplicationContext());
         tv.setText("");
         final Button answerButton = (Button)findViewById(R.id.getAnswer);
+        getQuestion(tv);
     }
 
     @Override

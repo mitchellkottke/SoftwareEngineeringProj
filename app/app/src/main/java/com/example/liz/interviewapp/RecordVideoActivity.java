@@ -70,7 +70,8 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
                 viewOfVideo.start();
             }
         });
-        questionView.setText("");
+        getQuestion(questionView);
+
     }
 
     public void getQuestion(View v)
