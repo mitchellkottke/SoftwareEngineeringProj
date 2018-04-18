@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -23,6 +24,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
     private SignInButton signIn;
     private Button signOut;
+    private TextView accountInfo;
     GoogleSignInOptions signInOptions;
     private static final int REQ_CODE = 9001;
     GoogleApiClient googleApiClient;
@@ -36,6 +38,9 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
         signOut = (Button)findViewById(R.id.googleLogOut);
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
+        accountInfo = (TextView)findViewById(R.id.accountInfo);
+        accountInfo.setText(" ");
+
     }
 
     @Override
@@ -55,7 +60,6 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
     private void signIn() {
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(intent, REQ_CODE);
-
     }
 
     protected void signOut(View view) {
@@ -70,10 +74,14 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
     public void updateUI(boolean isLogin) {
         if(isLogin) {
+            accountInfo.setVisibility(View.VISIBLE);
+            signIn.setVisibility(View.GONE);
             Intent main = new Intent(this, MainActivity.class);
             startActivity(main);
         }
         else{
+            accountInfo.setVisibility(View.GONE);
+            signIn.setVisibility(View.VISIBLE);
             Intent logInIntent = new Intent(this, LogIn.class);
             startActivity(logInIntent);
         }
@@ -85,9 +93,12 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
     private void handleResult(GoogleSignInResult result){
         if(result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
+            String email = account.getEmail();
+            accountInfo.setText("Logged in as:" + email);
             updateUI(true);
         }
         else {
+            accountInfo.setText(" ");
             updateUI(false);
         }
 
@@ -99,6 +110,9 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
         if (requestCode == REQ_CODE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+//            GoogleSignInAccount account = result.getSignInAccount();
+//            String email = account.getEmail();
+//            accountInfo.setText(email);
             handleResult(result);
 
         }
