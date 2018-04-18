@@ -100,8 +100,12 @@ __NOTE:__ That id's may not appear automatically. If this is occuring build and 
 Everyone will have to generate their own google-services.JSON file in order to get the Google login working on their devicies.
 
 1. Go to https://console.developers.google.com
-2. Add a new project
+2. Go to Select a project > hit the + button to create a new project > name project and create
 3. Go to https://developers.google.com/identity/sign-in/android/start-integrating
 4. Scroll down to button that says "Configure A Project" and click it
 5. Select the project you just created
-6. 
+6. Name product
+7. On 'Congifure your OAuth client' page select 'Android' from the drop down
+8. Package name: com.example.liz.interviewapp
+9. For SHA-1 signing certificate: Open Android Studio > Select 'Gradle' from top right side bar > Select 'app(root)' > Select 'Android' > Select 'signingReport' > Copy and paste SHA1 key 
+![ ](https://stackoverflow.com/questions/15727912/sha-1-fingerprint-of-keystore-certificate/15727931)
