@@ -97,7 +97,7 @@ if (id == R.id.id_name){
 __NOTE:__ That id's may not appear automatically. If this is occuring build and clean the project.
 
 ## Generating google-services.JSON Files
-Everyone will have to generate their own google-services.JSON file in order to get the Google login working on their devicies.
+Everyone will have to generate their own google-services.JSON file in order to get the Google login working on their devicies (including emulators).
 
 1. Go to https://console.developers.google.com
 2. Go to Select a project > hit the + button to create a new project > name project and create
