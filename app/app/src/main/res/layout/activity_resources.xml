@@ -14,31 +14,51 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
+        <!-- Computer Science Department Faculty -->
         <Button
             android:id="@+id/button6"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
+            android:layout_height="29dp"
             android:background="@color/colorGold"
             android:onClick="linkCS"
             android:text="Computer Science Department Faculty" />
 
+        <!-- Career and Internship Services -->
         <Button
             android:id="@+id/button5"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:background="@color/colorGold"
+            android:layout_height="29dp"
+            android:background="#ffffff"
             android:onClick="linkCareer"
             android:text="Career and Internship Services" />
 
-
+        <!-- Career Handbook -->
         <Button
             android:id="@+id/button4"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
+            android:layout_height="29dp"
             android:background="@color/colorGold"
             android:onClick="linkHandbook"
             android:text="Career Handbook" />
+
+        <!-- Meet With A Career Counselor -->
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="match_parent"
+            android:layout_height="29dp"
+            android:background="#ffffff"
+            android:onClick="linkMeet"
+            android:text="Career Counselor Drop In Hours" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:textColor="#000000"
+            android:layout_height="29dip"
+            android:layout_weight="1"
+            android:gravity="center|bottom"
+            android:textSize="18sp"
+            android:text="Make an Appointment With A Career Counselor: Visit SCC 22 or call (218)726-7985" />
     </LinearLayout>
 
 

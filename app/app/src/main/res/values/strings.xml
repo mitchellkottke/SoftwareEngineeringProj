@@ -12,13 +12,4 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="serverURL">http://ukko.d.umn.edu:48821</string>
-    <string name="careerLink">
-    <a href="http://d.umn.edu/career-internship-services">Career and Internship Services</a>
-    </string>
-    <string name="csProfessorsLink">
-    <a href="https://scse.d.umn.edu/about/departments-and-programs/computer-science-department/faculty-staff">Computer Science Faculty  </a>
-    </string>
-    <string name="handbookLink">
-    <a href="http://d.umn.edu/career-internship-services/career-handbook">Career Handbook</a>
-    </string>
 </resources>

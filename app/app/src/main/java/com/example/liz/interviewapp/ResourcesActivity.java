@@ -47,6 +47,11 @@ public class ResourcesActivity extends AppCompatActivity implements NavigationVi
         startActivity(browserIntent);
     }
 
+    public void linkMeet(View view) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW,Uri.parse("http://d.umn.edu/career-internship-services/about/events/drop-hours"));
+        startActivity(browserIntent);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(mToggle.onOptionsItemSelected(item)){
