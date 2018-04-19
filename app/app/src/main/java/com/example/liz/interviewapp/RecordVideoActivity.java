@@ -29,7 +29,7 @@ import java.io.File;
 public class RecordVideoActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private Button recordView, playView, homeButton;
+    private Button recordView, playView;
     private VideoView viewOfVideo;
     private TextView questionView;
     private int ACTIVITY_START_CAMERA_APP = 0;
@@ -46,7 +46,6 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         playView =  findViewById(R.id.playbackButton);
         viewOfVideo = findViewById(R.id.videoView);
         questionView = findViewById(R.id.questionView);
-        //questionView.setText("Given the pointer to the head node of a linked list, reverse the linked list.");
         mDrawerLayout= (DrawerLayout) findViewById(R.id.nav_drawer);
         mToggle = new ActionBarDrawerToggle(RecordVideoActivity.this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
@@ -71,7 +70,8 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
                 viewOfVideo.start();
             }
         });
-        questionView.setText("");
+        getQuestion(questionView);
+
     }
 
     public void getQuestion(View v)
@@ -104,6 +104,12 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         return super.onOptionsItemSelected(item);
     }
 
+
+    /**
+     * This function takes a boolean value to transition between different activities.
+     * It holds all the logic necessary for the navigation side bar.
+     * @param item
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();

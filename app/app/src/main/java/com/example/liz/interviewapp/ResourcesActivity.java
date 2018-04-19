@@ -11,12 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.net.Uri;
 
-
-/**
- * Unsure of what code will go in here, probably just links to the websites?
- * Might have to figure out how to access these links, e.g. open chrome,
- * or it might do it automatically. -ghutch
- */
 public class ResourcesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout mDrawerLayout;
@@ -36,6 +30,8 @@ public class ResourcesActivity extends AppCompatActivity implements NavigationVi
     }
 
 
+
+    //clickable links that open the browser which navigates to them
     public void linkCareer(View view) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW,Uri.parse("http://d.umn.edu/career-internship-services"));
         startActivity(browserIntent);
@@ -59,6 +55,12 @@ public class ResourcesActivity extends AppCompatActivity implements NavigationVi
         return super.onOptionsItemSelected(item);
     }
 
+
+    /**
+     * This function takes a boolean value to transition between different activities.
+     * It holds all the logic necessary for the navigation side bar.
+     * @param item
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
