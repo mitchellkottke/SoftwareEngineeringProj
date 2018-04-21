@@ -1,0 +1,58 @@
+{"project_info": {
+    "project_number": "1046173664995",
+    "firebase_url": "https://tech-prep-201520.firebaseio.com",
+    "project_id": "tech-prep-201520",
+    "storage_bucket": "tech-prep-201520.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046173664995:android:e49dcb669edbb734",
+        "android_client_info": {
+          "package_name": "com.example.liz.interviewapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1046173664995-jejunq4qnkk0bmq475ltkik6dugnlqm9.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1046173664995-k9r8ch9j68nkvmeocl2sjie0p005uudb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.liz.interviewapp",
+            "certificate_hash": "cbfb8681a57ac8be4d003a0cb0aa23cc066e5210"
+          }
+        },
+        {
+          "client_id": "1046173664995-qau29663tdqr4135b02vt6mh6m0kj88k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxALsuizsC_CcMvJ-gsSLQvMV3Rx0PcKM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1046173664995-jejunq4qnkk0bmq475ltkik6dugnlqm9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
