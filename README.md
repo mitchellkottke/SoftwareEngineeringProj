@@ -2,6 +2,7 @@
 
 ## App Demo Video
 Click to watch a demo of the Tech Prep App on YouTube.
+
 [![Alt text](https://img.youtube.com/vi/Oq0JdTPiH1w/0.jpg)](https://youtu.be/Oq0JdTPiH1w)
 
 ## Implementing UMD Fonts & Colors
