@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -66,6 +67,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
+                Toast.makeText(getApplicationContext()," Logged out", Toast.LENGTH_LONG).show();
                 updateUI(false);
             }
         });
@@ -74,14 +76,10 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
     public void updateUI(boolean isLogin) {
         if(isLogin) {
-            accountInfo.setVisibility(View.VISIBLE);
-            signIn.setVisibility(View.GONE);
             Intent main = new Intent(this, MainActivity.class);
             startActivity(main);
         }
         else{
-            accountInfo.setVisibility(View.GONE);
-            signIn.setVisibility(View.VISIBLE);
             Intent logInIntent = new Intent(this, LogIn.class);
             startActivity(logInIntent);
         }
@@ -92,13 +90,9 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
     //go to 27:06 on tutorial
     private void handleResult(GoogleSignInResult result){
         if(result.isSuccess()) {
-            GoogleSignInAccount account = result.getSignInAccount();
-            String email = account.getEmail();
-            accountInfo.setText("Logged in as:" + email);
             updateUI(true);
         }
         else {
-            accountInfo.setText(" ");
             updateUI(false);
         }
 
@@ -110,9 +104,6 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
         if (requestCode == REQ_CODE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-//            GoogleSignInAccount account = result.getSignInAccount();
-//            String email = account.getEmail();
-//            accountInfo.setText(email);
             handleResult(result);
 
         }
