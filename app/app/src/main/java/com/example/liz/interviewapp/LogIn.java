@@ -40,7 +40,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
         accountInfo = (TextView)findViewById(R.id.accountInfo);
-        accountInfo.setText(" ");
+        accountInfo.setText("Tech Prep");
 
     }
 
