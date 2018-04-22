@@ -1,7 +1,7 @@
 # Tech Prep
 
 ## Tech Prep App Demo
-[![Alt text](https://img.youtube.com/vi/VID/0.jpg)](https://youtu.be/Oq0JdTPiH1w)
+[![Alt text](https://img.youtube.com/vi/Oq0JdTPiH1w/0.jpg)](https://youtu.be/Oq0JdTPiH1w)
 
 ## Implementing UMD Fonts & Colors
 Under the Attributes look for fontFamily, then hit the drop down button and all the imported UMD fonts will appear. __textbook.otf__ will be the default normal text. 
