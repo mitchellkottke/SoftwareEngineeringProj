@@ -28,7 +28,23 @@
 		It should be changed to better suit the later needs, if more types of users are needed.
 
 ## Pug View Enginer
-	To create a simple website
+	To create a simple website with pug, add a name.pug file into the views folder within the node_server folder.
+	```
+	html
+		head
+			title Name
+		body
+			P
+				| This is an example
+				br
+				| Of how pug spacing works
+				br
+				| Use the pipe '|' as white space within a tag
+				| this line will not be broken away with br, for example
+			p
+	```
+Follow the below link to the pug view engine. Swapping view engines or making your own html files from scratch would be fairly easy to do as well, whatever the future group prefers.
+https://pugjs.org/api/getting-started.html
 
 ## Mongo Server
 	Port: 42222
