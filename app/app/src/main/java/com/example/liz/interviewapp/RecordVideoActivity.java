@@ -53,13 +53,13 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         NavigationView navigationView=(NavigationView)findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
+        getQuestion(questionView);
         requests = RestRequests.getInstance(getApplicationContext());
                 recordView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Intent playBackIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                playBackIntent.putExtra("android.intent.extra.durationLimit",30);
                 startActivityForResult(playBackIntent, ACTIVITY_START_CAMERA_APP);
             }
         });
@@ -70,7 +70,7 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
                 viewOfVideo.start();
             }
         });
-        getQuestion(questionView);
+
 
     }
 
