@@ -67,10 +67,16 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
-                Toast.makeText(getApplicationContext()," Logged out", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext()," Logged out", Toast.LENGTH_SHORT).show();
                 updateUI(false);
             }
         });
+
+    }
+
+    protected void logout() {
+        Auth.GoogleSignInApi.signOut(googleApiClient);
+        updateUI(false);
 
     }
 
@@ -82,6 +88,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
         else{
             Intent logInIntent = new Intent(this, LogIn.class);
             startActivity(logInIntent);
+
         }
 
     }
@@ -90,7 +97,17 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
     //go to 27:06 on tutorial
     private void handleResult(GoogleSignInResult result){
         if(result.isSuccess()) {
-            updateUI(true);
+            GoogleSignInAccount account = result.getSignInAccount();
+            String email = account.getEmail();
+            if(email.endsWith("d.umn.edu")) {
+                updateUI(true);
+            }
+            else {
+                Toast.makeText(LogIn.this,"Please use a d.umn.edu email",
+                        Toast.LENGTH_LONG).show();
+                updateUI(false);
+                logout();
+            }
         }
         else {
             updateUI(false);
