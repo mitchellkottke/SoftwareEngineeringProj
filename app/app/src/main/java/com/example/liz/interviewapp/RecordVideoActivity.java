@@ -53,7 +53,6 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         NavigationView navigationView=(NavigationView)findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-        getQuestion(questionView);
         requests = RestRequests.getInstance(getApplicationContext());
                 recordView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +69,7 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
                 viewOfVideo.start();
             }
         });
-
+        getQuestion(questionView);
 
     }
 
