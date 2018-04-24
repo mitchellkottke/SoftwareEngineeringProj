@@ -125,6 +125,7 @@ Image from: https://stackoverflow.com/questions/15727912/sha-1-fingerprint-of-ke
 ## Useful Links
 1. In-app video recording tutorial: https://www.youtube.com/watch?v=5sEeprYnHa8
 2. Google login tutorial: https://www.youtube.com/watch?v=2PIaGpJMCNs
+3. Navigation Drawer Tutorial: https://www.youtube.com/watch?v=NC3dM8qcpEM
 
 ## Future Improvements
 1. Get video saving to account/database
