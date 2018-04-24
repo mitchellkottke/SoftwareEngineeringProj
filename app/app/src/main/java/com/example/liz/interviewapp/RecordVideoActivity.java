@@ -135,6 +135,7 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         return false;
     }
 
+    //displays toast saying whether video was saved or not
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ACTIVITY_START_CAMERA_APP && resultCode == RESULT_OK) {
             Uri videoUri = data.getData();

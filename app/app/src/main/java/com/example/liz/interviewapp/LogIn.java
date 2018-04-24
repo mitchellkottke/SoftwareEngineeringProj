@@ -47,6 +47,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
     @Override
     public void onClick(View view) {
 
+        //either logs in or logs out depending on the id
         if(view.getId() == R.id.googleLogIn)
         {
             signIn();
@@ -57,12 +58,13 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
         }
     }
 
-
+    //signs user in
     private void signIn() {
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(intent, REQ_CODE);
     }
 
+    //signs user out
     protected void signOut(View view) {
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
@@ -71,9 +73,9 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
                 updateUI(false);
             }
         });
-
     }
 
+    //signOut function that doesn't need a view parameter
     protected void logout() {
         Auth.GoogleSignInApi.signOut(googleApiClient);
         updateUI(false);
@@ -82,10 +84,12 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
     public void updateUI(boolean isLogin) {
         if(isLogin) {
+            //brings app to main activity
             Intent main = new Intent(this, MainActivity.class);
             startActivity(main);
         }
         else{
+            //stays at login screen
             Intent logInIntent = new Intent(this, LogIn.class);
             startActivity(logInIntent);
 
@@ -93,12 +97,12 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
     }
 
-    //this is where we can display name, prof pic, etc
-    //go to 27:06 on tutorial
     private void handleResult(GoogleSignInResult result){
         if(result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
             String email = account.getEmail();
+
+            //if not UMD email, display toast, updateUI to stay on login screen and logout
             if(email.endsWith("d.umn.edu")) {
                 updateUI(true);
             }

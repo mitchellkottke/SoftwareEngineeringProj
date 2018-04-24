@@ -131,4 +131,6 @@ Image from: https://stackoverflow.com/questions/15727912/sha-1-fingerprint-of-ke
 1. Get video saving to account/database
 2. Notification/option to change permissions on device for camera
 3. Daily general interview tips (not CS related ex. don't wear jeans to an interview)
-4. 
+4. Continuously add questions to database via website
+5. Method of detecting duplicate questions 
+6. 
