@@ -123,5 +123,5 @@ Image from: https://stackoverflow.com/questions/15727912/sha-1-fingerprint-of-ke
 15. Right click app[app-app] > New > File > name it google-services.json > copy and paste contents from downloaded file
 
 ## Useful links:
-In-app video recording tutorial: https://www.youtube.com/watch?v=5sEeprYnHa8 \n
-Google login tutorial: https://www.youtube.com/watch?v=2PIaGpJMCNs
+1. In-app video recording tutorial: https://www.youtube.com/watch?v=5sEeprYnHa8
+2. Google login tutorial: https://www.youtube.com/watch?v=2PIaGpJMCNs
