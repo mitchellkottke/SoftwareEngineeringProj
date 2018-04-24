@@ -122,6 +122,10 @@ Image from: https://stackoverflow.com/questions/15727912/sha-1-fingerprint-of-ke
 14. Open Android > Project view > and delete existing google-services.json file from the app if it exists
 15. Right click app[app-app] > New > File > name it google-services.json > copy and paste contents from downloaded file
 
-## Useful links:
+## Useful Links
 1. In-app video recording tutorial: https://www.youtube.com/watch?v=5sEeprYnHa8
 2. Google login tutorial: https://www.youtube.com/watch?v=2PIaGpJMCNs
+
+## Future Improvements
+1. Get video saving to account/database
+2. 
