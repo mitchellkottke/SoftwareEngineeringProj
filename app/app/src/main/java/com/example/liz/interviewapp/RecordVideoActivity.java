@@ -59,7 +59,6 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
             public void onClick(View view) {
 
                 Intent playBackIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                playBackIntent.putExtra("android.intent.extra.durationLimit",30);
                 startActivityForResult(playBackIntent, ACTIVITY_START_CAMERA_APP);
             }
         });
@@ -96,6 +95,12 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
     }
 
 
+    /**
+     * @author smatthys
+     * @param item
+     * This function allows the menu toggle button and other menu buttons
+     * properly function when clicked.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(mToggle.onOptionsItemSelected(item)){
@@ -106,9 +111,10 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
 
 
     /**
+     * @author smatthys
+     * @param item
      * This function takes a boolean value to transition between different activities.
      * It holds all the logic necessary for the navigation side bar.
-     * @param item
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -136,6 +142,7 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         return false;
     }
 
+    //displays toast saying whether video was saved or not
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ACTIVITY_START_CAMERA_APP && resultCode == RESULT_OK) {
             Uri videoUri = data.getData();

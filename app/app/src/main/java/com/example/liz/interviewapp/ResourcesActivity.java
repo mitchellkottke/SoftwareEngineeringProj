@@ -52,6 +52,12 @@ public class ResourcesActivity extends AppCompatActivity implements NavigationVi
         startActivity(browserIntent);
     }
 
+    /**
+     * @author smatthys
+     * @param item
+     * This function allows the menu toggle button and other menu buttons
+     * properly function when clicked.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(mToggle.onOptionsItemSelected(item)){
@@ -62,9 +68,10 @@ public class ResourcesActivity extends AppCompatActivity implements NavigationVi
 
 
     /**
+     * @author smatthys
+     * @param item
      * This function takes a boolean value to transition between different activities.
      * It holds all the logic necessary for the navigation side bar.
-     * @param item
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

@@ -1,5 +1,10 @@
 # Tech Prep
 
+## App Demo Video
+Click to watch a demo of the Tech Prep App on YouTube.
+
+[![Alt text](https://img.youtube.com/vi/Oq0JdTPiH1w/0.jpg)](https://youtu.be/Oq0JdTPiH1w)
+
 ## Implementing UMD Fonts & Colors
 Under the Attributes look for fontFamily, then hit the drop down button and all the imported UMD fonts will appear. __textbook.otf__ will be the default normal text. 
 
@@ -116,3 +121,16 @@ Image from: https://stackoverflow.com/questions/15727912/sha-1-fingerprint-of-ke
 13. In Firebase go to Settings > Project Settings > Add Firebase to you Adnroid App > Fill in fields > Register App > Download google-services.json 
 14. Open Android > Project view > and delete existing google-services.json file from the app if it exists
 15. Right click app[app-app] > New > File > name it google-services.json > copy and paste contents from downloaded file
+
+## Useful Links
+1. In-app video recording tutorial: https://www.youtube.com/watch?v=5sEeprYnHa8
+2. Google login tutorial: https://www.youtube.com/watch?v=2PIaGpJMCNs
+3. Navigation Drawer Tutorial: https://www.youtube.com/watch?v=NC3dM8qcpEM
+
+## Future Improvements
+1. Get video saving to account/database
+2. Notification/option to change permissions on device for camera
+3. Daily general interview tips (not CS related ex. don't wear jeans to an interview)
+4. Continuously add questions to database via website
+5. Method of detecting duplicate questions 
+6. 

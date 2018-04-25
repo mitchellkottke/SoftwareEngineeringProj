@@ -1,4 +1,4 @@
-# Server inf
+# Server info
 
 ## Index.js
 the RestfulAPI contains a variety of api calls.
