@@ -1,7 +1,15 @@
 # Server inf
 
 ## Index.js
-	routing.json - within the node directory, create a file called test. Copy the below json code. To launch a remote copy off ukko or akka, simply replace the url & change the port to any open port. This allows for an easy launch of a local server for testing, while allowing everyone to connect to the same database.
+the RestfulAPI contains a variety of api calls.
+Each is related directly to a specific function of the app, and the file is fully commented.
+By default, we kept a running instance off a student's ukko connection for the app to connect to, then used our individual local instances of the server for testing. Both the remote server and local server copies connected to the same remote MongoDB.
+An important note: routing.json must be created by each user, as it is ignored by git. Make sure routing.json holds the correct mongoDB address and port.
+
+## routing.json
+within the node_server directory, create a file called "test" then copy the below json code. 
+To launch a remote copy off ukko or akka, simply replace the url & change the port to any open port. 
+This allows for an easy launch of a local server for testing, while allowing everyone to connect to the same database.
 ```
 {
   "url": "http://localhost:",
@@ -29,20 +37,20 @@
 
 ## Pug View Enginer
 	To create a simple website with pug, add a name.pug file into the views folder within the node_server folder.
-	```
-	html
-		head
-			title Name
-		body
-			P
-				| This is an example
-				br
-				| Of how pug spacing works
-				br
-				| Use the pipe '|' as white space within a tag
-				| this line will not be broken away with br, for example
-			p
-	```
+```
+html
+	head
+		title Name
+	body
+		P
+			| This is an example
+			br
+			| Of how pug spacing works
+			br
+			| Use the pipe '|' as white space within a tag
+			| this line will not be broken away with br, for example
+		p
+```
 Follow the below link to the pug view engine. Swapping view engines or making your own html files from scratch would be fairly easy to do as well, whatever the future group prefers.
 https://pugjs.org/api/getting-started.html
 

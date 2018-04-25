@@ -1,13 +1,12 @@
+//Express-Session, Mongoose, and body-parser declarations
 var express = require('express');
 var app = express();
-var mongojs = require('mongojs');
 var mongoose = require('mongoose');
 var session = require('express-session');
-//var db = require('./myDB.js');
 var bp = require('body-parser');
 
 
-//Load routing data
+//Load routing data to launch local copy of server from routing.json
 const fs = require('fs');
 var route = fs.readFileSync('test/routing.json');
 var jsonRoute = JSON.parse(route);
@@ -16,10 +15,10 @@ var jsonRoute = JSON.parse(route);
 mongoose.connect('mongodb://ukko.d.umn.edu:42222/AppNull');
 var db = mongoose.connection
 
-//handle mongo error
+//handles mongo connection error
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
-  // we're connected!
+  console.log("Connection established to" + "mongodb://ukko.d.umn.edu:42222/AppNull");
 });
 
 // Mongoose schema declartion
@@ -27,14 +26,9 @@ var technical = require('./models/Technical.js');
 var flash = require('./models/flash.js')
 var User = require('./models/User.js')
 
-//setting up random data collection
-
-
 // set up for pug enginer
 app.set('views', './views'); //folder where views are stored
 app.set('view engine', 'pug');
-
-console.log("\n Starting Server \n");
 
 //use session for tracking login
 app.use(session({
@@ -45,6 +39,8 @@ app.use(session({
 
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: false }));
+
+console.log("\n Starting Server, set-up complete \n");
 
 /**
  * Basic .get that sends a simple hello message on connection
@@ -57,11 +53,13 @@ app.get('/', (req, res) => {
 	res.render('home');
 });
 
-app.get('/register', (req, res) => {
-	console.log("User signing up");
-	res.render('register')
-})
-
+/**
+ * Register command to create a new user from question-website homepage
+ * @param req   the request sent to the server
+ * @param next   used to handle error responses
+ * @param res   the response sent to the client; must contain email, username, password, and passwordConf fields, fields must not be empty
+ * @return  redirects user to profile on succesful creation, spits out error on error
+ */
 app.post('/register', function (req, res, next) {
   // confirm that user typed same password twice
   if (req.body.password !== req.body.passwordConf) {
@@ -102,6 +100,13 @@ app.post('/register', function (req, res, next) {
   }
 });
 
+/**
+ * profile call, redirects to profile page
+ * @param req   the request sent to the server
+ * @param res   the response sent to the client
+ * @param next   used to handle error responses
+ * @return  renders the profile page with the username, email, and access level of user
+ */
 app.get('/profile', function (req, res, next) {
   User.findById(req.session.userId)
     .exec(function (error, user) {
@@ -119,6 +124,13 @@ app.get('/profile', function (req, res, next) {
     });
 });
 
+/**
+ * redirects to create a flashcard question page
+ * @param req   the request sent to the server
+ * @param res   the response sent to the client
+ * @param next   used to handle error responses
+ * @return  renders flashcard question page
+ */
 app.get('/makeFlash', function (req, res, next) {
   User.findById(req.session.userId)
     .exec(function (error, user) {
@@ -136,6 +148,13 @@ app.get('/makeFlash', function (req, res, next) {
     });
 });
 
+/**
+ * redirects to create a technical question page
+ * @param req   the request sent to the server
+ * @param res   the response sent to the client
+ * @param next   used to handle error responses
+ * @return  renders technical question page
+ */
 app.get('/makeTechnical', function (req, res, next) {
   User.findById(req.session.userId)
     .exec(function (error, user) {
@@ -153,6 +172,13 @@ app.get('/makeTechnical', function (req, res, next) {
     });
 });
 
+/**
+ * redirects to creat flashcard question page
+ * @param req   the request sent to the server
+ * @param res   the response sent to the client
+ * @param next   used to handle error responses
+ * @return  renders flashcard question page
+ */
 app.get('/logout', function (req, res, next) {
   if (req.session) {
     // delete session object
@@ -166,10 +192,10 @@ app.get('/logout', function (req, res, next) {
   }
 });
 
-/** this .get/getTechnical returns the first technical question from the technical question database
+/** used to retrieve a random technical question from the technical question database
  * @param req 	the request sent to the server
  * @param res 	the response sent to the client
- * @return 	sends the first technical question as a string back to the client
+ * @return 	sends a random technical question as a string back to the client
  */
 app.get('/getTechnical', (req, res) => {
   console.log("getTech called...");
@@ -182,6 +208,11 @@ else {
 
 });
 
+/** used to retrieve a random flashcard question from the flashcard question database
+ * @param req   the request sent to the server
+ * @param res   the response sent to the client
+ * @return  sends a random flashcard question as a string back to the client
+ */
 app.get('/getFlash', (req, res) => {
 	console.log("getFlash called...");
 	flash.findOneRandom(function(err, doc) {
@@ -194,6 +225,12 @@ app.get('/getFlash', (req, res) => {
 	});
 });
 
+/** login call
+ * @param req   the request sent to the server
+ * @param res   the response sent to the client
+ * @param next   used to handle error responses
+ * @return  succesful login redirects the user to the profile page
+ */
 app.post('/login', function (req, res, next) {
 	if (req.body.loguser && req.body.logpassword) {
     User.authenticate(req.body.loguser, req.body.logpassword, function (error, user) {
@@ -213,6 +250,12 @@ app.post('/login', function (req, res, next) {
   }
 });
 
+/** sends a newly created flashcard question to the database from the website
+ * @param req   the request sent to the server
+ * @param res   the response sent to the client
+ * @param next   used to handle error responses
+ * @return  after sending the question, it redirects to the profile page
+ */
 app.post('/createFlash', function (req, res, next) {
   User.findById(req.session.userId)
     .exec(function (error, user) {
@@ -244,6 +287,12 @@ app.post('/createFlash', function (req, res, next) {
     });
 });
 
+/** sends a newly created technical question to the database from the website
+ * @param req   the request sent to the server
+ * @param res   the response sent to the client
+ * @param next   used to handle error responses
+ * @return  after sending the question, it redirects to the profile page
+ */
 app.post('/createTechnical', function (req, res, next) {
   User.findById(req.session.userId)
     .exec(function (error, user) {
@@ -276,7 +325,6 @@ app.post('/createTechnical', function (req, res, next) {
 
 /**
  * .listen on port:48821 with launch alter to console
- * IF PORT CHANGES ALERT TEAM NULL
  */
 app.listen(jsonRoute.port, ()=>console.log("NULL SERVERED LAUNCHED. LISTENING ON PORT: " + jsonRoute.port));
 
