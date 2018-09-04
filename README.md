@@ -120,8 +120,7 @@ Everyone will have to generate their own google-services.JSON file in order to g
 7. From sidebar select "Authentication" -> Sign-in Method -> Google then enable. Once enabled select the hyperlink -> "Project Settings"
 
   1.  At the bottom select "Add Firebase To Android App"
-
-    ![addfirebase](images/firebase_add.png)
+    ![AddFirebase](images/firebase_add.png)
 
 8. Package name: com.example.cs4531.interviewapp
 
