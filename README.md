@@ -121,7 +121,7 @@ Everyone will have to generate their own google-services.JSON file in order to g
 
   1.  At the bottom select "Add Firebase To Android App"
 
-    ![add firebase](images/firebase_add.png)
+    ![addfirebase](images/firebase_add.png)
 
 8. Package name: com.example.cs4531.interviewapp
 
