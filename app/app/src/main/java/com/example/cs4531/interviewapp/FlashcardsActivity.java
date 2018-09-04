@@ -1,4 +1,4 @@
-package com.example.liz.interviewapp;
+package com.example.cs4531.interviewapp;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -16,11 +16,9 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

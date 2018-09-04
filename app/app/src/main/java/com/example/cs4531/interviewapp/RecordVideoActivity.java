@@ -1,6 +1,5 @@
-package com.example.liz.interviewapp;
+package com.example.cs4531.interviewapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -22,8 +21,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
-import java.io.File;
 
 
 public class RecordVideoActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {

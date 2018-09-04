@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/nav_drawer"
     android:background="@mipmap/background1"
-    tools:context="com.example.liz.interviewapp.ResourcesActivity">
+    tools:context="com.example.cs4531.interviewapp.ResourcesActivity">
 
 
     <LinearLayout

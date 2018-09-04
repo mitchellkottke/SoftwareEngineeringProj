@@ -1,4 +1,4 @@
-package com.example.liz.interviewapp;
+package com.example.cs4531.interviewapp;
 
 import org.junit.Test;
 

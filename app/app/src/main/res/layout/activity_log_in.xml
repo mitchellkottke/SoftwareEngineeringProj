@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorMaroon"
-    tools:context="com.example.liz.interviewapp.LogIn"
+    tools:context="com.example.cs4531.interviewapp.LogIn"
     tools:layout_editor_absoluteY="81dp">
 
     <com.google.android.gms.common.SignInButton

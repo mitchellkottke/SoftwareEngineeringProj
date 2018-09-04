@@ -105,22 +105,35 @@ __NOTE:__ That id's may not appear automatically. If this is occuring build and 
 Everyone will have to generate their own google-services.JSON file in order to get the Google login working on their devicies (including emulators).
 
 1. Go to https://console.developers.google.com
+
 2. Go to Select a project > hit the + button to create a new project > name project and create
-3. Go to https://developers.google.com/identity/sign-in/android/start-integrating
-4. Scroll down to button that says "Configure A Project" and click it
+
+3. Go to https://console.firebase.google.com/u/0/
+  ![Firebase](images/firebase.png)
+
+4. Select "Add Project"
+
 5. Select the project you just created
-6. Name product
-7. On 'Congifure your OAuth client' page select 'Android' from the drop down
-8. Package name: com.example.liz.interviewapp
+
+6. Name product (TechPrep)
+
+7. From sidebar select "Authentication" -> Sign-in Method -> Google then enable. Once enabled select the hyperlink -> "Project Settings"
+
+  1.  At the bottom select "Add Firebase To Android App"
+
+    ![add firebase](images/firebase_add.png)
+
+8. Package name: com.example.cs4531.interviewapp
+
 9. For SHA-1 signing certificate: Open Android Studio > Select 'Gradle' from top right side bar > Select 'app(root)' > Select 'Android' > Select 'signingReport' > Copy and paste SHA1 key > Create > Done
-![ ](https://i.stack.imgur.com/3QcBI.png)
-Image from: https://stackoverflow.com/questions/15727912/sha-1-fingerprint-of-keystore-certificate/15727931
-10. Go to https://console.firebase.google.com
-11. Add project
-12. Select Tech Prep from drop down > Add firebase
-13. In Firebase go to Settings > Project Settings > Add Firebase to you Adnroid App > Fill in fields > Register App > Download google-services.json 
-14. Open Android > Project view > and delete existing google-services.json file from the app if it exists
-15. Right click app[app-app] > New > File > name it google-services.json > copy and paste contents from downloaded file
+  ![ ](https://i.stack.imgur.com/3QcBI.png)
+  Image from: https://stackoverflow.com/questions/15727912/sha-1-fingerprint-of-keystore-certificate/15727931
+
+10. In Firebase go to Settings > Project Settings > Add Firebase to you Adnroid App > Fill in fields > Register App > Download google-services.json 
+
+11. Open Android > Project view > and delete existing google-services.json file from the app if it exists
+
+12. Right click app[app-app] > New > File > name it google-services.json > copy and paste contents from downloaded file
 
 ## Useful Links
 1. In-app video recording tutorial: https://www.youtube.com/watch?v=5sEeprYnHa8
