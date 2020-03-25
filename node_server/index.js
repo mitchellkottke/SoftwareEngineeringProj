@@ -11,14 +11,18 @@ const fs = require('fs');
 var route = fs.readFileSync('test/routing.json');
 var jsonRoute = JSON.parse(route);
 
+
+//Using this as the port connection because test/routing.json doesnt exist
+//const nodePortNumber = 1234
+
 //connecting mongoose to RestAPI, target URL stored in route
-mongoose.connect('mongodb://ukko.d.umn.edu:42222/AppNull');
+mongoose.connect('mongodb://ukko.d.umn.edu:29805/AppNull');
 var db = mongoose.connection
 
 //handles mongo connection error
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
-  console.log("Connection established to" + "mongodb://ukko.d.umn.edu:42222/AppNull");
+  console.log("Connection established to" + "mongodb://ukko.d.umn.edu:29805/AppNull");
 });
 
 // Mongoose schema declartion
@@ -326,5 +330,5 @@ app.post('/createTechnical', function (req, res, next) {
 /**
  * .listen on port:48821 with launch alter to console
  */
-app.listen(jsonRoute.port, ()=>console.log("NULL SERVERED LAUNCHED. LISTENING ON PORT: " + jsonRoute.port));
+app.listen(jsonRoute.port/*nodePortNumber*/, ()=>console.log("NULL SERVERED LAUNCHED. LISTENING ON PORT: " + jsonRoute.port/*nodePortNumber*/));
 
