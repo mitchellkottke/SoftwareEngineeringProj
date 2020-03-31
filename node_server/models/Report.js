@@ -6,7 +6,7 @@ var reportSchema = new Schema({
 	questionID: {type: String, required: true},
 	questionType: {type: String, required: true},
 	reasonForReport: {type: String, required: true},
-	reasonForReportTextBox: {type: string, required: false}},
+	reasonForReportTextBox: {type: String, required: false}},
 	{collection: 'reportedQuestions'});
 
 var report = mongoose.model('report', reportSchema);
