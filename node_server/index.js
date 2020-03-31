@@ -27,8 +27,9 @@ db.once('open', function () {
 
 // Mongoose schema declartion
 var technical = require('./models/Technical.js');
-var flash = require('./models/flash.js')
-var User = require('./models/User.js')
+var flash = require('./models/flash.js');
+var User = require('./models/User.js');
+var report = require('./models/Report.js');
 
 // set up for pug enginer
 app.set('views', './views'); //folder where views are stored
@@ -325,6 +326,50 @@ app.post('/createTechnical', function (req, res, next) {
         }
       }
     });
+});
+
+/** Adds a question reported by user to the reportedQuestions database
+ * @param req   the request sent to the server
+       Needs:
+         user: ID of user that reported question
+         questionID: ID of the question being reported
+         questionType: Flash or technical question
+         reasonForReport: Dropdown option chosen for report
+       Optional:
+         reasonForReportTextBox: Extra feedback given by user
+ * @param res   the response sent to the client
+ * @return   
+ */
+app.post('/reportQuetion', function(req, res){
+    console.log("Report Question called...");
+    var error;
+    var newReport = {
+        user: req.body.user,
+        questionID: req.body.questionID,
+        questionType: req.body.questionType,
+        reasonForReport: req.body.reasonForReport,
+        reasonForReportTextBox:""
+    }
+    try{
+        newReport.reasonForReportTextBox =
+            req.body.reasonForReportTextBox;
+    }catch(err){
+        console.log("Reason for report text box left empty\n");
+    }
+    error = report.create(newReport, function(err, doc){
+        if(err){
+            return err;
+        }
+        else return 0;
+    });
+    if(error){
+        console.log("Error: "+error);
+        res.send("Error could not report question");
+    }
+    else{
+        console.log("Successfully reported question");
+        res.send("Successfully reported question");
+    }
 });
 
 /**
