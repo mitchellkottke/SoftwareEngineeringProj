@@ -11,10 +11,6 @@ const fs = require('fs');
 var route = fs.readFileSync('test/routing.json');
 var jsonRoute = JSON.parse(route);
 
-
-//Using this as the port connection because test/routing.json doesnt exist
-//const nodePortNumber = 1234
-
 //connecting mongoose to RestAPI, target URL stored in route
 mongoose.connect('mongodb://ukko.d.umn.edu:29805/AppNull');
 var db = mongoose.connection
@@ -27,8 +23,9 @@ db.once('open', function () {
 
 // Mongoose schema declartion
 var technical = require('./models/Technical.js');
-var flash = require('./models/flash.js')
-var User = require('./models/User.js')
+var flash = require('./models/flash.js');
+var User = require('./models/User.js');
+var report = require('./models/Report.js');
 
 // set up for pug enginer
 app.set('views', './views'); //folder where views are stored
@@ -205,7 +202,7 @@ app.get('/getTechnical', (req, res) => {
   console.log("getTech called...");
   technical.findOneRandom(function(err, doc) {
        if(err) console.log(err);
-else {
+      else {
        console.log("Question", doc.question)
        res.send(doc.question);}
      });
@@ -325,6 +322,52 @@ app.post('/createTechnical', function (req, res, next) {
         }
       }
     });
+});
+
+/** Adds a question reported by user to the reportedQuestions database
+ * @param req   the request sent to the server
+       Needs:
+         user: ID of user that reported question (String)
+         questionID: ID of the question being reported (String)
+         questionType: Flash or technical question (String)
+         reasonForReport: Dropdown option chosen for report (String)
+       Optional:
+         reasonForReportTextBox: Extra feedback given by user (String)
+ * @param res   the response sent to the client
+ * @return   Will add after discussion
+ */
+app.post('/reportQuestion', function(req, res){
+    console.log("Report Question called...");
+    var error;
+    var newReport = {
+        user: req.body.user,
+        questionID: req.body.questionID,
+        questionType: req.body.questionType,
+        reasonForReport: req.body.reasonForReport,
+        reasonForReportTextBox:""
+    }
+    if(req.body.reasonForReportTextBox)
+        newReport.reasonForReportTextBox =
+            req.body.reasonForReportTextBox;
+    else{
+        console.log("Reason for report text box left empty");
+        newReport.reasonForReportTextBox = "None given";
+    }
+    var doc;
+    error = report.create(newReport, function(err, doc){
+        if(err){
+            return err;
+        }
+        else return 0;
+    });
+    if(error){
+        console.log("Error: "+error);
+        res.send("Error could not report question");
+    }
+    else{
+        console.log("Successfully reported question");
+        res.send("Successfully reported question");
+    }
 });
 
 /**
