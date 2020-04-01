@@ -334,7 +334,7 @@ app.post('/createTechnical', function (req, res, next) {
        Optional:
          reasonForReportTextBox: Extra feedback given by user (String)
  * @param res   the response sent to the client
- * @return   Will add after discussion
+ * @return   One (1) if successful else zero (0)
  */
 app.post('/reportQuestion', function(req, res){
     console.log("Report Question called...");
@@ -363,11 +363,14 @@ app.post('/reportQuestion', function(req, res){
     if(error){
         console.log("Error: "+error);
         res.send("Error could not report question");
+        error = 0;
     }
     else{
         console.log("Successfully reported question");
         res.send("Successfully reported question");
+        error = 1;
     }
+    return error;
 });
 
 /**
