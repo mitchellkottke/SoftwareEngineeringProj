@@ -11,10 +11,6 @@ const fs = require('fs');
 var route = fs.readFileSync('test/routing.json');
 var jsonRoute = JSON.parse(route);
 
-
-//Using this as the port connection because test/routing.json doesnt exist
-//const nodePortNumber = 1234
-
 //connecting mongoose to RestAPI, target URL stored in route
 mongoose.connect('mongodb://ukko.d.umn.edu:29805/AppNull');
 var db = mongoose.connection
@@ -206,7 +202,7 @@ app.get('/getTechnical', (req, res) => {
   console.log("getTech called...");
   technical.findOneRandom(function(err, doc) {
        if(err) console.log(err);
-else {
+      else {
        console.log("Question", doc.question)
        res.send(doc.question);}
      });
@@ -331,16 +327,16 @@ app.post('/createTechnical', function (req, res, next) {
 /** Adds a question reported by user to the reportedQuestions database
  * @param req   the request sent to the server
        Needs:
-         user: ID of user that reported question
-         questionID: ID of the question being reported
-         questionType: Flash or technical question
-         reasonForReport: Dropdown option chosen for report
+         user: ID of user that reported question (String)
+         questionID: ID of the question being reported (String)
+         questionType: Flash or technical question (String)
+         reasonForReport: Dropdown option chosen for report (String)
        Optional:
-         reasonForReportTextBox: Extra feedback given by user
+         reasonForReportTextBox: Extra feedback given by user (String)
  * @param res   the response sent to the client
- * @return   
+ * @return   Will add after discussion
  */
-app.post('/reportQuetion', function(req, res){
+app.post('/reportQuestion', function(req, res){
     console.log("Report Question called...");
     var error;
     var newReport = {
@@ -350,12 +346,14 @@ app.post('/reportQuetion', function(req, res){
         reasonForReport: req.body.reasonForReport,
         reasonForReportTextBox:""
     }
-    try{
+    if(req.body.reasonForReportTextBox)
         newReport.reasonForReportTextBox =
             req.body.reasonForReportTextBox;
-    }catch(err){
-        console.log("Reason for report text box left empty\n");
+    else{
+        console.log("Reason for report text box left empty");
+        newReport.reasonForReportTextBox = "None given";
     }
+    var doc;
     error = report.create(newReport, function(err, doc){
         if(err){
             return err;
