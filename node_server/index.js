@@ -373,6 +373,82 @@ app.post('/reportQuestion', function(req, res){
     return error;
 });
 
+//****************This function is currently broken************
+/**Deletes a given question from the reportedQuestions database
+   @param req   Request sent to server
+                  question: The question to look for
+                  questionType: Flash or Technical
+   @param res   Response sent to user
+   @return      0: If question successfully un-reported
+                1: If question could not be found in database
+                2: If there was an error in deleting the report
+*/
+app.post('/deleteReport', function(req, res){
+    console.log("deleteReport called...");
+    var error,
+        questionStr = req.body.question,
+        foundQuestion,
+        type = req.body.questionType;
+    if(type === "Flash"){
+        console.log("Searching flash questions for ID");
+        flash.findOne({question : questionStr}, function(err, doc){
+            if(err || !doc){
+                console.log("Could not find question in Flash");
+                error = 1;
+            }
+            else{
+                foundQuestion = doc;
+                console.log("doc: "+doc);
+                console.log("fq: "+foundQuestion);
+                console.log("doc._id: "+doc._id);
+            }
+        });
+    }
+    else if(type === "Technical"){
+        console.log("Searching technical questions for ID");
+        technical.findOne({question:questionStr}, function(err, doc){
+            if(err || !doc){
+                console.log("Could not find question in Technical");
+                error = 1;
+            }
+            else{
+                foundQuestion = doc;
+            }
+        });
+    }
+    else{
+        console.log("Question type not given or wrong");
+        res.send("Need questionType to be either flash or technical");
+        return 2; //No id so rest cant be done
+    }
+    console.log("foundQuestion: "+foundQuestion);
+    res.send("test");
+    return 0;
+    if(error !== 1){
+        report.deleteOne({questionID:foundQuestion._id, questionType:type}, function(err, result){
+            if(err){
+                error = err;
+            }
+            else if(result.n === 0) error = 1;
+            else error = 0;
+        });
+    }
+    if(error === 1){
+        console.log("Question could not be found");
+        res.send("Qustion could not be found");
+    }
+    else if(error){//error != 1, 0
+        console.log("Error: ", error);
+        res.send("Error, could not remove report");
+        error = 2;
+    }
+    else{//error = 0
+        console.log("Successfully deleted report");
+        res.send("Successfully deleted report");
+    }
+    return error;
+});
+
 /**
  * .listen on port:48821 with launch alter to console
  */
