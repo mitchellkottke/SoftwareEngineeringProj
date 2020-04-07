@@ -158,7 +158,7 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
     {
         PopupMenu popupmenu = new PopupMenu (this, view);
         MenuInflater inflater = popupmenu.getMenuInflater();
-        inflater.inflate(R.menu.popup_report, popupmenu.getMenu());
+        inflater.inflate(R.menu.report_menu_popup, popupmenu.getMenu());
         popupmenu.show();
 
     }
