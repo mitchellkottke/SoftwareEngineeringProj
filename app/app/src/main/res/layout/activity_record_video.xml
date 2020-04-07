@@ -25,7 +25,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="#ffffff"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:onClick="showPopUp"/>
 
         <Button
             android:id="@+id/recordButton"
