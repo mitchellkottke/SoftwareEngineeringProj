@@ -8,10 +8,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -61,18 +64,34 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(mToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+//        if(mToggle.onOptionsItemSelected(item)){
+//            return true;
+//        }
+
+        switch (item.getItemId()){
+            case R.id.irrelevantButton:
+                Toast.makeText(FlashcardsActivity.this, "Irrelevant Button Selexted", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.innapropriateButton:
+                Toast.makeText(FlashcardsActivity.this, "Inappropriate Button Selexted", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.otherReportButton:
+                Toast.makeText(FlashcardsActivity.this, "Other Button Selexted", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return  super.onOptionsItemSelected(item);
+        } //end of switch statement
+
     }
 
-
-    /**
+    /*
      * @author smatthys
      * @param item
      * This function takes a boolean value to transition between different activities.
      * It holds all the logic necessary for the navigation side bar.
+     */
+    /*
+        Override the report menu options selected... hopefully this shit works
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -145,6 +164,17 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         requests.addToRequestQueue(sr);
     }
 
+    /*------------------REPORT POPUP OPTIONS------------------
+        when the report button is pressed, this shows the popup options
+     */
+    public void reportPopUpOptions(View v)
+    {
+        PopupMenu reportMenu = new PopupMenu(FlashcardsActivity.this, v);
+        MenuInflater inflater = reportMenu.getMenuInflater();
+        inflater.inflate(R.menu.report_menu_popup, reportMenu.getMenu());
+        reportMenu.show();
+    }
+
     public void showAnswer(View v)
     {
         TextView answerView = (TextView)findViewById(R.id.answerView);
@@ -176,3 +206,61 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
     }
 
 }
+
+// extra shit
+/*
+        //@Override
+    public boolean onReportOptionsItemSelected(MenuItem item){
+        View v = null;
+        PopupMenu reportMenu = new PopupMenu(FlashcardsActivity.this, v);
+        //item = reportMenu.getMenu().getItem(1);
+        String itemTitle;
+        //for(int i=0; i<4; i++){
+            //item = reportMenu.getMenu().getItem(i);
+            //itemTitle = item.getTitle().toString();
+            switch (item.getItemId()){
+                case R.id.irrelevantButton:
+                    Toast.makeText(FlashcardsActivity.this, "Irrelevant Button Selected", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.innapropriateButton:
+                    Toast.makeText(FlashcardsActivity.this, "Innapropriate Button Selected", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.otherReportButton:
+                    Toast.makeText(FlashcardsActivity.this, "Other Button Selected", Toast.LENGTH_SHORT).show();
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }//end of switch
+
+        //}
+    }
+     */
+
+//public void reportButtons(View)
+    /*
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.nav_home){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+        if (id == R.id.nav_recordVideo){
+            Intent intent = new Intent(this, RecordVideoActivity.class);
+            startActivity(intent);
+        }
+        if (id == R.id.nav_flashcards){
+            Intent intent = new Intent(this, FlashcardsActivity.class);
+            startActivity(intent);
+        }
+        if (id == R.id.nav_resources){
+            Intent intent = new Intent(this, ResourcesActivity.class);
+            startActivity(intent);
+        }
+        if (id == R.id.nav_myAccount){
+            Intent intent = new Intent(this, LogIn.class);
+            startActivity(intent);
+        }
+        return false;
+    }
+     */
