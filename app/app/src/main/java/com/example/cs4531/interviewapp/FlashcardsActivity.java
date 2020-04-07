@@ -1,5 +1,7 @@
 package com.example.cs4531.interviewapp;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -30,7 +32,7 @@ import org.json.JSONObject;
  * button to retrieve a sample question from the database, and then put it in
  * the textview. The getAnswer should have the same functionality.
  */
-public class FlashcardsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class FlashcardsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, PopupMenu.OnMenuItemClickListener{
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
@@ -64,34 +66,19 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        if(mToggle.onOptionsItemSelected(item)){
-//            return true;
-//        }
 
-        switch (item.getItemId()){
-            case R.id.irrelevantButton:
-                Toast.makeText(FlashcardsActivity.this, "Irrelevant Button Selexted", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.innapropriateButton:
-                Toast.makeText(FlashcardsActivity.this, "Inappropriate Button Selexted", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.otherReportButton:
-                Toast.makeText(FlashcardsActivity.this, "Other Button Selexted", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return  super.onOptionsItemSelected(item);
-        } //end of switch statement
+        if(mToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
 
     }
 
-    /*
+    /**
      * @author smatthys
      * @param item
      * This function takes a boolean value to transition between different activities.
      * It holds all the logic necessary for the navigation side bar.
-     */
-    /*
-        Override the report menu options selected... hopefully this shit works
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -169,11 +156,33 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
      */
     public void reportPopUpOptions(View v)
     {
-        PopupMenu reportMenu = new PopupMenu(FlashcardsActivity.this, v);
-        MenuInflater inflater = reportMenu.getMenuInflater();
-        inflater.inflate(R.menu.report_menu_popup, reportMenu.getMenu());
-        reportMenu.show();
+//        PopupMenu reportMenu = new PopupMenu(FlashcardsActivity.this, v);
+//        MenuInflater inflater = reportMenu.getMenuInflater();
+//        inflater.inflate(R.menu.report_menu_popup, reportMenu.getMenu());
+//        reportMenu.show();
+        PopupMenu reportPop = new PopupMenu(FlashcardsActivity.this, v);
+        reportPop.setOnMenuItemClickListener(FlashcardsActivity.this);
+        reportPop.inflate(R.menu.report_menu_popup);
+        reportPop.show();
     }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.irrelevantButton:
+                Toast.makeText(FlashcardsActivity.this, "Irrelevant Button Selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.innapropriateButton:
+                Toast.makeText(FlashcardsActivity.this, "Inappropriate Button Selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.otherReportButton:
+                Toast.makeText(FlashcardsActivity.this, "Other Button Selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return  false;
+        } //end of switch statement
+    }
+
 
     public void showAnswer(View v)
     {
