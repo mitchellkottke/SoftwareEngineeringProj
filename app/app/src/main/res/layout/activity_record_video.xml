@@ -12,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <Button
-            android:id="@+id/reportButton"
+            android:id="@+id/recordButton"
             android:layout_width="91dp"
             android:layout_height="30dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginStart="116dp"
+            android:layout_marginBottom="16dp"
             android:background="@color/colorMaroon"
             android:fontFamily="@font/textbook"
             android:text="@string/Record_Video"
@@ -28,14 +28,14 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/recordButton"
+            android:id="@+id/reportButton"
             android:layout_width="83dp"
             android:layout_height="30dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="16dp"
             android:background="@color/colorMaroon"
             android:fontFamily="@font/textbook"
+            android:onClick="showPopUp"
             android:text="Report Question"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="#ffffff"
@@ -53,29 +53,26 @@
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/playbackButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
+            app:layout_constraintVertical_bias="0.643" />
 
         <Button
             android:id="@+id/playbackButton"
             android:layout_width="77dp"
             android:layout_height="30dp"
             android:layout_marginStart="14dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginEnd="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="16dp"
             android:background="@color/colorMaroon"
             android:fontFamily="@font/textbook"
             android:text="Playback"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="#ffffff"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button3"
-            app:layout_constraintStart_toEndOf="@+id/reportButton" />
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.649"
+            app:layout_constraintStart_toEndOf="parent" />
 
         <TextView
             android:id="@+id/questionView"
@@ -99,9 +96,8 @@
             android:id="@+id/button3"
             android:layout_width="83dp"
             android:layout_height="30dp"
-            android:layout_marginEnd="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
             android:background="@color/colorMaroon"
             android:fontFamily="@font/textbook"
             android:onClick="getQuestion"
@@ -109,7 +105,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="#ffffff"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/recordButton" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
