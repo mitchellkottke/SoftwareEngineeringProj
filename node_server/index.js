@@ -333,8 +333,7 @@ app.post('/createTechnical', function (req, res, next) {
          reasonForReport: Dropdown option chosen for report (String)
        Optional:
          reasonForReportTextBox: Extra feedback given by user (String)
- * @param res   the response sent to the client
- * @return   One (1) if successful else zero (0)
+ * @param res   the response sent to the client, contains "1" if successful and "0" if unsuccessful
  */
 app.post('/reportQuestion', function(req, res){
     console.log("Report Question called...");
@@ -362,15 +361,12 @@ app.post('/reportQuestion', function(req, res){
     });
     if(error){
         console.log("Error: "+error);
-        res.send("Error could not report question");
-        error = 0;
+        res.send("0: Error could not report question");
     }
     else{
         console.log("Successfully reported question");
-        res.send("Successfully reported question");
-        error = 1;
+        res.send("1: Successfully reported question");
     }
-    return error;
 });
 
 /**Deletes a given question from the reportedQuestions database
@@ -378,9 +374,6 @@ app.post('/reportQuestion', function(req, res){
                   question: The question to look for
                   questionType: Flash or Technical
    @param res   Response sent to user
-   @return      0: If question successfully un-reported
-                1: If question could not be found in database
-                2: If there was an error in deleting the report
 */
 app.post('/deleteReport', function(req, res){
     console.log("deleteReport called...");
@@ -394,24 +387,20 @@ app.post('/deleteReport', function(req, res){
                     console.log("Searching to delete");
                     if(err){
                         console.log("Error", err);
-                        res.send("Error, could not remove report");
-                        error = 2;
+                        res.send("2: could not remove report");
                     }
                     else if(result.n === 0){
                         console.log("Question could not be found");
                         res.send("Question has not been reported or report "+
                                  "already deleted");
-                        error = 1;
                     }
                     else{
                         console.log("Successfully deleted report");
                         res.send("Successfully deleted report");
-                        error = 0;
                     }
                 });
             }
         };
-    console.log("QuestionStr: "+foundQuestion);
     if(type === "Flash"){
         console.log("Searching flash questions for ID");
         flash.findOne({question:questionStr},function(err, doc){
@@ -424,9 +413,7 @@ app.post('/deleteReport', function(req, res){
                 foundQuestion = doc;
                 deleteQuestionReport();
             }
-            console.log("FQ: "+foundQuestion);
-        }).then();
-        console.log("QuestionData: "+foundQuestion);
+        });
     }
     else if(type === "Technical"){
         console.log("Searching technical questions for ID");
@@ -445,9 +432,48 @@ app.post('/deleteReport', function(req, res){
     else{
         console.log("Question type not given or wrong");
         res.send("Need questionType to be either flash or technical");
-        error = 2;
     }
-    return error;
+});
+
+/** Finds the id of the given question
+   @param req Request from user
+       question: the question ID is needed for
+       type: Flash or Technical
+   @param res Response sent to user
+*/
+app.post('/getQuestionID', function(req, res){
+    console.log("GetQuestionID called...");
+    var questionStr = req.body.question,
+        questionType = req.body.type,
+        questionID,
+        error = 0;
+    if(questionType === "Flash"){
+        console.log("Searching flash questions for ID");
+        flash.findOne({question:questionStr},function(err, doc){
+            if(err || !doc){
+                console.log("Could not find question in Flash");
+                res.send("Question could not be found");
+                error = 1;
+            }
+            else{
+                console.log("Found: "+doc);
+                res.send(doc._id);
+            }
+        });
+    }
+    else if(questionType === "Technical"){
+        console.log("Searching technical questions for ID");
+        technical.findOne({question:questionStr}, function(err, doc){
+            if(err || !doc){
+                console.log("Could not find question in Technical");
+                res.send("Could not find question");
+            }
+            else{
+                console.log("Found: "+doc);
+                res.send(doc._id);
+            }
+        });
+    }
 });
 
 /**
