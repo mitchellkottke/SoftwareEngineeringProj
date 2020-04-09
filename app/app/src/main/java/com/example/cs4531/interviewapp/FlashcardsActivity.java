@@ -40,7 +40,6 @@ import java.util.Map;
  */
 public class FlashcardsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, PopupMenu.OnMenuItemClickListener{
 
-
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     public RestRequests requests; //our RestRequests class
@@ -48,8 +47,10 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
 
     private String roText; //report option text
     private String flash = "Flash"; //question type will always be Flash
-    private String userID = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();//for now the test user is quinz001
+    private String userID = "default";//for now the test user is quinz001
     private String questionID; //the question
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,15 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         final Button answerButton = (Button)findViewById(R.id.getAnswer);
         getQuestion(tv);
 
+        //ALSO NEW
+        mAuth = FirebaseAuth.getInstance();
+    }
+
+    //new
+    @Override
+    public void onStart(){
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
     /**
@@ -163,9 +173,11 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         requests.addToRequestQueue(sr);
     }
 
-    /*------------------REPORT POPUP OPTIONS------------------
-        when the report button is pressed, this shows the popup options
-    */
+    /**
+     * reportPopUpOptions shows the options available when a user wants to report a question
+     * @author quinz001
+     * @param v the view
+     */
     public void reportPopUpOptions(View v)
     {
         PopupMenu reportPop = new PopupMenu(FlashcardsActivity.this, v);
@@ -174,6 +186,13 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         reportPop.show();
     }
 
+    /**
+     * onMenuItemClick takes what the user clicked as their option for the report question
+     * and sends the userID, questionID, questionType which will always be 'Flash', and the
+     * reason for the report
+     * @author quinz001
+     * @param item the menu item
+     */
     @Override
     public boolean onMenuItemClick(MenuItem item){
 
@@ -181,6 +200,16 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
 
         TextView qv = (TextView)findViewById(R.id.qAView); //Question view
         questionID = qv.getText().toString();
+
+        //userID = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        //checking user to see if not null
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+            userID = user.getDisplayName();
+        }else {
+            userID = "Could Not Find User";
+        }
 
         switch (item.getItemId()){
             case R.id.irrelevantButton:
