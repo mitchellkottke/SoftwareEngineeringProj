@@ -40,7 +40,9 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
     public RestRequests requests; //our RestRequests class
     public String answerString; //the answer response
 
-    //public String roText; //report option text
+    private String roText;
+    private String flash = "flash";
+    private String questionID; //the question
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,45 +158,77 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
 
     /*------------------REPORT POPUP OPTIONS------------------
         when the report button is pressed, this shows the popup options
-     */
+    */
     public void reportPopUpOptions(View v)
     {
-//        PopupMenu reportMenu = new PopupMenu(FlashcardsActivity.this, v);
-//        MenuInflater inflater = reportMenu.getMenuInflater();
-//        inflater.inflate(R.menu.report_menu_popup, reportMenu.getMenu());
-//        reportMenu.show();
         PopupMenu reportPop = new PopupMenu(FlashcardsActivity.this, v);
         reportPop.setOnMenuItemClickListener(FlashcardsActivity.this);
         reportPop.inflate(R.menu.report_menu_popup);
         reportPop.show();
     }
+    private String returnQuestionID(){
+        String targetURL = getString(R.string.serverURL) + "/getFlash";
+
+        JsonObjectRequest sr = new JsonObjectRequest(Request.Method.GET, targetURL, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            questionID = response.getString("question");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error", error.toString());
+                    }
+                });
+        requests.addToRequestQueue(sr);
+
+        return questionID;
+    }
+
+    /*
+    JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, targetURL, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                JSONObject report = new JSONObject();
+                                try {
+                                    report.put("user", "quinz001");
+                                    report.put("questionID", qID);
+                                    report.put("questionType", flash);
+                                    report.put("reasonForReport", roText);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }//end of onResponse
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("Error", error.toString());
+                            }
+                        }
+                );
+     */
 
     @Override
     public boolean onMenuItemClick(MenuItem item){
-        final String roText;
-        String flash = "flash";
 
-        String targetURL = getString(R.string.serverURL) + "/getFlash";
+        //String targetURL = getString(R.string.serverURL) + "/reportQuestion";
 
-        TextView questionView = (TextView)findViewById(R.id.qAView);
-        int q = R.id.qAView;
+        TextView qv = (TextView)findViewById(R.id.qAView); //Question view
+        questionID = qv.getText().toString();
 
         switch (item.getItemId()){
             case R.id.irrelevantButton:
                 roText = item.getTitle().toString();
-                Toast.makeText(FlashcardsActivity.this, "Irrelevant Button Selected. Text = " + roText, Toast.LENGTH_SHORT).show();
-
-//                JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, targetURL, null,
-//                        new Response.Listener<JSONObject>() {
-//                            @Override
-//                            public void onResponse(JSONObject response) {
-//                                JSONObject report = new JSONObject();
-//                                report.put("user", "quinz001");
-//                                report.put("questionID", 123);
-//                                report.put("questionType", "flash");
-//                                report.put("reasonForReport", roText);
-//                            }
-//                        });
+                //questionID = returnQuestionID();
+                Toast.makeText(FlashcardsActivity.this,"questionID= " + questionID, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.innapropriateButton:
                 roText = item.getTitle().toString();
