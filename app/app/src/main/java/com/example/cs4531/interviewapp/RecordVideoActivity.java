@@ -27,7 +27,6 @@ import com.android.volley.toolbox.StringRequest;
 
 public class RecordVideoActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
     private Button recordView, playView;
     private VideoView viewOfVideo;
     private TextView questionView;
@@ -35,7 +34,6 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     public RestRequests requests; //our RestRequests class
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)  {

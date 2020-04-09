@@ -22,10 +22,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 /**
  * Once database is up and running, we can set functions to the getQuestion
@@ -38,6 +39,11 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
     private ActionBarDrawerToggle mToggle;
     public RestRequests requests; //our RestRequests class
     public String answerString; //the answer response
+
+    private String roText; //report option text
+    private String flash = "Flash"; //question type will always be Flash
+    private String userID = "quinz001"; //for now the test user is quinz001
+    private String questionID; //the question
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +62,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         tv.setText("");
         final Button answerButton = (Button)findViewById(R.id.getAnswer);
         getQuestion(tv);
+
     }
 
     /**
@@ -66,12 +73,10 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if(mToggle.onOptionsItemSelected(item)){
             return true;
         }
         return super.onOptionsItemSelected(item);
-
     }
 
     /**
@@ -114,11 +119,14 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
     public void getQuestion(View v)
     {
         String targetURL = getString(R.string.serverURL) + "/getFlash";
+
         final TextView tv = (TextView)findViewById(R.id.qAView);
         TextView answerView = (TextView) findViewById(R.id.answerView);
         answerView.setText(""); //Resets the answer field to default on click
+
         Button getQuestionButton = (Button)findViewById(R.id.get_question);
         getQuestionButton.setText(R.string.new_Question);
+
         Button answerButton = (Button)findViewById(R.id.getAnswer);
             if(answerButton.getText().toString() == getString(R.string.hide_Answer)) {
                 hideAnswer(v);
@@ -128,18 +136,16 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
                 new Response.Listener<JSONObject>() {
                     @Override
                         public void onResponse (JSONObject response){
-                        try {
-                       // JSONObject flashcard = response.getJSONObject();
-                        answerString = response.getString("answer");
+                            try {
+                            // JSONObject flashcard = response.getJSONObject();
+                                answerString = response.getString("answer");
 
-//                        Log.d("GET", response.toString());
-                        tv.setText(response.getString("question"));
-
-                    }catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                            // Log.d("GET", response.toString());
+                                tv.setText(response.getString("question"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-
                 },
                 new Response.ErrorListener() {
                     @Override
@@ -153,13 +159,9 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
 
     /*------------------REPORT POPUP OPTIONS------------------
         when the report button is pressed, this shows the popup options
-     */
+    */
     public void reportPopUpOptions(View v)
     {
-//        PopupMenu reportMenu = new PopupMenu(FlashcardsActivity.this, v);
-//        MenuInflater inflater = reportMenu.getMenuInflater();
-//        inflater.inflate(R.menu.report_menu_popup, reportMenu.getMenu());
-//        reportMenu.show();
         PopupMenu reportPop = new PopupMenu(FlashcardsActivity.this, v);
         reportPop.setOnMenuItemClickListener(FlashcardsActivity.this);
         reportPop.inflate(R.menu.report_menu_popup);
@@ -168,21 +170,54 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
 
     @Override
     public boolean onMenuItemClick(MenuItem item){
+
+        String targetURL = getString(R.string.serverURL) + "/reportQuestion";
+
+        TextView qv = (TextView)findViewById(R.id.qAView); //Question view
+        questionID = qv.getText().toString();
+
         switch (item.getItemId()){
             case R.id.irrelevantButton:
-                Toast.makeText(FlashcardsActivity.this, "Irrelevant Button Selected", Toast.LENGTH_SHORT).show();
+                roText = item.getTitle().toString();
+                JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, targetURL, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                JSONObject report = new JSONObject();
+                                try {
+                                    report.put("user", userID);
+                                    report.put("questionID", questionID);
+                                    report.put("questionType", flash);
+                                    report.put("reasonForReport", roText);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                Log.d("JSON-Report", "user: " + userID + " question: " + questionID +
+                                        " questionType: " + flash + " reasonForReport: " + roText);
+                            }//end of onResponse
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("ERROR", error.toString());
+                            }
+                        }
+                );
+                requests.addToRequestQueue(sr);
+                Toast.makeText(FlashcardsActivity.this,roText + " button selected.", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.innapropriateButton:
-                Toast.makeText(FlashcardsActivity.this, "Inappropriate Button Selected", Toast.LENGTH_SHORT).show();
+                roText = item.getTitle().toString();
+                Toast.makeText(FlashcardsActivity.this, roText + " button selected." , Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.otherReportButton:
-                Toast.makeText(FlashcardsActivity.this, "Other Button Selected", Toast.LENGTH_SHORT).show();
+                roText = item.getTitle().toString();
+                Toast.makeText(FlashcardsActivity.this, roText + " Button Selected.", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return  false;
         } //end of switch statement
     }
-
 
     public void showAnswer(View v)
     {
@@ -214,62 +249,32 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         });
     }
 
-}
+}//****END OF CLASS****
 
-// extra shit
+//EXTRAS
 /*
-        //@Override
-    public boolean onReportOptionsItemSelected(MenuItem item){
-        View v = null;
-        PopupMenu reportMenu = new PopupMenu(FlashcardsActivity.this, v);
-        //item = reportMenu.getMenu().getItem(1);
-        String itemTitle;
-        //for(int i=0; i<4; i++){
-            //item = reportMenu.getMenu().getItem(i);
-            //itemTitle = item.getTitle().toString();
-            switch (item.getItemId()){
-                case R.id.irrelevantButton:
-                    Toast.makeText(FlashcardsActivity.this, "Irrelevant Button Selected", Toast.LENGTH_SHORT).show();
-                    return true;
-                case R.id.innapropriateButton:
-                    Toast.makeText(FlashcardsActivity.this, "Innapropriate Button Selected", Toast.LENGTH_SHORT).show();
-                    return true;
-                case R.id.otherReportButton:
-                    Toast.makeText(FlashcardsActivity.this, "Other Button Selected", Toast.LENGTH_SHORT).show();
-                    return true;
-                default:
-                    return super.onOptionsItemSelected(item);
-            }//end of switch
+ private String returnQuestionID(){
+        String targetURL = getString(R.string.serverURL) + "/getFlash";
 
-        //}
-    }
-     */
+        JsonObjectRequest sr = new JsonObjectRequest(Request.Method.GET, targetURL, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            questionID = response.getString("question");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error", error.toString());
+                    }
+                });
+        requests.addToRequestQueue(sr);
 
-//public void reportButtons(View)
-    /*
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.nav_home){
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
-        if (id == R.id.nav_recordVideo){
-            Intent intent = new Intent(this, RecordVideoActivity.class);
-            startActivity(intent);
-        }
-        if (id == R.id.nav_flashcards){
-            Intent intent = new Intent(this, FlashcardsActivity.class);
-            startActivity(intent);
-        }
-        if (id == R.id.nav_resources){
-            Intent intent = new Intent(this, ResourcesActivity.class);
-            startActivity(intent);
-        }
-        if (id == R.id.nav_myAccount){
-            Intent intent = new Intent(this, LogIn.class);
-            startActivity(intent);
-        }
-        return false;
+        return questionID;
     }
-     */
+ */
