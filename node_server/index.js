@@ -75,7 +75,7 @@ app.post('/register', function (req, res, next) {
     req.body.username &&
     req.body.password &&
     req.body.passwordConf && (req.body.verificationCode == "Questioneers")) {
-    
+
     console.log('creating new user');
     var userData = {
       email: req.body.email,
@@ -334,7 +334,7 @@ app.post('/createTechnical', function (req, res, next) {
        Optional:
          reasonForReportTextBox: Extra feedback given by user (String)
  * @param res   the response sent to the client
- * @return   Will add after discussion
+ * @return   One (1) if successful else zero (0)
  */
 app.post('/reportQuestion', function(req, res){
     console.log("Report Question called...");
@@ -363,15 +363,95 @@ app.post('/reportQuestion', function(req, res){
     if(error){
         console.log("Error: "+error);
         res.send("Error could not report question");
+        error = 0;
     }
     else{
         console.log("Successfully reported question");
         res.send("Successfully reported question");
+        error = 1;
     }
+    return error;
+});
+
+/**Deletes a given question from the reportedQuestions database
+   @param req   Request sent to server
+                  question: The question to look for
+                  questionType: Flash or Technical
+   @param res   Response sent to user
+   @return      0: If question successfully un-reported
+                1: If question could not be found in database
+                2: If there was an error in deleting the report
+*/
+app.post('/deleteReport', function(req, res){
+    console.log("deleteReport called...");
+    var error,
+        questionStr = req.body.question,
+        foundQuestion,
+        type = req.body.questionType,
+        deleteQuestionReport = function(){
+            if(error !== 1){
+                report.deleteOne({questionID:foundQuestion._id,questionType:type}, function(err,result){
+                    console.log("Searching to delete");
+                    if(err){
+                        console.log("Error", err);
+                        res.send("Error, could not remove report");
+                        error = 2;
+                    }
+                    else if(result.n === 0){
+                        console.log("Question could not be found");
+                        res.send("Question has not been reported or report "+
+                                 "already deleted");
+                        error = 1;
+                    }
+                    else{
+                        console.log("Successfully deleted report");
+                        res.send("Successfully deleted report");
+                        error = 0;
+                    }
+                });
+            }
+        };
+    console.log("QuestionStr: "+foundQuestion);
+    if(type === "Flash"){
+        console.log("Searching flash questions for ID");
+        flash.findOne({question:questionStr},function(err, doc){
+            if(err || !doc){
+                console.log("Could not find question in Flash");
+                error = 1;
+            }
+            else{
+                console.log("Found: "+doc);
+                foundQuestion = doc;
+                deleteQuestionReport();
+            }
+            console.log("FQ: "+foundQuestion);
+        }).then();
+        console.log("QuestionData: "+foundQuestion);
+    }
+    else if(type === "Technical"){
+        console.log("Searching technical questions for ID");
+        technical.findOne({question:questionStr}, function(err, doc){
+            if(err || !doc){
+                console.log("Could not find question in Technical");
+                error = 1;
+            }
+            else{
+                console.log("Found: "+doc);
+                foundQuestion = doc;
+                deleteQuestionReport();
+            }
+        });
+    }
+    else{
+        console.log("Question type not given or wrong");
+        res.send("Need questionType to be either flash or technical");
+        error = 2;
+    }
+    return error;
 });
 
 /**
- * .listen on port:48821 with launch alter to console
+ * .listen on port:29805 with launch alter to console
  */
 app.listen(jsonRoute.port/*nodePortNumber*/, ()=>console.log("NULL SERVERED LAUNCHED. LISTENING ON PORT: " + jsonRoute.port/*nodePortNumber*/));
 

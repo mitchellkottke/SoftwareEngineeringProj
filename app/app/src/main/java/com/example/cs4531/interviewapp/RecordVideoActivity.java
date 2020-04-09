@@ -10,9 +10,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 import android.widget.VideoView;
 import android.widget.TextView;
@@ -151,4 +153,14 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
            Toast.makeText(getApplicationContext(), "ERROR video not saved", Toast.LENGTH_LONG).show();
        }
     }
+
+    public void showPopUp (View view)
+    {
+        PopupMenu popupmenu = new PopupMenu (this, view);
+        MenuInflater inflater = popupmenu.getMenuInflater();
+        inflater.inflate(R.menu.report_menu_popup, popupmenu.getMenu());
+        popupmenu.show();
+
+    }
+
 }

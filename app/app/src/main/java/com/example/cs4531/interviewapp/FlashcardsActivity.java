@@ -1,5 +1,7 @@
 package com.example.cs4531.interviewapp;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -8,10 +10,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -27,7 +32,7 @@ import org.json.JSONObject;
  * button to retrieve a sample question from the database, and then put it in
  * the textview. The getAnswer should have the same functionality.
  */
-public class FlashcardsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class FlashcardsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, PopupMenu.OnMenuItemClickListener{
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
@@ -61,12 +66,13 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         if(mToggle.onOptionsItemSelected(item)){
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
 
+    }
 
     /**
      * @author smatthys
@@ -145,6 +151,39 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         requests.addToRequestQueue(sr);
     }
 
+    /*------------------REPORT POPUP OPTIONS------------------
+        when the report button is pressed, this shows the popup options
+     */
+    public void reportPopUpOptions(View v)
+    {
+//        PopupMenu reportMenu = new PopupMenu(FlashcardsActivity.this, v);
+//        MenuInflater inflater = reportMenu.getMenuInflater();
+//        inflater.inflate(R.menu.report_menu_popup, reportMenu.getMenu());
+//        reportMenu.show();
+        PopupMenu reportPop = new PopupMenu(FlashcardsActivity.this, v);
+        reportPop.setOnMenuItemClickListener(FlashcardsActivity.this);
+        reportPop.inflate(R.menu.report_menu_popup);
+        reportPop.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.irrelevantButton:
+                Toast.makeText(FlashcardsActivity.this, "Irrelevant Button Selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.innapropriateButton:
+                Toast.makeText(FlashcardsActivity.this, "Inappropriate Button Selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.otherReportButton:
+                Toast.makeText(FlashcardsActivity.this, "Other Button Selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return  false;
+        } //end of switch statement
+    }
+
+
     public void showAnswer(View v)
     {
         TextView answerView = (TextView)findViewById(R.id.answerView);
@@ -176,3 +215,61 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
     }
 
 }
+
+// extra shit
+/*
+        //@Override
+    public boolean onReportOptionsItemSelected(MenuItem item){
+        View v = null;
+        PopupMenu reportMenu = new PopupMenu(FlashcardsActivity.this, v);
+        //item = reportMenu.getMenu().getItem(1);
+        String itemTitle;
+        //for(int i=0; i<4; i++){
+            //item = reportMenu.getMenu().getItem(i);
+            //itemTitle = item.getTitle().toString();
+            switch (item.getItemId()){
+                case R.id.irrelevantButton:
+                    Toast.makeText(FlashcardsActivity.this, "Irrelevant Button Selected", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.innapropriateButton:
+                    Toast.makeText(FlashcardsActivity.this, "Innapropriate Button Selected", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.otherReportButton:
+                    Toast.makeText(FlashcardsActivity.this, "Other Button Selected", Toast.LENGTH_SHORT).show();
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }//end of switch
+
+        //}
+    }
+     */
+
+//public void reportButtons(View)
+    /*
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.nav_home){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+        if (id == R.id.nav_recordVideo){
+            Intent intent = new Intent(this, RecordVideoActivity.class);
+            startActivity(intent);
+        }
+        if (id == R.id.nav_flashcards){
+            Intent intent = new Intent(this, FlashcardsActivity.class);
+            startActivity(intent);
+        }
+        if (id == R.id.nav_resources){
+            Intent intent = new Intent(this, ResourcesActivity.class);
+            startActivity(intent);
+        }
+        if (id == R.id.nav_myAccount){
+            Intent intent = new Intent(this, LogIn.class);
+            startActivity(intent);
+        }
+        return false;
+    }
+     */
