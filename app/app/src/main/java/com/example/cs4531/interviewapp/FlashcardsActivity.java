@@ -23,10 +23,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Once database is up and running, we can set functions to the getQuestion
@@ -35,12 +40,16 @@ import org.w3c.dom.Text;
  */
 public class FlashcardsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, PopupMenu.OnMenuItemClickListener{
 
+
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     public RestRequests requests; //our RestRequests class
     public String answerString; //the answer response
 
-    //public String roText; //report option text
+    private String roText; //report option text
+    private String flash = "Flash"; //question type will always be Flash
+    private String userID = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();//for now the test user is quinz001
+    private String questionID; //the question
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,13 +165,9 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
 
     /*------------------REPORT POPUP OPTIONS------------------
         when the report button is pressed, this shows the popup options
-     */
+    */
     public void reportPopUpOptions(View v)
     {
-//        PopupMenu reportMenu = new PopupMenu(FlashcardsActivity.this, v);
-//        MenuInflater inflater = reportMenu.getMenuInflater();
-//        inflater.inflate(R.menu.report_menu_popup, reportMenu.getMenu());
-//        reportMenu.show();
         PopupMenu reportPop = new PopupMenu(FlashcardsActivity.this, v);
         reportPop.setOnMenuItemClickListener(FlashcardsActivity.this);
         reportPop.inflate(R.menu.report_menu_popup);
@@ -171,62 +176,56 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
 
     @Override
     public boolean onMenuItemClick(MenuItem item){
-        final String roText;
-        String flash = "flash";
 
-        String targetURL = getString(R.string.serverURL) + "/getFlash";
+        String targetURL = getString(R.string.serverURL) + "/reportQuestion";
 
-        TextView questionView = (TextView)findViewById(R.id.qAView);
-        int q = R.id.qAView;
+        TextView qv = (TextView)findViewById(R.id.qAView); //Question view
+        questionID = qv.getText().toString();
 
         switch (item.getItemId()){
             case R.id.irrelevantButton:
                 roText = item.getTitle().toString();
-                Toast.makeText(FlashcardsActivity.this, "Irrelevant Button Selected. Text = " + roText, Toast.LENGTH_SHORT).show();
 
-//                JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, targetURL, null,
-//                        new Response.Listener<JSONObject>() {
-//                            @Override
-//                            public void onResponse(JSONObject response) {
-//                                JSONObject report = new JSONObject();
-//                                report.put("user", "quinz001");
-//                                report.put("questionID", 123);
-//                                report.put("questionType", "flash");
-//                                report.put("reasonForReport", roText);
-//                            }
-//                        });
+                StringRequest postRequest = new StringRequest(Request.Method.POST, targetURL,
+                        new Response.Listener<String>()
+                        {
+                            @Override
+                            public void onResponse(String response) {
+                                // response
+                                Log.d("Response", response);
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // error
+                                Log.d("Error.Response", error.toString());
+                            }
+                        }
+                ) {
+                    @Override
+                    protected Map<String, String> getParams()
+                    {
+                        Map<String, String>  report = new HashMap<String, String>();
+                        report.put("user", userID);
+                        report.put("questionID", questionID);
+                        report.put("questionType", flash);
+                        report.put("reasonForReport", roText);
+                        return report;
+                    }
+                };
+                requests.addToRequestQueue(postRequest);
+
+                Toast.makeText(FlashcardsActivity.this,roText + " button selected.", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.innapropriateButton:
                 roText = item.getTitle().toString();
-                Toast.makeText(FlashcardsActivity.this, "Inappropriate Button Selected. Text = " + roText, Toast.LENGTH_SHORT).show();
-
-//                JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, targetURL, null,
-//                        new Response.Listener<JSONObject>() {
-//                            @Override
-//                            public void onResponse(JSONObject response) {
-//                                JSONObject report = new JSONObject();
-//                                report.put("user", "quinz001");
-//                                report.put("questionID", 123);
-//                                report.put("questionType", "flash");
-//                                report.put("reasonForReport", roText);
-//                            }
-//                        });
+                Toast.makeText(FlashcardsActivity.this, roText + " Button selected." , Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.otherReportButton:
                 roText = item.getTitle().toString();
-                Toast.makeText(FlashcardsActivity.this, "Other Button Selected. Text = " + roText, Toast.LENGTH_SHORT).show();
-
-//                JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, targetURL, null,
-//                        new Response.Listener<JSONObject>() {
-//                            @Override
-//                            public void onResponse(JSONObject response) {
-//                                JSONObject report = new JSONObject();
-//                                report.put("user", "quinz001");
-//                                report.put("questionID", 123);
-//                                report.put("questionType", "flash");
-//                                report.put("reasonForReport", roText);
-//                            }
-//                        });
+                Toast.makeText(FlashcardsActivity.this, roText + " Button Selected.", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return  false;
@@ -263,4 +262,58 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         });
     }
 
-}
+}//****END OF CLASS****
+
+//EXTRAS
+/*
+ private String returnQuestionID(){
+        String targetURL = getString(R.string.serverURL) + "/getFlash";
+
+        JsonObjectRequest sr = new JsonObjectRequest(Request.Method.GET, targetURL, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            questionID = response.getString("question");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error", error.toString());
+                    }
+                });
+        requests.addToRequestQueue(sr);
+
+        return questionID;
+    }
+ */
+
+//                JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, targetURL, null,
+//                        new Response.Listener<JSONObject>() {
+//                            @Override
+//                            public void onResponse(JSONObject response) {
+//                                JSONObject report = new JSONObject();
+//                                try {
+//                                    report.put("user", userID);
+//                                    report.put("questionID", questionID);
+//                                    report.put("questionType", flash);
+//                                    report.put("reasonForReport", roText);
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                Log.d("JSON-Report", "user: " + userID + " question: " + questionID +
+//                                        " questionType: " + flash + " reasonForReport: " + roText);
+//                            }//end of onResponse
+//                        },
+//                        new Response.ErrorListener() {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//                                Log.d("ERROR", error.toString());
+//                            }
+//                        }
+//                );
+//                requests.addToRequestQueue(sr);
