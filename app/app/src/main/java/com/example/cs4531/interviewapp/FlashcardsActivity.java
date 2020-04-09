@@ -28,6 +28,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Once database is up and running, we can set functions to the getQuestion
  * button to retrieve a sample question from the database, and then put it in
@@ -179,36 +182,43 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         switch (item.getItemId()){
             case R.id.irrelevantButton:
                 roText = item.getTitle().toString();
-                JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, targetURL, null,
-                        new Response.Listener<JSONObject>() {
+
+                StringRequest postRequest = new StringRequest(Request.Method.POST, targetURL,
+                        new Response.Listener<String>()
+                        {
                             @Override
-                            public void onResponse(JSONObject response) {
-                                JSONObject report = new JSONObject();
-                                try {
-                                    report.put("user", userID);
-                                    report.put("questionID", questionID);
-                                    report.put("questionType", flash);
-                                    report.put("reasonForReport", roText);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                Log.d("JSON-Report", "user: " + userID + " question: " + questionID +
-                                        " questionType: " + flash + " reasonForReport: " + roText);
-                            }//end of onResponse
+                            public void onResponse(String response) {
+                                // response
+                                Log.d("Response", response);
+                            }
                         },
-                        new Response.ErrorListener() {
+                        new Response.ErrorListener()
+                        {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.d("ERROR", error.toString());
+                                // error
+                                Log.d("Error.Response", error.toString());
                             }
                         }
-                );
-                requests.addToRequestQueue(sr);
+                ) {
+                    @Override
+                    protected Map<String, String> getParams()
+                    {
+                        Map<String, String>  report = new HashMap<String, String>();
+                        report.put("user", userID);
+                        report.put("questionID", questionID);
+                        report.put("questionType", flash);
+                        report.put("reasonForReport", roText);
+                        return report;
+                    }
+                };
+                requests.addToRequestQueue(postRequest);
+
                 Toast.makeText(FlashcardsActivity.this,roText + " button selected.", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.innapropriateButton:
                 roText = item.getTitle().toString();
-                Toast.makeText(FlashcardsActivity.this, roText + " button selected." , Toast.LENGTH_SHORT).show();
+                Toast.makeText(FlashcardsActivity.this, roText + " Button selected." , Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.otherReportButton:
                 roText = item.getTitle().toString();
@@ -278,3 +288,29 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         return questionID;
     }
  */
+
+//                JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, targetURL, null,
+//                        new Response.Listener<JSONObject>() {
+//                            @Override
+//                            public void onResponse(JSONObject response) {
+//                                JSONObject report = new JSONObject();
+//                                try {
+//                                    report.put("user", userID);
+//                                    report.put("questionID", questionID);
+//                                    report.put("questionType", flash);
+//                                    report.put("reasonForReport", roText);
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                Log.d("JSON-Report", "user: " + userID + " question: " + questionID +
+//                                        " questionType: " + flash + " reasonForReport: " + roText);
+//                            }//end of onResponse
+//                        },
+//                        new Response.ErrorListener() {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//                                Log.d("ERROR", error.toString());
+//                            }
+//                        }
+//                );
+//                requests.addToRequestQueue(sr);
