@@ -23,6 +23,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +40,7 @@ import java.util.Map;
  */
 public class FlashcardsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, PopupMenu.OnMenuItemClickListener{
 
+
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     public RestRequests requests; //our RestRequests class
@@ -45,7 +48,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
 
     private String roText; //report option text
     private String flash = "Flash"; //question type will always be Flash
-    private String userID = "quinz001"; //for now the test user is quinz001
+    private String userID = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();//for now the test user is quinz001
     private String questionID; //the question
 
     @Override
