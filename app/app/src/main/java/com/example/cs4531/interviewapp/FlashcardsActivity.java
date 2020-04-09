@@ -40,8 +40,9 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
     public RestRequests requests; //our RestRequests class
     public String answerString; //the answer response
 
-    private String roText;
-    private String flash = "flash";
+    private String roText; //report option text
+    private String flash = "Flash"; //question type will always be Flash
+    private String userID = "quinz001"; //for now the test user is quinz001
     private String questionID; //the question
 
     @Override
@@ -166,60 +167,11 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         reportPop.inflate(R.menu.report_menu_popup);
         reportPop.show();
     }
-    private String returnQuestionID(){
-        String targetURL = getString(R.string.serverURL) + "/getFlash";
-
-        JsonObjectRequest sr = new JsonObjectRequest(Request.Method.GET, targetURL, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            questionID = response.getString("question");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener(){
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Error", error.toString());
-                    }
-                });
-        requests.addToRequestQueue(sr);
-
-        return questionID;
-    }
-
-    /*
-    JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, targetURL, null,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                JSONObject report = new JSONObject();
-                                try {
-                                    report.put("user", "quinz001");
-                                    report.put("questionID", qID);
-                                    report.put("questionType", flash);
-                                    report.put("reasonForReport", roText);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }//end of onResponse
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("Error", error.toString());
-                            }
-                        }
-                );
-     */
 
     @Override
     public boolean onMenuItemClick(MenuItem item){
 
-        //String targetURL = getString(R.string.serverURL) + "/reportQuestion";
+        String targetURL = getString(R.string.serverURL) + "/reportQuestion";
 
         TextView qv = (TextView)findViewById(R.id.qAView); //Question view
         questionID = qv.getText().toString();
@@ -227,40 +179,40 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         switch (item.getItemId()){
             case R.id.irrelevantButton:
                 roText = item.getTitle().toString();
-                //questionID = returnQuestionID();
-                Toast.makeText(FlashcardsActivity.this,"questionID= " + questionID, Toast.LENGTH_SHORT).show();
+                JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, targetURL, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                JSONObject report = new JSONObject();
+                                try {
+                                    report.put("user", userID);
+                                    report.put("questionID", questionID);
+                                    report.put("questionType", flash);
+                                    report.put("reasonForReport", roText);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                Log.d("JSON-Report", "user: " + userID + " question: " + questionID +
+                                        " questionType: " + flash + " reasonForReport: " + roText);
+                            }//end of onResponse
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("ERROR", error.toString());
+                            }
+                        }
+                );
+                requests.addToRequestQueue(sr);
+                Toast.makeText(FlashcardsActivity.this,roText + " button selected.", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.innapropriateButton:
                 roText = item.getTitle().toString();
-                Toast.makeText(FlashcardsActivity.this, "Inappropriate Button Selected. Text = " + roText, Toast.LENGTH_SHORT).show();
-
-//                JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, targetURL, null,
-//                        new Response.Listener<JSONObject>() {
-//                            @Override
-//                            public void onResponse(JSONObject response) {
-//                                JSONObject report = new JSONObject();
-//                                report.put("user", "quinz001");
-//                                report.put("questionID", 123);
-//                                report.put("questionType", "flash");
-//                                report.put("reasonForReport", roText);
-//                            }
-//                        });
+                Toast.makeText(FlashcardsActivity.this, roText + " button selected." , Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.otherReportButton:
                 roText = item.getTitle().toString();
-                Toast.makeText(FlashcardsActivity.this, "Other Button Selected. Text = " + roText, Toast.LENGTH_SHORT).show();
-
-//                JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, targetURL, null,
-//                        new Response.Listener<JSONObject>() {
-//                            @Override
-//                            public void onResponse(JSONObject response) {
-//                                JSONObject report = new JSONObject();
-//                                report.put("user", "quinz001");
-//                                report.put("questionID", 123);
-//                                report.put("questionType", "flash");
-//                                report.put("reasonForReport", roText);
-//                            }
-//                        });
+                Toast.makeText(FlashcardsActivity.this, roText + " Button Selected.", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return  false;
@@ -297,4 +249,32 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         });
     }
 
-}
+}//****END OF CLASS****
+
+//EXTRAS
+/*
+ private String returnQuestionID(){
+        String targetURL = getString(R.string.serverURL) + "/getFlash";
+
+        JsonObjectRequest sr = new JsonObjectRequest(Request.Method.GET, targetURL, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            questionID = response.getString("question");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error", error.toString());
+                    }
+                });
+        requests.addToRequestQueue(sr);
+
+        return questionID;
+    }
+ */
