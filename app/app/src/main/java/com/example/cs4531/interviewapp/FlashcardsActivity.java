@@ -1,7 +1,5 @@
 package com.example.cs4531.interviewapp;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -10,7 +8,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +25,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +42,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
     public String answerString; //the answer response
 
     private String roText; //report option text
-    private String flash = "Flash"; //question type will always be Flash
+    private String questionType = "Flashcards"; //question type will always be Flash
     private String userID = "default";//for now the test user is quinz001
     private String questionID; //the question
 
@@ -240,7 +236,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
                         Map<String, String>  report = new HashMap<String, String>();
                         report.put("user", userID);
                         report.put("questionID", questionID);
-                        report.put("questionType", flash);
+                        report.put("questionType", questionType);
                         report.put("reasonForReport", roText);
                         return report;
                     }
@@ -274,7 +270,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
                         Map<String, String>  report = new HashMap<String, String>();
                         report.put("user", userID);
                         report.put("questionID", questionID);
-                        report.put("questionType", flash);
+                        report.put("questionType", questionType);
                         report.put("reasonForReport", roText);
                         return report;
                     }
@@ -308,7 +304,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
                         Map<String, String>  report = new HashMap<String, String>();
                         report.put("user", userID);
                         report.put("questionID", questionID);
-                        report.put("questionType", flash);
+                        report.put("questionType", questionType);
                         report.put("reasonForReport", roText);
                         return report;
                     }
@@ -352,57 +348,3 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
     }
 
 }//****END OF CLASS****
-
-//EXTRAS
-/*
- private String returnQuestionID(){
-        String targetURL = getString(R.string.serverURL) + "/getFlash";
-
-        JsonObjectRequest sr = new JsonObjectRequest(Request.Method.GET, targetURL, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            questionID = response.getString("question");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener(){
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Error", error.toString());
-                    }
-                });
-        requests.addToRequestQueue(sr);
-
-        return questionID;
-    }
- */
-
-//                JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, targetURL, null,
-//                        new Response.Listener<JSONObject>() {
-//                            @Override
-//                            public void onResponse(JSONObject response) {
-//                                JSONObject report = new JSONObject();
-//                                try {
-//                                    report.put("user", userID);
-//                                    report.put("questionID", questionID);
-//                                    report.put("questionType", flash);
-//                                    report.put("reasonForReport", roText);
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                                Log.d("JSON-Report", "user: " + userID + " question: " + questionID +
-//                                        " questionType: " + flash + " reasonForReport: " + roText);
-//                            }//end of onResponse
-//                        },
-//                        new Response.ErrorListener() {
-//                            @Override
-//                            public void onErrorResponse(VolleyError error) {
-//                                Log.d("ERROR", error.toString());
-//                            }
-//                        }
-//                );
-//                requests.addToRequestQueue(sr);
