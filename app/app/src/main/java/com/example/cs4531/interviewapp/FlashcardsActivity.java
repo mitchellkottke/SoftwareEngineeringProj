@@ -66,17 +66,16 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         final Button answerButton = (Button)findViewById(R.id.getAnswer);
         getQuestion(tv);
 
-        //ALSO NEW
+        //This technically should work for the userID but it doesnt...
         mAuth = FirebaseAuth.getInstance();
-    }
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user != null){
+            userID = mAuth.getCurrentUser().getDisplayName();
+        }else {
+            userID = "User Not Found";
+        }
 
-    //new
-//    @Override
-//    public void onStart(){
-//        super.onStart();
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        userID = currentUser.getDisplayName();
-//    }
+    }
 
     /**
      * @author smatthys
@@ -119,6 +118,11 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         }
         if (id == R.id.nav_myAccount){
             Intent intent = new Intent(this, LogIn.class);
+            startActivity(intent);
+        }
+        //For Admin Page
+        if (id == R.id.nav_admin){
+            Intent intent = new Intent(this, AdminPage.class);
             startActivity(intent);
         }
         return false;
@@ -184,9 +188,8 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
     }
 
     /**
-     * onMenuItemClick takes what the user clicked as their option for the report question
-     * and sends the userID, questionID, questionType which will always be 'Flash', and the
-     * reason for the report
+     * onMenuItemClick takes what the user clicked as their option for the reported question
+     * and sends the userID, questionID, questionType, and the reason for the report
      * @author quinz001
      * @param item the menu item
      */
@@ -197,17 +200,6 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
 
         TextView qv = (TextView)findViewById(R.id.qAView); //Question view
         questionID = qv.getText().toString();
-
-        //userID = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-
-        //checking user to see if not null
-        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        FirebaseUser user = mAuth.getCurrentUser();
-        if(user != null){
-            userID = user.getDisplayName();
-        }else {
-            userID = "User Not Found";
-        }
 
         switch (item.getItemId()){
             case R.id.irrelevantButton:

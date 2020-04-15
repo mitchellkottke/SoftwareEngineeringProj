@@ -82,6 +82,12 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         getQuestion(questionView);
 
         mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user != null){
+            userID = user.getDisplayName();
+        }else {
+            userID = "User Not Found";
+        }
     }
 
     public void getQuestion(View v)
@@ -120,9 +126,8 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
     }
 
     /**
-     * onMenuItemClick takes what the user clicked as their option for the report question
-     * and sends the userID, questionID, questionType which will always be 'Flash', and the
-     * reason for the report
+     * onMenuItemClick takes what the user clicked as their option for the reported question
+     * and sends the userID, questionID, questionType, and the reason for the report
      * @author quinz001
      * @param item the menu item
      */
@@ -133,17 +138,6 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
 
         TextView qv = (TextView)findViewById(R.id.questionView); //Question view
         questionID = qv.getText().toString();
-
-        //userID = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-
-        //checking user to see if not null
-        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        FirebaseUser user = mAuth.getCurrentUser();
-        if(user != null){
-            userID = user.getDisplayName();
-        }else {
-            userID = "User Not Found";
-        }
 
         switch (item.getItemId()){
             case R.id.irrelevantButton:
@@ -280,6 +274,11 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         }
         if (id == R.id.nav_myAccount){
             Intent intent = new Intent(this, LogIn.class);
+            startActivity(intent);
+        }
+        //For Admin Page
+        if (id == R.id.nav_admin){
+            Intent intent = new Intent(this, AdminPage.class);
             startActivity(intent);
         }
         return false;

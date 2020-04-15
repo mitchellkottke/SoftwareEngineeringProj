@@ -15,9 +15,13 @@
     <item android:id="@+id/nav_resources"
         android:title="Resources">
     </item>
+
     <item android:id="@+id/nav_myAccount"
         android:title="My Account">
     </item>
 
+    <item
+        android:id="@+id/nav_admin"
+        android:title="Admin"></item>
 
 </menu>
