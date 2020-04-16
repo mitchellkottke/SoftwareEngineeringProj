@@ -22,17 +22,18 @@ public class AdminLogInPage extends AppCompatActivity implements NavigationView.
     private ActionBarDrawerToggle mToggle;
     public RestRequests requests; //our RestRequests class
 
+    //ALL FOR LOGIN
     private EditText adminUsername;
     private EditText adminPassword;
     private TextView info;
     private Button login;
-
     private int counter = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_login);
+
         mDrawerLayout= (DrawerLayout) findViewById(R.id.nav_drawer);
         mToggle = new ActionBarDrawerToggle(AdminLogInPage.this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
@@ -48,13 +49,6 @@ public class AdminLogInPage extends AppCompatActivity implements NavigationView.
         login = (Button)findViewById(R.id.adminButton);
 
         info.setText("No of attempts remaining: " + String.valueOf(counter));
-
-//        login.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                validate(adminUsername.getText().toString(), adminPassword.getText().toString());
-//            }
-//        });
 
     }
 
