@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.Toast;
 import android.widget.VideoView;
 import android.widget.TextView;
@@ -23,9 +24,14 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
-public class RecordVideoActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class RecordVideoActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMenuItemClickListener {
 
     private Button recordView, playView;
     private VideoView viewOfVideo;
@@ -34,6 +40,13 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     public RestRequests requests; //our RestRequests class
+
+    private String roText; //report option text
+    private String questionType = "Technical/Interview"; //question type will always be Recorded Video
+    private String userID = "default";//for now the test user is quinz001
+    private String questionID; //the question
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
@@ -68,6 +81,7 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         });
         getQuestion(questionView);
 
+        mAuth = FirebaseAuth.getInstance();
     }
 
     public void getQuestion(View v)
@@ -91,7 +105,6 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         requests.addToRequestQueue(sr);
     }
 
-
     /**
      * @author smatthys
      * @param item
@@ -106,6 +119,139 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * onMenuItemClick takes what the user clicked as their option for the report question
+     * and sends the userID, questionID, questionType which will always be 'Flash', and the
+     * reason for the report
+     * @author quinz001
+     * @param item the menu item
+     */
+    @Override
+    public boolean onMenuItemClick(MenuItem item){
+
+        String targetURL = getString(R.string.serverURL) + "/reportQuestion";
+
+        TextView qv = (TextView)findViewById(R.id.questionView); //Question view
+        questionID = qv.getText().toString();
+
+        //userID = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        //checking user to see if not null
+        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user != null){
+            userID = user.getDisplayName();
+        }else {
+            userID = "User Not Found";
+        }
+
+        switch (item.getItemId()){
+            case R.id.irrelevantButton:
+                roText = item.getTitle().toString();
+                StringRequest postRequest = new StringRequest(Request.Method.POST, targetURL,
+                        new Response.Listener<String>()
+                        {
+                            @Override
+                            public void onResponse(String response) {
+                                // response
+                                Log.d("REPORT BUTTON SENT", response);
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // error
+                                Log.d("Error.Response", error.toString());
+                            }
+                        }
+                ) {
+                    @Override
+                    protected Map<String, String> getParams()
+                    {
+                        Map<String, String>  report = new HashMap<String, String>();
+                        report.put("user", userID);
+                        report.put("questionID", questionID);
+                        report.put("questionType", questionType);
+                        report.put("reasonForReport", roText);
+                        return report;
+                    }
+                };
+                requests.addToRequestQueue(postRequest);
+                Toast.makeText(RecordVideoActivity.this,roText + " button selected. Question has been reported.", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.innapropriateButton:
+                roText = item.getTitle().toString();
+                postRequest = new StringRequest(Request.Method.POST, targetURL,
+                        new Response.Listener<String>()
+                        {
+                            @Override
+                            public void onResponse(String response) {
+                                // response
+                                Log.d("REPORT BUTTON SENT", response);
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // error
+                                Log.d("Error.Response", error.toString());
+                            }
+                        }
+                ) {
+                    @Override
+                    protected Map<String, String> getParams()
+                    {
+                        Map<String, String>  report = new HashMap<String, String>();
+                        report.put("user", userID);
+                        report.put("questionID", questionID);
+                        report.put("questionType", questionType);
+                        report.put("reasonForReport", roText);
+                        return report;
+                    }
+                };
+                requests.addToRequestQueue(postRequest);
+                Toast.makeText(RecordVideoActivity.this, roText + " Button selected. Question has been reported." , Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.otherReportButton:
+                roText = item.getTitle().toString();
+                postRequest = new StringRequest(Request.Method.POST, targetURL,
+                        new Response.Listener<String>()
+                        {
+                            @Override
+                            public void onResponse(String response) {
+                                // response
+                                Log.d("REPORT BUTTON SENT", response);
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // error
+                                Log.d("Error.Response", error.toString());
+                            }
+                        }
+                ) {
+                    @Override
+                    protected Map<String, String> getParams()
+                    {
+                        Map<String, String>  report = new HashMap<String, String>();
+                        report.put("user", userID);
+                        report.put("questionID", questionID);
+                        report.put("questionType", questionType);
+                        report.put("reasonForReport", roText);
+                        return report;
+                    }
+                };
+                requests.addToRequestQueue(postRequest);
+                Toast.makeText(RecordVideoActivity.this, roText + " Button Selected. Question has been reported.", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return  false;
+        } //end of switch statement
+    }
 
     /**
      * @author smatthys
@@ -154,11 +300,12 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
 
     public void showPopUp (View view)
     {
-        PopupMenu popupmenu = new PopupMenu (this, view);
-        MenuInflater inflater = popupmenu.getMenuInflater();
-        inflater.inflate(R.menu.report_menu_popup, popupmenu.getMenu());
+        PopupMenu popupmenu = new PopupMenu (RecordVideoActivity.this, view);
+//        MenuInflater inflater = popupmenu.getMenuInflater();
+//        inflater.inflate(R.menu.report_menu_popup, popupmenu.getMenu());
+        popupmenu.setOnMenuItemClickListener(RecordVideoActivity.this);
+        popupmenu.inflate(R.menu.report_menu_popup);
         popupmenu.show();
-
     }
 
 }
