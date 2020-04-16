@@ -24,20 +24,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".AdminFrontPage"></activity>
         <activity
-            android:name="com.example.cs4531.interviewapp.MainActivity"
-            android:label="@string/Home">
-        </activity>
+            android:name=".MainActivity"
+            android:label="@string/Home"></activity>
         <activity
-            android:name="com.example.cs4531.interviewapp.RecordVideoActivity"
+            android:name=".RecordVideoActivity"
             android:label="@string/Record_Video" />
         <activity
-            android:name="com.example.cs4531.interviewapp.FlashcardsActivity"
+            android:name=".FlashcardsActivity"
             android:label="@string/Flashcards" />
         <activity
-            android:name="com.example.cs4531.interviewapp.ResourcesActivity"
+            android:name=".ResourcesActivity"
             android:label="@string/Resources" />
-        <activity android:name="com.example.cs4531.interviewapp.LogIn"
+        <activity
+            android:name=".LogIn"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.cs4531.interviewapp.AdminPage"
+            android:name=".AdminLogInPage"
             android:label="@string/Resources" />
     </application>
 

@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         //NEW ADMIN NAV ITEM
         if (id == R.id.nav_admin){
-            Intent intent = new Intent(this, AdminPage.class);
+            Intent intent = new Intent(this, AdminLogInPage.class);
             startActivity(intent);
         }
         return false;
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * This function transitions to the AdminPage
      */
     public void switchToAdmin(View myView) {
-        Intent myIntent = new Intent(this, AdminPage.class);
+        Intent myIntent = new Intent(this, AdminLogInPage.class);
         startActivity(myIntent);
     }
 

@@ -7,47 +7,69 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.PopupMenu;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public class AdminPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class AdminLogInPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     public RestRequests requests; //our RestRequests class
 
+    private EditText adminUsername;
+    private EditText adminPassword;
+    private TextView info;
+    private Button login;
+
+    private int counter = 3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin);
+        setContentView(R.layout.activity_admin_login);
         mDrawerLayout= (DrawerLayout) findViewById(R.id.nav_drawer);
-        mToggle = new ActionBarDrawerToggle(AdminPage.this, mDrawerLayout, R.string.open, R.string.close);
+        mToggle = new ActionBarDrawerToggle(AdminLogInPage.this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         NavigationView navigationView=(NavigationView)findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
         requests = RestRequests.getInstance(getApplicationContext());
+
+        adminUsername = (EditText)findViewById(R.id.adminUser);
+        adminPassword = (EditText)findViewById(R.id.adminPassword);
+        info = (TextView)findViewById(R.id.textView3);
+        login = (Button)findViewById(R.id.adminButton);
+
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                validate(adminUsername.getText().toString(), adminPassword.getText().toString());
+            }
+        });
+
+
     }
+
+    private void validate(String userName, String userPass){
+        if((userName == "Admin") && (userPass == "password")){
+            Intent intent = new Intent(AdminLogInPage.this, AdminFrontPage.class);
+            startActivity(intent);
+        }else{
+            counter--;
+
+            info.setText("Login Failed. No of attempts remaining: " + String.valueOf(counter));
+
+            if(counter == 0){
+                login.setEnabled(false);
+            }
+        }
+    }
+
 
     /**
      * @author smatthys
@@ -94,7 +116,7 @@ public class AdminPage extends AppCompatActivity implements NavigationView.OnNav
         }
         //For Admin Page
         if (id == R.id.nav_admin){
-            Intent intent = new Intent(this, AdminPage.class);
+            Intent intent = new Intent(this, AdminLogInPage.class);
             startActivity(intent);
         }
         return false;
