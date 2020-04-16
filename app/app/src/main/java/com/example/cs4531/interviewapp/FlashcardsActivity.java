@@ -198,13 +198,50 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
      */
     @Override
     public boolean onMenuItemClick(MenuItem item){
-
-        String targetURL = getString(R.string.serverURL) + "/reportQuestion";
-
+        final MenuItem i = item;
         TextView qv = (TextView)findViewById(R.id.qAView); //Question view
-        questionID = qv.getText().toString();
+        final String questionStr = qv.getText().toString();
+        StringRequest req = new StringRequest(Request.Method.POST, "http://akka.d.umn.edu:1234/getQuestionID",
+            new Response.Listener<String>(){
+                @Override
+                public void onResponse(String response){
+                    Log.d("Question ID found: ", response);
+                    reportQuestion(i, response);
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // error
+                    Log.d("Error.Response", error.toString());
+                    reportQuestion(i, null);
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> report = new HashMap<String, String>();
+                    report.put("question", questionStr);
+                    report.put("type", "Flash");
+                    return report;
+                }
+            };
+        requests.addToRequestQueue(req);
+        return true;
+    }
 
-        //checking user to see if not null
+    /**
+     * Helper to onMenuItemClick, does the actual reporting
+     * @author kottk055
+     * @param item menu item chosen
+     * @param questionID id of question to report
+     */
+    private void reportQuestion(MenuItem item, String questionID){
+        String targetURL = getString(R.string.serverURL) + "/reportQuestion";
+        this.questionID = questionID;
+        this.questionID = this.questionID.substring(1);
+        this.questionID = this.questionID.substring(0, questionID.length()-2);//Trim "" off of id
+        final String id = this.questionID;
+
         if(account != null){
             userID = account.getEmail();
             userID = userID.substring(0, 8);
@@ -216,7 +253,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         }catch(Exception e){
             roText = null;
         }
-        if(roText != null) {
+        if(roText != null && questionID != null) {
             StringRequest postRequest = new StringRequest(Request.Method.POST, targetURL,
                     new Response.Listener<String>() {
                         @Override
@@ -237,7 +274,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
                 protected Map<String, String> getParams() {
                     Map<String, String> report = new HashMap<String, String>();
                     report.put("user", userID);
-                    report.put("questionID", questionID);
+                    report.put("questionID", id);
                     report.put("questionType", questionType);
                     report.put("reasonForReport", roText);
                     return report;
@@ -245,9 +282,10 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
             };
             requests.addToRequestQueue(postRequest);
             Toast.makeText(FlashcardsActivity.this, roText + " button selected. Question has been reported.", Toast.LENGTH_SHORT).show();
-            return true;
         }
-        else return false;
+        else{
+            Toast.makeText(FlashcardsActivity.this, "Question could not be reported", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void showAnswer(View v)
