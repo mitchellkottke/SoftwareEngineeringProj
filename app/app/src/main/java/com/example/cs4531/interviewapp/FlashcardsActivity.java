@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -42,14 +43,16 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
     public String answerString; //the answer response
 
     private String roText; //report option text
-    private String questionType = "Flashcards"; //question type will always be Flash
+    private String questionType = "Flash"; //question type will always be Flash
     private String userID = "default";//for now the test user is quinz001
     private String questionID; //the question
+    private GoogleSignInAccount account;//Google account of current user
 
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent intent = getIntent();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashcards);
         mDrawerLayout= (DrawerLayout) findViewById(R.id.nav_drawer);
@@ -65,17 +68,19 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         tv.setText("");
         final Button answerButton = (Button)findViewById(R.id.getAnswer);
         getQuestion(tv);
+        account = intent.getParcelableExtra("account");
 
-        //This technically should work for the userID but it doesnt...
+        //ALSO NEW
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
-        if(user != null){
-            userID = mAuth.getCurrentUser().getDisplayName();
-        }else {
-            userID = "User Not Found";
-        }
-
     }
+
+    //new
+//    @Override
+//    public void onStart(){
+//        super.onStart();
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        userID = currentUser.getDisplayName();
+//    }
 
     /**
      * @author smatthys
@@ -102,27 +107,33 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         int id = item.getItemId();
         if(id == R.id.nav_home){
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         if (id == R.id.nav_recordVideo){
             Intent intent = new Intent(this, RecordVideoActivity.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         if (id == R.id.nav_flashcards){
             Intent intent = new Intent(this, FlashcardsActivity.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         if (id == R.id.nav_resources){
             Intent intent = new Intent(this, ResourcesActivity.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         if (id == R.id.nav_myAccount){
             Intent intent = new Intent(this, LogIn.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         //For Admin Page
         if (id == R.id.nav_admin){
             Intent intent = new Intent(this, AdminPage.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         return false;
@@ -201,112 +212,54 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         TextView qv = (TextView)findViewById(R.id.qAView); //Question view
         questionID = qv.getText().toString();
 
-        switch (item.getItemId()){
-            case R.id.irrelevantButton:
-                roText = item.getTitle().toString();
-                StringRequest postRequest = new StringRequest(Request.Method.POST, targetURL,
-                        new Response.Listener<String>()
-                        {
-                            @Override
-                            public void onResponse(String response) {
-                                // response
-                                Log.d("REPORT BUTTON SENT", response);
-                            }
-                        },
-                        new Response.ErrorListener()
-                        {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // error
-                                Log.d("Error.Response", error.toString());
-                            }
+        //userID = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        //checking user to see if not null
+        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //FirebaseUser user = mAuth.getCurrentUser();
+        if(account != null){
+            userID = account.getEmail();
+            userID = userID.substring(0, 8);
+        }else {
+            userID = "User Not Found";
+        }
+        try {
+            roText = item.getTitle().toString();
+        }catch(Exception e){
+            roText = null;
+        }
+        if(roText != null) {
+            StringRequest postRequest = new StringRequest(Request.Method.POST, targetURL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            // response
+                            Log.d("REPORT BUTTON SENT", response);
                         }
-                ) {
-                    @Override
-                    protected Map<String, String> getParams()
-                    {
-                        Map<String, String>  report = new HashMap<String, String>();
-                        report.put("user", userID);
-                        report.put("questionID", questionID);
-                        report.put("questionType", questionType);
-                        report.put("reasonForReport", roText);
-                        return report;
-                    }
-                };
-                requests.addToRequestQueue(postRequest);
-                Toast.makeText(FlashcardsActivity.this,roText + " button selected. Question has been reported.", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.innapropriateButton:
-                roText = item.getTitle().toString();
-                postRequest = new StringRequest(Request.Method.POST, targetURL,
-                        new Response.Listener<String>()
-                        {
-                            @Override
-                            public void onResponse(String response) {
-                                // response
-                                Log.d("REPORT BUTTON SENT", response);
-                            }
-                        },
-                        new Response.ErrorListener()
-                        {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // error
-                                Log.d("Error.Response", error.toString());
-                            }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // error
+                            Log.d("Error.Response", error.toString());
                         }
-                ) {
-                    @Override
-                    protected Map<String, String> getParams()
-                    {
-                        Map<String, String>  report = new HashMap<String, String>();
-                        report.put("user", userID);
-                        report.put("questionID", questionID);
-                        report.put("questionType", questionType);
-                        report.put("reasonForReport", roText);
-                        return report;
                     }
-                };
-                requests.addToRequestQueue(postRequest);
-                Toast.makeText(FlashcardsActivity.this, roText + " Button selected. Question has been reported." , Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.otherReportButton:
-                roText = item.getTitle().toString();
-                postRequest = new StringRequest(Request.Method.POST, targetURL,
-                        new Response.Listener<String>()
-                        {
-                            @Override
-                            public void onResponse(String response) {
-                                // response
-                                Log.d("REPORT BUTTON SENT", response);
-                            }
-                        },
-                        new Response.ErrorListener()
-                        {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // error
-                                Log.d("Error.Response", error.toString());
-                            }
-                        }
-                ) {
-                    @Override
-                    protected Map<String, String> getParams()
-                    {
-                        Map<String, String>  report = new HashMap<String, String>();
-                        report.put("user", userID);
-                        report.put("questionID", questionID);
-                        report.put("questionType", questionType);
-                        report.put("reasonForReport", roText);
-                        return report;
-                    }
-                };
-                requests.addToRequestQueue(postRequest);
-                Toast.makeText(FlashcardsActivity.this, roText + " Button Selected. Question has been reported.", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return  false;
-        } //end of switch statement
+            ) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> report = new HashMap<String, String>();
+                    report.put("user", userID);
+                    report.put("questionID", questionID);
+                    report.put("questionType", questionType);
+                    report.put("reasonForReport", roText);
+                    return report;
+                }
+            };
+            requests.addToRequestQueue(postRequest);
+            Toast.makeText(FlashcardsActivity.this, roText + " button selected. Question has been reported.", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        else return false;
     }
 
     public void showAnswer(View v)
