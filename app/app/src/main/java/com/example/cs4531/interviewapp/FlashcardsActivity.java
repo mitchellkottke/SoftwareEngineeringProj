@@ -74,14 +74,6 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         mAuth = FirebaseAuth.getInstance();
     }
 
-    //new
-//    @Override
-//    public void onStart(){
-//        super.onStart();
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        userID = currentUser.getDisplayName();
-//    }
-
     /**
      * @author smatthys
      * @param item
@@ -132,7 +124,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         }
         //For Admin Page
         if (id == R.id.nav_admin){
-            Intent intent = new Intent(this, AdminPage.class);
+            Intent intent = new Intent(this, AdminLogInPage.class);
             intent.putExtra("account", account);
             startActivity(intent);
         }
@@ -212,11 +204,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         TextView qv = (TextView)findViewById(R.id.qAView); //Question view
         questionID = qv.getText().toString();
 
-        //userID = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-
         //checking user to see if not null
-        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //FirebaseUser user = mAuth.getCurrentUser();
         if(account != null){
             userID = account.getEmail();
             userID = userID.substring(0, 8);

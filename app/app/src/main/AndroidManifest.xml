@@ -48,7 +48,7 @@
         </activity>
         <activity
             android:name=".AdminLogInPage"
-            android:label="@string/Resources" />
+            android:label="@string/adminPage" />
     </application>
 
 </manifest>

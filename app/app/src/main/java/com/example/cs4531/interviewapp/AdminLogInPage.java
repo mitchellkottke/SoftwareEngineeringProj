@@ -7,11 +7,14 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.io.Console;
 
 public class AdminLogInPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -44,26 +47,29 @@ public class AdminLogInPage extends AppCompatActivity implements NavigationView.
         info = (TextView)findViewById(R.id.textView3);
         login = (Button)findViewById(R.id.adminButton);
 
+        info.setText("No of attempts remaining: " + String.valueOf(counter));
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                validate(adminUsername.getText().toString(), adminPassword.getText().toString());
-            }
-        });
-
+//        login.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                validate(adminUsername.getText().toString(), adminPassword.getText().toString());
+//            }
+//        });
 
     }
 
+    public void loginButton(View v){
+        validate(adminUsername.getText().toString(), adminPassword.getText().toString());
+    }
+
     private void validate(String userName, String userPass){
-        if((userName == "Admin") && (userPass == "password")){
+        if((userName.equals("Admin")) && (userPass.equals("1234"))){
             Intent intent = new Intent(AdminLogInPage.this, AdminFrontPage.class);
             startActivity(intent);
         }else{
             counter--;
-
             info.setText("Login Failed. No of attempts remaining: " + String.valueOf(counter));
-
+            //Log.d("LOGIN VALIDATION ERROR", "USERNAME: " + userName + " PASSWORD: " + userPass + " ********");
             if(counter == 0){
                 login.setEnabled(false);
             }

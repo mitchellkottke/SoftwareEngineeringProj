@@ -137,10 +137,7 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         TextView qv = (TextView)findViewById(R.id.questionView); //Question view
         questionID = qv.getText().toString();
 
-        //userID = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-
         //checking user to see if not null
-        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseUser user = mAuth.getCurrentUser();
         if(account != null){
             userID = account.getEmail();
@@ -223,7 +220,7 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
         }
         //For Admin Page
         if (id == R.id.nav_admin){
-            Intent intent = new Intent(this, AdminPage.class);
+            Intent intent = new Intent(this, AdminLogInPage.class);
             intent.putExtra("account", account);
             startActivity(intent);
         }
@@ -246,8 +243,6 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
     public void showPopUp (View view)
     {
         PopupMenu popupmenu = new PopupMenu (RecordVideoActivity.this, view);
-//        MenuInflater inflater = popupmenu.getMenuInflater();
-//        inflater.inflate(R.menu.report_menu_popup, popupmenu.getMenu());
         popupmenu.setOnMenuItemClickListener(RecordVideoActivity.this);
         popupmenu.inflate(R.menu.report_menu_popup);
         popupmenu.show();
