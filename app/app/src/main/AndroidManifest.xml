@@ -45,6 +45,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.cs4531.interviewapp.AdminPage"
+            android:label="@string/Resources" />
     </application>
 
 </manifest>

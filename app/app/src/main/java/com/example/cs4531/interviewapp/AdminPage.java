@@ -1,55 +1,52 @@
 package com.example.cs4531.interviewapp;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.net.Uri;
+import android.widget.Button;
+import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class ResourcesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class AdminPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
+    public RestRequests requests; //our RestRequests class
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_resources);
+        setContentView(R.layout.activity_admin);
         mDrawerLayout= (DrawerLayout) findViewById(R.id.nav_drawer);
-        mToggle = new ActionBarDrawerToggle(ResourcesActivity.this, mDrawerLayout, R.string.open, R.string.close);
+        mToggle = new ActionBarDrawerToggle(AdminPage.this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         NavigationView navigationView=(NavigationView)findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-    }
-
-
-
-    //clickable links that open the browser which navigates to them
-    public void linkCareer(View view) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW,Uri.parse("http://d.umn.edu/career-internship-services"));
-        startActivity(browserIntent);
-    }
-
-    public void linkCS(View view) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW,Uri.parse("https://scse.d.umn.edu/about/departments-and-programs/computer-science-department/faculty-staff"));
-        startActivity(browserIntent);
-    }
-
-    public void linkHandbook(View view) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW,Uri.parse("http://d.umn.edu/career-internship-services/career-handbook"));
-        startActivity(browserIntent);
-    }
-
-    public void linkMeet(View view) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW,Uri.parse("http://d.umn.edu/career-internship-services/about/events/drop-hours"));
-        startActivity(browserIntent);
+        requests = RestRequests.getInstance(getApplicationContext());
     }
 
     /**
@@ -65,7 +62,6 @@ public class ResourcesActivity extends AppCompatActivity implements NavigationVi
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     /**
      * @author smatthys
@@ -103,4 +99,5 @@ public class ResourcesActivity extends AppCompatActivity implements NavigationVi
         }
         return false;
     }
+
 }
