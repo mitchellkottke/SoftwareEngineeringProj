@@ -12,14 +12,18 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private LogIn logIn;
+    GoogleSignInAccount account;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent intent = getIntent();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mDrawerLayout= (DrawerLayout) findViewById(R.id.nav_drawer);
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         NavigationView navigationView=(NavigationView)findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
+        account = intent.getParcelableExtra("account");
     }
 
     /**
@@ -57,22 +62,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if(id == R.id.nav_home){
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         if (id == R.id.nav_recordVideo){
             Intent intent = new Intent(this, RecordVideoActivity.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         if (id == R.id.nav_flashcards){
             Intent intent = new Intent(this, FlashcardsActivity.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         if (id == R.id.nav_resources){
             Intent intent = new Intent(this, ResourcesActivity.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         if (id == R.id.nav_myAccount){
             Intent intent = new Intent(this, LogIn.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         //NEW ADMIN NAV ITEM
@@ -90,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     public void switchToVideo(View myView) {
         Intent myIntent = new Intent(this, RecordVideoActivity.class);
+        myIntent.putExtra("account", account);
         startActivity(myIntent);
     }
 
@@ -100,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     public void switchToFlashcards(View myView) {
         Intent myIntent = new Intent(this, FlashcardsActivity.class);
+        myIntent.putExtra("account", account);
         startActivity(myIntent);
     }
 
