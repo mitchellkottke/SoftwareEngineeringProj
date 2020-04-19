@@ -9,6 +9,7 @@ var bp = require('body-parser');
 //Load routing data to launch local copy of server from routing.json
 const fs = require('fs');
 var route = fs.readFileSync('test/routing.json');
+//var route = fs.readFileSync('test/test1.json'); /*testport for kottk055*/
 var jsonRoute = JSON.parse(route);
 
 //connecting mongoose to RestAPI, target URL stored in route
@@ -477,7 +478,30 @@ app.post('/getQuestionID', function(req, res){
 });
 
 /**
- * .listen on port:29805 with launch alter to console
+   Gets the list of reported questions from the database
+
+   Returns a list of json objects with the following properties
+   "user": user that reported the question
+   "questionID": _id of the question in whichever collection its in
+   "questionType": Which collection the question is in
+   "reasonForReport": Option chosen by user
+   "reasonForReportTextBox": Additional comments from the user
+*/
+app.get('/getReported', function(req,res){
+    console.log("/getReported called...");
+    report.find({}, function(err, docs){
+        if(err){
+            console.log("Error: ", err);
+            res.send("Error");
+        }else{
+            console.log("Found: " + docs);
+            res.send(docs);
+        }
+    });
+});
+
+/**
+ * .listen on port:1234 with launch alter to console
  */
-app.listen(jsonRoute.port/*nodePortNumber*/, ()=>console.log("NULL SERVERED LAUNCHED. LISTENING ON PORT: " + jsonRoute.port/*nodePortNumber*/));
+app.listen(jsonRoute.port, ()=>console.log("NULL SERVERED LAUNCHED. LISTENING ON PORT: " + jsonRoute.port));
 
