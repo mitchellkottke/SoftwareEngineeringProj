@@ -483,9 +483,7 @@ app.post('/getQuestionID', function(req, res){
 */
 app.post('/isReported', function(req, res){
 	console.log("isReported called... ");
-	var questionsStr = req.body.question,
-	questionType = req.body.type,
-	questionID,
+	var questionsStr = req.body.questionID,
 	error = 0;
 	console.log("Checking if question is flagged");
 	report.findOne({questionID:questionStr},function(err, doc){
