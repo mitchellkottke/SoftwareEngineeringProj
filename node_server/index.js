@@ -487,8 +487,8 @@ app.post('/isReported', function(req, res){
 	questionType = req.body.type,
 	questionID,
 	error = 0;
-	console.log("Checking if flash question is flagged");
-	report.findOne({question:questionStr},function(err, doc){
+	console.log("Checking if question is flagged");
+	report.findOne({questionID:questionStr},function(err, doc){
 		if(err || !doc){
 		console.log("Could not find question in report");
 		res.send("Question is not flagged");
