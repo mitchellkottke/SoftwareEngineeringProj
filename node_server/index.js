@@ -8,8 +8,8 @@ var bp = require('body-parser');
 
 //Load routing data to launch local copy of server from routing.json
 const fs = require('fs');
-var route = fs.readFileSync('test/routing.json');
-//var route = fs.readFileSync('test/test1.json'); /*testport for kottk055*/
+//var route = fs.readFileSync('test/routing.json');
+var route = fs.readFileSync('test/test1.json'); /*testport for kottk055*/
 var jsonRoute = JSON.parse(route);
 
 //connecting mongoose to RestAPI, target URL stored in route
@@ -498,6 +498,43 @@ app.get('/getReported', function(req,res){
             res.send(docs);
         }
     });
+});
+
+
+app.post('/deleteQuestion', function(req,res){
+    console.log("/deleteQuestion called...");
+    var type = req.body.type;
+    var id = req.body.id;
+    if(type === "Flash"){
+        flash.deleteOne({_id:id}, function(err,result){
+            if(err){
+                console.log("Error", err);
+                res.send("There was an error deleting the question")
+            }else if(result.n === 0){//No error but nothing deleted
+                console.log("Question not found in flash")
+                res.send("Question could not be found");
+            }else{
+                console.log("Flash question w/ id: "+id+" deleted");
+                res.send("Question successfully deleted");
+            }
+        });
+    }else if(type === "Technical"){
+        technical.deleteOne({_id:id},function(err,result){
+            if(err){
+                console.log("Error", err);
+                res.send("There was an error deleting the question")
+            }else if(result.n === 0){//No error but nothing deleted
+                console.log("Question not found in flash")
+                res.send("Question could not be found");
+            }else{
+                console.log("Flash question w/ id: "+id+" deleted");
+                res.send("Question successfully deleted");
+            }
+        });
+    }else{
+        console.log("Question type incorrect");
+        res.send("Need question type to delete a question");
+    }
 });
 
 /**
