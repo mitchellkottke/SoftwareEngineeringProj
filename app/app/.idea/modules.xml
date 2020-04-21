@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../TechPrep-app.iml" filepath="$PROJECT_DIR$/../TechPrep-app.iml" group="app" />
+      <module fileurl="file://$PROJECT_DIR$/TechPrep-hurricanE_kaTrinA-app-app.iml" filepath="$PROJECT_DIR$/TechPrep-hurricanE_kaTrinA-app-app.iml" group="app/app" />
+      <module fileurl="file://$PROJECT_DIR$/../app.iml" filepath="$PROJECT_DIR$/../app.iml" group="app" />
       <module fileurl="file://$PROJECT_DIR$/app-app.iml" filepath="$PROJECT_DIR$/app-app.iml" group="app/app" />
     </modules>
   </component>
