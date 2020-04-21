@@ -7,7 +7,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class AdminFrontPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -81,4 +93,46 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         }
         return false;
     }
+
+//    public void getQuestion(View v)
+//    {
+//        String targetURL = getString(R.string.serverURL) + "/getFlash";
+//
+//        final TextView tv = (TextView)findViewById(R.id.qAView);
+//        TextView answerView = (TextView) findViewById(R.id.answerView);
+//        answerView.setText(""); //Resets the answer field to default on click
+//
+//        Button getQuestionButton = (Button)findViewById(R.id.get_question);
+//        getQuestionButton.setText(R.string.new_Question);
+//
+//        Button answerButton = (Button)findViewById(R.id.getAnswer);
+//        if(answerButton.getText().toString() == getString(R.string.hide_Answer)) {
+//            hideAnswer(v);
+//        }
+//
+//        JsonObjectRequest sr = new JsonObjectRequest(Request.Method.GET, targetURL, null,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse (JSONObject response){
+//                        try {
+//                            // JSONObject flashcard = response.getJSONObject();
+//                            answerString = response.getString("answer");
+//
+//                            // Log.d("GET", response.toString());
+//                            tv.setText(response.getString("question"));
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Log.d("Error", error.toString());
+//                        tv.setText(error.toString());
+//                    }
+//                });
+//        requests.addToRequestQueue(sr);
+//    }
+
 }
