@@ -12,7 +12,8 @@
         android:id="@+id/googleLogIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginBottom="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"></com.google.android.gms.common.SignInButton>
 
@@ -20,10 +21,12 @@
         android:id="@+id/imageView3"
         android:layout_width="310dp"
         android:layout_height="309dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="80dp"
         app:layout_constraintBottom_toTopOf="@+id/googleLogIn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/umdcareerserviceswhite" />
 
@@ -31,14 +34,15 @@
         android:id="@+id/googleLogOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="52dp"
         android:background="@color/colorWhite"
         android:onClick="onClick"
         android:text="logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.528"
         app:layout_constraintStart_toEndOf="@+id/googleLogIn" />
 
     <TextView

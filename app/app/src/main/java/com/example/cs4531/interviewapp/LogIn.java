@@ -28,6 +28,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
     GoogleSignInOptions signInOptions;
     private static final int REQ_CODE = 9001;
     GoogleApiClient googleApiClient;
+    GoogleSignInAccount account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
         if(isLogin) {
             //brings app to main activity
             Intent main = new Intent(this, MainActivity.class);
+            main.putExtra("account", account);
             startActivity(main);
         }
         else{
@@ -98,7 +100,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
     private void handleResult(GoogleSignInResult result){
         if(result.isSuccess()) {
-            GoogleSignInAccount account = result.getSignInAccount();
+            account = result.getSignInAccount();
             String email = account.getEmail();
 
             //if not UMD email, display toast, updateUI to stay on login screen and logout

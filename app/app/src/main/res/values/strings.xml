@@ -12,4 +12,7 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="serverURL">http://akka.d.umn.edu:1234</string>
+    <string name="adminUser">Username</string>
+    <string name="adminPassword">Password</string>
+    <string name="adminPage">Admin Page</string>
 </resources>

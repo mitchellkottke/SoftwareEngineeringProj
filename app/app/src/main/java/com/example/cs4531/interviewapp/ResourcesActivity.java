@@ -98,7 +98,7 @@ public class ResourcesActivity extends AppCompatActivity implements NavigationVi
         }
         //For Admin Page
         if (id == R.id.nav_admin){
-            Intent intent = new Intent(this, AdminPage.class);
+            Intent intent = new Intent(this, AdminLogInPage.class);
             startActivity(intent);
         }
         return false;
