@@ -476,8 +476,32 @@ app.post('/getQuestionID', function(req, res){
     }
 });
 
+/** Checks to see if the given question has been reported 
+	@param req Request from user
+	@param res Response sent to user
+*/
+app.post('/isReported', function(req, res){
+	console.log("isReported called... ");
+	var questionsStr = req.body.question,
+	questionType = req.body.type,
+	questionID,
+	error = 0;
+	console.log("Checking if flash question is flagged");
+	report.findOne({question:questionStr},function(err, doc){
+		if(err || !doc){
+		console.log("Could not find question in report");
+		res.send("Question is not flagged");
+		error = 1;
+	}
+		else{
+		console.log("Found: "+doc);
+		res.send("Question has been flagged");
+	}
+});
+});
 /**
  * .listen on port:29805 with launch alter to console
  */
 app.listen(jsonRoute.port/*nodePortNumber*/, ()=>console.log("NULL SERVERED LAUNCHED. LISTENING ON PORT: " + jsonRoute.port/*nodePortNumber*/));
+
 
