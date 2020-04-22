@@ -8,8 +8,8 @@ var bp = require('body-parser');
 
 //Load routing data to launch local copy of server from routing.json
 const fs = require('fs');
-//var route = fs.readFileSync('test/routing.json');
-var route = fs.readFileSync('test/test1.json'); /*testport for kottk055*/
+var route = fs.readFileSync('test/routing.json');
+//var route = fs.readFileSync('test/test1.json'); /*testport for kottk055*/
 var jsonRoute = JSON.parse(route);
 
 //connecting mongoose to RestAPI, target URL stored in route
