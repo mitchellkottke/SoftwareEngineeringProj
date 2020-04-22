@@ -7,25 +7,50 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class AdminFrontPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     public RestRequests requests; //our RestRequests class
+
+    //new
+    //private ArrayList<ExampleItem> mExampleList;
+    private ArrayAdapter<String> mListViewAdapter;
+    //private ExampleAdapter mRecyclerViewAdapter;
+
+    private String question;
+    private String type;
+    private String reasonReport;
+    private String user;
+    private int dbItems;
+
+    private RecyclerView mRecycleView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    JSONObject properties;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +66,44 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         navigationView.setNavigationItemSelectedListener(this);
         requests = RestRequests.getInstance(getApplicationContext());
 
+        final ArrayList<ExampleItem> exampleList = new ArrayList<>();
+        String targetURL = getString(R.string.serverURL) + "/getReported";
+        JsonArrayRequest sr = new JsonArrayRequest(Request.Method.GET, targetURL, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse (JSONArray response){
+                        try {
+
+                            for (int i=0; i<response.length(); i++){
+                                JSONObject jo = response.getJSONObject(i);
+                                exampleList.add(new ExampleItem("Question: " + jo.getString("questionID"),
+                                        "Type: " + jo.getString("questionType"),
+                                        "Reason for Report: " + jo.getString("reasonForReport"),
+                                        "Reported By: " + jo.getString("user")));
+                            }
+
+                        } catch (JSONException e) {
+                            Log.d("ERROR", "IDK SOME ERROR");
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("JSON CALL ERROR", error.toString());
+                        //tv.setText(error.toString());
+                    }
+                });
+        requests.addToRequestQueue(sr);
+
+        mRecycleView = findViewById(R.id.recyclerView);
+        mRecycleView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(AdminFrontPage.this);
+        mAdapter = new ExampleAdapter(exampleList);
+
+        mRecycleView.setLayoutManager(mLayoutManager);
+        mRecycleView.setAdapter(mAdapter);
     }
 
     /**
@@ -93,46 +156,5 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         }
         return false;
     }
-
-//    public void getQuestion(View v)
-//    {
-//        String targetURL = getString(R.string.serverURL) + "/getFlash";
-//
-//        final TextView tv = (TextView)findViewById(R.id.qAView);
-//        TextView answerView = (TextView) findViewById(R.id.answerView);
-//        answerView.setText(""); //Resets the answer field to default on click
-//
-//        Button getQuestionButton = (Button)findViewById(R.id.get_question);
-//        getQuestionButton.setText(R.string.new_Question);
-//
-//        Button answerButton = (Button)findViewById(R.id.getAnswer);
-//        if(answerButton.getText().toString() == getString(R.string.hide_Answer)) {
-//            hideAnswer(v);
-//        }
-//
-//        JsonObjectRequest sr = new JsonObjectRequest(Request.Method.GET, targetURL, null,
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse (JSONObject response){
-//                        try {
-//                            // JSONObject flashcard = response.getJSONObject();
-//                            answerString = response.getString("answer");
-//
-//                            // Log.d("GET", response.toString());
-//                            tv.setText(response.getString("question"));
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Log.d("Error", error.toString());
-//                        tv.setText(error.toString());
-//                    }
-//                });
-//        requests.addToRequestQueue(sr);
-//    }
 
 }

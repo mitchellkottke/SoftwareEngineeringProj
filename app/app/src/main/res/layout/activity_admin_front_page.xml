@@ -7,26 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".AdminFrontPage">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/adminFrontLayout"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="374dp"
-            android:layout_height="72dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="227dp"
-            android:layout_marginEnd="19dp"
-            android:text="THIS IS WHERE REPORTED QUESTIONS GO"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </android.support.constraint.ConstraintLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:padding="4dp"
+            android:scrollbars="vertical" />
+    </RelativeLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view"
@@ -40,3 +32,71 @@
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
+
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:id="@+id/nav_drawer"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    tools:context=".AdminFrontPage">-->
+
+<!--    <android.support.v7.widget.RecyclerView-->
+<!--        android:id="@+id/recyclerView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:background="@android:color/darker_gray"-->
+<!--        android:padding="4dp"-->
+<!--        android:scrollbars="vertical" />-->
+
+<!--    <android.support.v4.widget.DrawerLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+<!--        <android.support.design.widget.NavigationView-->
+<!--            android:id="@+id/navigation_view"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_gravity="start"-->
+<!--            android:background="@color/colorMaroon"-->
+<!--            app:menu="@menu/nav_menu"-->
+<!--            app:itemTextColor="@color/colorWhite"-->
+<!--            app:theme="@style/NavigationDrawerStyle">-->
+<!--        </android.support.design.widget.NavigationView>-->
+<!--    </android.support.v4.widget.DrawerLayout>-->
+
+<!--</RelativeLayout>-->
+
+<!--EXTRAS-->
+    <!--    <android.support.constraint.ConstraintLayout-->
+    <!--        android:id="@+id/adminFrontLayout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
+
+    <!--        <android.support.v7.widget.RecyclerView-->
+    <!--            android:id="@+id/recyclerView"-->
+    <!--            android:layout_width="380dp"-->
+    <!--            android:layout_height="405dp"-->
+    <!--            android:layout_marginStart="16dp"-->
+    <!--            android:layout_marginTop="64dp"-->
+    <!--            android:layout_marginEnd="16dp"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:background="@android:color/darker_gray"-->
+    <!--            android:padding="4dp"-->
+    <!--            android:scrollbars="vertical"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/textView5"-->
+    <!--            android:layout_width="377dp"-->
+    <!--            android:layout_height="143dp"-->
+    <!--            android:layout_marginStart="16dp"-->
+    <!--            android:layout_marginTop="38dp"-->
+    <!--            android:layout_marginEnd="18dp"-->
+    <!--            android:text="TextView"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/recyclerView" />-->
+
+    <!--    </android.support.constraint.ConstraintLayout>-->
