@@ -53,8 +53,8 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
 
     JSONObject properties;
 
-    //NEW
-    Button deleteButton;
+    Button deleteReport;
+    Button deleteQuestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +87,8 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
                                 reasonReport = jo.getString("reasonForReport");
                                 user = jo.getString("user");
 
-                                exampleList.add(new ExampleItem("Question: " + question,
-                                        "Type: " + type,
+                                exampleList.add(new ExampleItem(question,
+                                        type,
                                         "Reason for Report: " + reasonReport,
                                         "Reported By: " + user));
                             }//end of for
@@ -118,27 +118,40 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         mRecycleView.setAdapter(mAdapter);
 
         //NEW
-        deleteButton = findViewById(R.id.deleteButton);
+        deleteReport = findViewById(R.id.deleteReport);
+        deleteReport.setText("Delete Report");
+
+        deleteQuestion = findViewById(R.id.deleteQuestion);
+        deleteQuestion.setText("Delete Question");
 
         mAdapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //exampleList.get(position).changeText("TESTING");
-                deleteButton.setVisibility(View.VISIBLE);
-                deleteButton.setText("DELETE");
+                //Toast.makeText(AdminFrontPage.this, position + " button has been clicked", Toast.LENGTH_SHORT).show();
+                ExampleItem currentItem = exampleList.get(position);
+                Toast.makeText(AdminFrontPage.this, currentItem.getmQuestion()+ " has been clicked", Toast.LENGTH_SHORT).show();
+                question = currentItem.getmQuestion();
+                type = currentItem.getmType();
 
-                deleteButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        deleteReport(question, type);
-                    }
-                });
+            }
+        });
 
-                Toast.makeText(AdminFrontPage.this, exampleList.get(position).toString() + " button has been clicked", Toast.LENGTH_SHORT).show();
+        deleteReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteReport(question, type);
             }
         });
     }
 
+
+    /**
+     * deleteReport deletes the question from the
+     * reportedQuestions collections db
+     * @author quinz001
+     * @param mQuestion the question string
+     * @param mType the type of question
+     */
     public void deleteReport(String mQuestion, String mType){
         question = mQuestion;
         type = mType;
@@ -149,7 +162,46 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
                     @Override
                     public void onResponse(String response) {
                         // response
-                      Toast.makeText(AdminFrontPage.this, "DELETE BUTTON CLICKED", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AdminFrontPage.this, question + " has been deleted from database.", Toast.LENGTH_SHORT).show();
+                        Log.d("DELETE BUTTON SENT", response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> report = new HashMap<String, String>();
+                report.put("question", question);
+                report.put("questionType", type);
+                return report;
+            }
+        };
+        requests.addToRequestQueue(postRequest);
+    }
+
+    /**
+     * deleteQuestion deletes the question from either the
+     * flashQuestions or technicalQuestions collection from the db
+     * @param mQuestion the question string
+     * @param mType the question type
+     */
+    public void deleteQuestion(String mQuestion, String mType){
+        question = mQuestion;
+        type = mType;
+
+        String targetURL = getString(R.string.serverURL) + "/deleteQuestion";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, targetURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Toast.makeText(AdminFrontPage.this, "DELETE BUTTON CLICKED", Toast.LENGTH_LONG).show();
                         Log.d("DELETE BUTTON SENT", response);
                     }
                 },
