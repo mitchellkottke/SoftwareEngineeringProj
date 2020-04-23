@@ -341,7 +341,7 @@ app.post('/reportQuestion', function(req, res){
     var error;
     var newReport = {
         user: req.body.user,
-        questionID: req.body.questionID,
+        questionID: req.body.question,
         questionType: req.body.questionType,
         reasonForReport: req.body.reasonForReport,
         reasonForReportTextBox:""
@@ -446,7 +446,7 @@ app.post('/getQuestionID', function(req, res){
     console.log("GetQuestionID called...");
     var questionStr = req.body.question,
         questionType = req.body.type,
-        questionID,
+        question,
         error = 0;
     if(questionType === "Flash"){
         console.log("Searching flash questions for ID");
@@ -486,7 +486,7 @@ app.post('/isReported', function(req, res){
 	var questionsStr = req.body.questionID,
 	error = 0;
 	console.log("Checking if question is flagged");
-	report.findOne({questionID:questionStr},function(err, doc){
+	report.findOne({question:questionStr},function(err, doc){
 		if(err || !doc){
 		console.log("Could not find question in report");
 		res.send("Question is not flagged");
