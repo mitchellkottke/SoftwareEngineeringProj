@@ -14,9 +14,11 @@ public class ExampleItem {
         mUser = user;
     }
 
-    public String getmQuestion(){
-        return mQuestion;
+    public void changeText(String text) {
+        mType = text;
     }
+
+    public String getmQuestion(){ return mQuestion; }
 
     public String getmType(){
         return mType;

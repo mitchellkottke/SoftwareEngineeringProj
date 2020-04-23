@@ -14,20 +14,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class AdminFrontPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -35,10 +34,7 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
     private ActionBarDrawerToggle mToggle;
     public RestRequests requests; //our RestRequests class
 
-    //new
-    //private ArrayList<ExampleItem> mExampleList;
     private ArrayAdapter<String> mListViewAdapter;
-    //private ExampleAdapter mRecyclerViewAdapter;
 
     private String question;
     private String type;
@@ -47,10 +43,16 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
     private int dbItems;
 
     private RecyclerView mRecycleView;
-    private RecyclerView.Adapter mAdapter;
+
+    //NEW
+    //private RecyclerView.Adapter mAdapter; NEW CHANGED TO THE ONE BELOW
+    private ExampleAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     JSONObject properties;
+
+    //NEW
+    Button deleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +106,52 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
 
         mRecycleView.setLayoutManager(mLayoutManager);
         mRecycleView.setAdapter(mAdapter);
+
+        //NEW
+        deleteButton = findViewById(R.id.deleteButton);
+
+        mAdapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                //exampleList.get(position).changeText("TESTING");
+                deleteButton.setVisibility(View.VISIBLE);
+                deleteButton.setText("DELETE");
+
+                deleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteReport();
+                    }
+                });
+
+                Toast.makeText(AdminFrontPage.this, exampleList.get(position).toString() + " button has been clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+    public void deleteReport(){
+        String url = getString(R.string.serverURL) + "/deleteTheReport";
+        StringRequest dr = new StringRequest(Request.Method.DELETE, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Toast.makeText(AdminFrontPage.this, response, Toast.LENGTH_LONG).show();
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error.
+
+                    }
+                }
+        );
+        requests.addToRequestQueue(dr);
+    }
+
 
     /**
      * @author smatthys
@@ -157,4 +204,16 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         return false;
     }
 
+    public void createExampleList() {
+
+    }
+
 }
+
+
+
+
+
+
+
+
