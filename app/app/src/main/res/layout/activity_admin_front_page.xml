@@ -9,7 +9,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorMaroon">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -21,13 +22,25 @@
             android:scrollbars="vertical" />
 
         <Button
-            android:id="@+id/deleteButton"
+            android:id="@+id/deleteReport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/recyclerView"
-            android:layout_marginBottom="-59dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginBottom="-60dp"
             android:text="Button"
-            android:visibility="invisible" />
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/deleteQuestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recyclerView"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="-60dp"
+            android:layout_toEndOf="@+id/deleteReport"
+            android:text="Button"
+            android:visibility="visible" />
 
     </RelativeLayout>
 
