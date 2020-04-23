@@ -131,7 +131,7 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
      */
     @Override
     public boolean onMenuItemClick(MenuItem item){
-        TextView qv = (TextView)findViewById(R.id.qAView); //Question view
+        TextView qv = (TextView)findViewById(R.id.questionView); //Question view
         String targetURL = getString(R.string.serverURL) + "/reportQuestion";
         final String questionStr = qv.getText().toString();
         if(account != null){
