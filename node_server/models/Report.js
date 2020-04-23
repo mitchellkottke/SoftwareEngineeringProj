@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var reportSchema = new Schema({
 	user: {type: String, required: false},
-	questionID: {type: String, required: true},
+	question: {type: String, required: true},
 	questionType: {type: String, required: true},
 	reasonForReport: {type: String, required: true},
 	reasonForReportTextBox: {type: String, required: false}},
