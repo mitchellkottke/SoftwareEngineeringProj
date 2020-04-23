@@ -512,8 +512,31 @@ app.post('/deleteQuestion', function(req,res){
 });
 
 /**
+	Blocks a user from reporting questions in case they are abusing the power
+	@author bock0077
+	@req
+*/
+app.post('/blockUser', function(req,res) {
+	console.log("/blockUser called...");
+	var blockedUser = req.body.user;
+	console.log("Adding user to blockedUser database");
+	block.create({user:blockedUser}, function(err,doc){
+	if(blockedUser || !doc){
+	 console.log("Could not find blockedUser in report");
+            res.send("User was not successfully added to the database");
+            error = 1;
+	}
+	else {
+	console.log("User was found in the database");
+	res.send("User was successfully added to the database");
+	}
+    });
+});
+
+
+
+/**
  * .listen on port:1234 with launch alter to console
  */
 app.listen(jsonRoute.port, ()=>console.log("NULL SERVERED LAUNCHED. LISTENING ON PORT: " + jsonRoute.port));
-
 

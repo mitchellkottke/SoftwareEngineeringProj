@@ -27,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AdminFrontPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -69,6 +71,7 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         requests = RestRequests.getInstance(getApplicationContext());
 
         final ArrayList<ExampleItem> exampleList = new ArrayList<>();
+
         String targetURL = getString(R.string.serverURL) + "/getReported";
         JsonArrayRequest sr = new JsonArrayRequest(Request.Method.GET, targetURL, null,
                 new Response.Listener<JSONArray>() {
@@ -78,11 +81,17 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
 
                             for (int i=0; i<response.length(); i++){
                                 JSONObject jo = response.getJSONObject(i);
-                                exampleList.add(new ExampleItem("Question: " + jo.getString("questionID"),
-                                        "Type: " + jo.getString("questionType"),
-                                        "Reason for Report: " + jo.getString("reasonForReport"),
-                                        "Reported By: " + jo.getString("user")));
-                            }
+
+                                question = jo.getString("questionID");
+                                type = jo.getString("questionType");
+                                reasonReport = jo.getString("reasonForReport");
+                                user = jo.getString("user");
+
+                                exampleList.add(new ExampleItem("Question: " + question,
+                                        "Type: " + type,
+                                        "Reason for Report: " + reasonReport,
+                                        "Reported By: " + user));
+                            }//end of for
 
                         } catch (JSONException e) {
                             Log.d("ERROR", "IDK SOME ERROR");
@@ -98,6 +107,7 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
                     }
                 });
         requests.addToRequestQueue(sr);
+
 
         mRecycleView = findViewById(R.id.recyclerView);
         mRecycleView.setHasFixedSize(true);
@@ -120,7 +130,7 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        deleteReport();
+                        deleteReport(question, type);
                     }
                 });
 
@@ -129,27 +139,37 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         });
     }
 
-    public void deleteReport(){
-        String url = getString(R.string.serverURL) + "/deleteTheReport";
-        StringRequest dr = new StringRequest(Request.Method.DELETE, url,
-                new Response.Listener<String>()
-                {
+    public void deleteReport(String mQuestion, String mType){
+        question = mQuestion;
+        type = mType;
+
+        String targetURL = getString(R.string.serverURL) + "/deleteReport";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, targetURL,
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         // response
-                        Toast.makeText(AdminFrontPage.this, response, Toast.LENGTH_LONG).show();
+                      Toast.makeText(AdminFrontPage.this, "DELETE BUTTON CLICKED", Toast.LENGTH_LONG).show();
+                        Log.d("DELETE BUTTON SENT", response);
                     }
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // error.
-
+                        // error
+                        Log.d("Error.Response", error.toString());
                     }
                 }
-        );
-        requests.addToRequestQueue(dr);
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> report = new HashMap<String, String>();
+                report.put("question", question);
+                report.put("questionType", type);
+                return report;
+            }
+        };
+        requests.addToRequestQueue(postRequest);
     }
 
 
@@ -210,7 +230,36 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
 
 }
 
-
+// OLD GET METHOD FOR REPORTED QUESTIONS
+//        String targetURL = getString(R.string.serverURL) + "/getReported";
+//        JsonArrayRequest sr = new JsonArrayRequest(Request.Method.GET, targetURL, null,
+//                new Response.Listener<JSONArray>() {
+//                    @Override
+//                    public void onResponse (JSONArray response){
+//                        try {
+//
+//                            for (int i=0; i<response.length(); i++){
+//                                JSONObject jo = response.getJSONObject(i);
+//                                exampleList.add(new ExampleItem("Question: " + jo.getString("questionID"),
+//                                        "Type: " + jo.getString("questionType"),
+//                                        "Reason for Report: " + jo.getString("reasonForReport"),
+//                                        "Reported By: " + jo.getString("user")));
+//                            }
+//
+//                        } catch (JSONException e) {
+//                            Log.d("ERROR", "IDK SOME ERROR");
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Log.d("JSON CALL ERROR", error.toString());
+//                        //tv.setText(error.toString());
+//                    }
+//                });
+//        requests.addToRequestQueue(sr);
 
 
 
