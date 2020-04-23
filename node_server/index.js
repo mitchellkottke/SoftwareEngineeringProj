@@ -330,7 +330,7 @@ app.post('/createTechnical', function (req, res, next) {
  * @param req   the request sent to the server
        Needs:
          user: ID of user that reported question (String)
-         questionID: Question being reported (String)
+         question: Question being reported (String)
          questionType: Flash or technical question (String)
          reasonForReport: Dropdown option chosen for report (String)
        Optional:
@@ -341,7 +341,7 @@ app.post('/reportQuestion', function(req, res){
     console.log("Report Question called...");
     var newReport = {
         user: req.body.user,
-        questionID: req.body.question,
+        question: req.body.question,
         questionType: req.body.questionType,
         reasonForReport: req.body.reasonForReport,
         reasonForReportTextBox:""
@@ -414,10 +414,10 @@ app.delete('/deleteTheReport/:id', (req, res) =>
 */
 app.post('/isReported', function(req, res){
     console.log("isReported called...");
-    var questionStr = req.body.questionID,
+    var questionStr = req.body.question,
 	error = 0;
     console.log("Checking if question is flagged");
-    report.findOne({questionID:questionStr},function(err, doc){
+    report.findOne({question:questionStr},function(err, doc){
 	if(err || !doc){
 	    console.log("Could not find question in report");
 	    res.send("Question is not flagged");
@@ -434,7 +434,7 @@ app.post('/isReported', function(req, res){
    @author kottk055
    Returns a list of json objects with the following properties
    "user": user that reported the question
-   "questionID": _id of the question in whichever collection its in
+   "question": the actual question
    "questionType": Which collection the question is in
    "reasonForReport": Option chosen by user
    "reasonForReportTextBox": Additional comments from the user
