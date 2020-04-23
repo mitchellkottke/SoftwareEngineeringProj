@@ -8,8 +8,8 @@ var bp = require('body-parser');
 
 //Load routing data to launch local copy of server from routing.json
 const fs = require('fs');
-//var route = fs.readFileSync('test/routing.json');
-var route = fs.readFileSync('test/test1.json'); /*testport for kottk055*/
+var route = fs.readFileSync('test/routing.json');
+//var route = fs.readFileSync('test/test1.json'); /*testport for kottk055*/
 var jsonRoute = JSON.parse(route);
 
 //connecting mongoose to RestAPI, target URL stored in route
@@ -326,10 +326,11 @@ app.post('/createTechnical', function (req, res, next) {
 });
 
 /** Adds a question reported by user to the reportedQuestions database
+    @author kottk055
  * @param req   the request sent to the server
        Needs:
          user: ID of user that reported question (String)
-         questionID: ID of the question being reported (String)
+         questionID: Question being reported (String)
          questionType: Flash or technical question (String)
          reasonForReport: Dropdown option chosen for report (String)
        Optional:
@@ -338,7 +339,6 @@ app.post('/createTechnical', function (req, res, next) {
  */
 app.post('/reportQuestion', function(req, res){
     console.log("Report Question called...");
-    var error;
     var newReport = {
         user: req.body.user,
         questionID: req.body.question,
@@ -353,24 +353,20 @@ app.post('/reportQuestion', function(req, res){
         console.log("Reason for report text box left empty");
         newReport.reasonForReportTextBox = "None given";
     }
-    var doc;
-    error = report.create(newReport, function(err, doc){
+    report.create(newReport, function(err, doc){
         if(err){
-            return err;
+            console.log("Error: "+error);
+            res.send("0: Error could not report question");
         }
-        else return 0;
+        else{
+            console.log("Successfully reported question");
+            res.send("1: Successfully reported question");
+        }
     });
-    if(error){
-        console.log("Error: "+error);
-        res.send("0: Error could not report question");
-    }
-    else{
-        console.log("Successfully reported question");
-        res.send("1: Successfully reported question");
-    }
 });
 
 /**Deletes a given question from the reportedQuestions database
+   @author kottk055
    @param req   Request sent to server
                   question: The question to look for
                   questionType: Flash or Technical
@@ -378,6 +374,7 @@ app.post('/reportQuestion', function(req, res){
 */
 app.post('/deleteReport', function(req, res){
     console.log("deleteReport called...");
+<<<<<<< HEAD
     var error,
         questionStr = req.body.question,
         foundQuestion,
@@ -475,32 +472,62 @@ app.post('/getQuestionID', function(req, res){
             }
         });
     }
+=======
+    var questionStr = req.body.question;
+    var type = req.body.questionType;
+    report.deleteOne({questionID:questionStr,questionType:type}, function(err,result){
+        console.log("Searching to delete");
+        if(err){
+            console.log("Error", err);
+            res.send("2: could not remove report");
+        }
+        else if(result.n === 0){
+            console.log("Question could not be found");
+            res.send("Question has not been reported or report "+
+                     "already deleted");
+        }
+        else{
+            console.log("Successfully deleted report");
+            res.send("Successfully deleted report");
+        }
+    });
+>>>>>>> af980096c581f0f459d707037dd37ef7fa9f0b85
 });
 
-/** Checks to see if the given question has been reported 
+/** Checks to see if the given question has been reported
+        @author bock0077
 	@param req Request from user
 	@param res Response sent to user
 */
 app.post('/isReported', function(req, res){
-	console.log("isReported called... ");
-	var questionsStr = req.body.questionID,
+    console.log("isReported called...");
+    var questionStr = req.body.questionID,
 	error = 0;
+<<<<<<< HEAD
 	console.log("Checking if question is flagged");
 	report.findOne({question:questionStr},function(err, doc){
 		if(err || !doc){
 		console.log("Could not find question in report");
 		res.send("Question is not flagged");
 		error = 1;
+=======
+    console.log("Checking if question is flagged");
+    report.findOne({questionID:questionStr},function(err, doc){
+	if(err || !doc){
+	    console.log("Could not find question in report");
+	    res.send("Question is not flagged");
+	    error = 1;
+>>>>>>> af980096c581f0f459d707037dd37ef7fa9f0b85
 	}
-		else{
-		console.log("Found: "+doc);
-		res.send("Question has been flagged");
+	else{
+	    console.log("Found: "+doc);
+	    res.send("Question has been flagged");
 	}
-});
+    });
 });
 /**
    Gets the list of reported questions from the database
-
+   @author kottk055
    Returns a list of json objects with the following properties
    "user": user that reported the question
    "questionID": _id of the question in whichever collection its in
@@ -521,13 +548,35 @@ app.get('/getReported', function(req,res){
     });
 });
 
-
+/**
+   ****Should only be accessed by an admin******
+   Deletes a question from the database, use with caution
+   @author kottk055
+   @req   type: Flash or Technical
+          question: Question
+*/
 app.post('/deleteQuestion', function(req,res){
     console.log("/deleteQuestion called...");
     var type = req.body.type;
-    var id = req.body.id;
+    var questionStr = req.body.question;
+    var success = function(){
+        console.log("Looking for report");
+        report.deleteOne({questionID:questionStr}, function(err,result){
+            if(err){
+                console.log("Error: ", err);
+                res.send("Question deleted from but there was an error finding a report");
+            }else if(result.n === 0){
+                console.log("Report not found");
+                res.send("Question deleted from but no report was found");
+            }else{
+                console.log("Report deleted");
+                res.send("Question and report deleted");
+            }
+        });
+    };
     if(type === "Flash"){
-        flash.deleteOne({_id:id}, function(err,result){
+        console.log("Looking in Flash...");
+        flash.deleteOne({question:questionStr}, function(err,result){
             if(err){
                 console.log("Error", err);
                 res.send("There was an error deleting the question")
@@ -536,20 +585,20 @@ app.post('/deleteQuestion', function(req,res){
                 res.send("Question could not be found");
             }else{
                 console.log("Flash question w/ id: "+id+" deleted");
-                res.send("Question successfully deleted");
+                success();
             }
         });
     }else if(type === "Technical"){
-        technical.deleteOne({_id:id},function(err,result){
+        technical.deleteOne({question:questionStr},function(err,result){
             if(err){
                 console.log("Error", err);
                 res.send("There was an error deleting the question")
             }else if(result.n === 0){//No error but nothing deleted
-                console.log("Question not found in flash")
+                console.log("Question not found in technical")
                 res.send("Question could not be found");
             }else{
-                console.log("Flash question w/ id: "+id+" deleted");
-                res.send("Question successfully deleted");
+                console.log("Technical question w/ id: "+id+" deleted");
+                success();
             }
         });
     }else{
