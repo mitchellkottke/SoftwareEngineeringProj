@@ -233,7 +233,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
             protected Map<String, String> getParams() {
                 Map<String, String> report = new HashMap<String, String>();
                 report.put("user", userID);
-                report.put("questionID", questionStr);
+                report.put("question", questionStr);
                 report.put("questionType", questionType);
                 report.put("reasonForReport", roText);
                 return report;
