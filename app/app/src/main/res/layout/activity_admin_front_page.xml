@@ -28,6 +28,7 @@
             android:layout_alignBottom="@+id/recyclerView"
             android:layout_marginStart="40dp"
             android:layout_marginBottom="-60dp"
+            android:background="@color/colorGold"
             android:text="Button"
             android:visibility="visible" />
 
@@ -39,6 +40,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="-60dp"
             android:layout_toEndOf="@+id/deleteReport"
+            android:background="@color/colorGold"
             android:text="Button"
             android:visibility="visible" />
 

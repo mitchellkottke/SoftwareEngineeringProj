@@ -128,9 +128,8 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         mAdapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //Toast.makeText(AdminFrontPage.this, position + " button has been clicked", Toast.LENGTH_SHORT).show();
                 ExampleItem currentItem = exampleList.get(position);
-                //Toast.makeText(AdminFrontPage.this, currentItem.getmQuestion()+ " has been clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminFrontPage.this, currentItem.getmQuestion()+ " has been clicked", Toast.LENGTH_SHORT).show();
                 question = currentItem.getmQuestion();
                 type = currentItem.getmType();
                 thePosition = position;
@@ -144,6 +143,16 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
                 removeExampleItem(thePosition);
             }
         });
+
+        //DELETES THE QUESTION FROM THE DATABASE DO NOT UNCOMMENT UNTIL DONE
+//        deleteQuestion.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                deleteQuestion(question, type);
+//                removeExampleItem(thePosition);
+//            }
+//        });
+
     }//end of onCreate
 
     /**
