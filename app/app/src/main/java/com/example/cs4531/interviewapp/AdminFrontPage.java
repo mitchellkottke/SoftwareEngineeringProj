@@ -56,6 +56,10 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
     Button deleteReport;
     Button deleteQuestion;
 
+    private ArrayList<ExampleItem> exampleList = new ArrayList<>();
+
+    private int thePosition;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,10 +74,10 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         navigationView.setNavigationItemSelectedListener(this);
         requests = RestRequests.getInstance(getApplicationContext());
 
-        final ArrayList<ExampleItem> exampleList = new ArrayList<>();
+        //final ArrayList<ExampleItem> exampleList = new ArrayList<>();
 
         String targetURL = getString(R.string.serverURL) + "/getReported";
-        JsonArrayRequest sr = new JsonArrayRequest(Request.Method.GET, targetURL, null,
+        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, targetURL, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse (JSONArray response){
@@ -82,14 +86,12 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
                             for (int i=0; i<response.length(); i++){
                                 JSONObject jo = response.getJSONObject(i);
 
-                                question = jo.getString("questionID");
+                                question = jo.getString("question");
                                 type = jo.getString("questionType");
                                 reasonReport = jo.getString("reasonForReport");
                                 user = jo.getString("user");
 
-                                exampleList.add(new ExampleItem(question,
-                                        type,
-                                        "Reason for Report: " + reasonReport,
+                                exampleList.add(new ExampleItem(question, type,"Reason for Report: " + reasonReport,
                                         "Reported By: " + user));
                             }//end of for
 
@@ -106,8 +108,7 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
                         //tv.setText(error.toString());
                     }
                 });
-        requests.addToRequestQueue(sr);
-
+        requests.addToRequestQueue(getRequest);
 
         mRecycleView = findViewById(R.id.recyclerView);
         mRecycleView.setHasFixedSize(true);
@@ -129,10 +130,10 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
             public void onItemClick(int position) {
                 //Toast.makeText(AdminFrontPage.this, position + " button has been clicked", Toast.LENGTH_SHORT).show();
                 ExampleItem currentItem = exampleList.get(position);
-                Toast.makeText(AdminFrontPage.this, currentItem.getmQuestion()+ " has been clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AdminFrontPage.this, currentItem.getmQuestion()+ " has been clicked", Toast.LENGTH_SHORT).show();
                 question = currentItem.getmQuestion();
                 type = currentItem.getmType();
-
+                thePosition = position;
             }
         });
 
@@ -140,10 +141,20 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
             @Override
             public void onClick(View v) {
                 deleteReport(question, type);
+                removeExampleItem(thePosition);
             }
         });
-    }
+    }//end of onCreate
 
+    /**
+     * removeExampleItem removes the question from the recycle view
+     * @author quinz001
+     * @param position
+     */
+    public void removeExampleItem(int position){
+        exampleList.remove(position);
+        mAdapter.notifyItemRemoved(position);
+    }
 
     /**
      * deleteReport deletes the question from the
@@ -177,7 +188,7 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> report = new HashMap<String, String>();
-                report.put("question", question);
+                report.put("questionID", question);
                 report.put("questionType", type);
                 return report;
             }
@@ -281,40 +292,3 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
     }
 
 }
-
-// OLD GET METHOD FOR REPORTED QUESTIONS
-//        String targetURL = getString(R.string.serverURL) + "/getReported";
-//        JsonArrayRequest sr = new JsonArrayRequest(Request.Method.GET, targetURL, null,
-//                new Response.Listener<JSONArray>() {
-//                    @Override
-//                    public void onResponse (JSONArray response){
-//                        try {
-//
-//                            for (int i=0; i<response.length(); i++){
-//                                JSONObject jo = response.getJSONObject(i);
-//                                exampleList.add(new ExampleItem("Question: " + jo.getString("questionID"),
-//                                        "Type: " + jo.getString("questionType"),
-//                                        "Reason for Report: " + jo.getString("reasonForReport"),
-//                                        "Reported By: " + jo.getString("user")));
-//                            }
-//
-//                        } catch (JSONException e) {
-//                            Log.d("ERROR", "IDK SOME ERROR");
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Log.d("JSON CALL ERROR", error.toString());
-//                        //tv.setText(error.toString());
-//                    }
-//                });
-//        requests.addToRequestQueue(sr);
-
-
-
-
-
-

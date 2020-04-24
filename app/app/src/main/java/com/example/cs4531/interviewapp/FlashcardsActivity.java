@@ -193,7 +193,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
     /**
      * onMenuItemClick takes what the user clicked as their option for the reported question
      * and sends the userID, questionID, questionType, and the reason for the report
-     * @author quinz001 and kottk055
+     * @author quinz001 and kottk05
      * @param item the menu item
      */
     @Override
