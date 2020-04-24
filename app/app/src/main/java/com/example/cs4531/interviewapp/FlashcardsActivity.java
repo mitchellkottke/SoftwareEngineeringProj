@@ -193,7 +193,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
     /**
      * onMenuItemClick takes what the user clicked as their option for the reported question
      * and sends the userID, questionID, questionType, and the reason for the report
-     * @author quinz001
+     * @author quinz001 and kottk05
      * @param item the menu item
      */
     @Override
@@ -233,7 +233,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
             protected Map<String, String> getParams() {
                 Map<String, String> report = new HashMap<String, String>();
                 report.put("user", userID);
-                report.put("questionID", questionStr);
+                report.put("question", questionStr);
                 report.put("questionType", questionType);
                 report.put("reasonForReport", roText);
                 return report;

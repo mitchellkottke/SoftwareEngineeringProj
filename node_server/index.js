@@ -355,7 +355,7 @@ app.post('/reportQuestion', function(req, res){
     }
     report.create(newReport, function(err, doc){
         if(err){
-            console.log("Error: "+error);
+            console.log("Error: "+err);
             res.send("0: Error could not report question");
         }
         else{
