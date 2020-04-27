@@ -44,6 +44,12 @@
             android:text="Button"
             android:visibility="visible" />
 
+        <Button
+            android:id="@+id/blockUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Block User" />
+
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
