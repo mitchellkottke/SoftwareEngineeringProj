@@ -375,7 +375,8 @@ app.post('/reportQuestion', function(req, res){
 */
 app.post('/deleteReport', function(req, res){
     console.log("deleteReport called...");
-    var questionStr = req.body.question;
+    //var questionStr = req.body.question;
+    var questionStr = req.body.questionID;
     var type = req.body.questionType;
     report.deleteOne({question:questionStr,questionType:type}, function(err,result){
         console.log("Searching to delete");
