@@ -123,7 +123,7 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         mRecycleView.setAdapter(mAdapter);
 
         //NEW
-        deleteReport = findViewById(R.id.deleteQuestion);
+        deleteReport = findViewById(R.id.deleteReport);
         deleteReport.setText("Delete Report");
 
         deleteQuestion = findViewById(R.id.deleteQuestion);
@@ -201,7 +201,7 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> report = new HashMap<String, String>();
-                report.put("questionID", currentQuestion);
+                report.put("question", currentQuestion);
                 report.put("questionType", currentType);
                 return report;
             }
