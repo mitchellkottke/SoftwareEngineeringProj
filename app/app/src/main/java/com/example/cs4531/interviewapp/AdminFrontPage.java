@@ -123,7 +123,7 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         mRecycleView.setAdapter(mAdapter);
 
         //NEW
-        deleteReport = findViewById(R.id.deleteReport);
+        deleteReport = findViewById(R.id.deleteQuestion);
         deleteReport.setText("Delete Report");
 
         deleteQuestion = findViewById(R.id.deleteQuestion);

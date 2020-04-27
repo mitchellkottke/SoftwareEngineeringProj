@@ -21,19 +21,12 @@
             android:scrollbars="vertical" />
 
         <Button
-            android:id="@+id/deleteButton"
+            android:id="@+id/deleteQuestion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/recyclerView"
             android:layout_marginBottom="-55dp"
-            android:text="Delete Question"
             android:visibility="invisible" />
-
-        <Button
-            android:id="@+id/blockUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Block User" />
 
     </RelativeLayout>
 
