@@ -26,7 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/recyclerView"
-            android:layout_marginStart="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="30dp"
             android:layout_marginBottom="-60dp"
             android:background="@color/colorGold"
             android:text="Button"
@@ -37,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/recyclerView"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="39dp"
             android:layout_marginTop="-60dp"
             android:layout_toEndOf="@+id/deleteReport"
             android:background="@color/colorGold"
@@ -48,6 +49,13 @@
             android:id="@+id/blockUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/recyclerView"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="-60dp"
+            android:layout_marginEnd="30dp"
+            android:layout_toEndOf="@+id/deleteQuestion"
+            android:background="@color/colorGold"
             android:text="Block User" />
 
     </RelativeLayout>
