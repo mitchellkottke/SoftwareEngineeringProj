@@ -60,6 +60,10 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
 
     private int thePosition;
 
+    //NEW
+    private String currentQuestion;
+    private String currentType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,11 +132,10 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         mAdapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //Toast.makeText(AdminFrontPage.this, position + " button has been clicked", Toast.LENGTH_SHORT).show();
                 ExampleItem currentItem = exampleList.get(position);
-                //Toast.makeText(AdminFrontPage.this, currentItem.getmQuestion()+ " has been clicked", Toast.LENGTH_SHORT).show();
-                question = currentItem.getmQuestion();
-                type = currentItem.getmType();
+                Toast.makeText(AdminFrontPage.this, currentItem.getmQuestion()+ " has been clicked", Toast.LENGTH_SHORT).show();
+                currentQuestion = currentItem.getmQuestion();
+                currentType = currentItem.getmType();
                 thePosition = position;
             }
         });
@@ -140,10 +143,20 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         deleteReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteReport(question, type);
+                deleteReport(currentQuestion, currentType);
                 removeExampleItem(thePosition);
             }
         });
+
+        //DELETES THE QUESTION FROM THE DATABASE DO NOT UNCOMMENT UNTIL DONE
+//        deleteQuestion.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                deleteQuestion(question, type);
+//                removeExampleItem(thePosition);
+//            }
+//        });
+
     }//end of onCreate
 
     /**
@@ -164,8 +177,8 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
      * @param mType the type of question
      */
     public void deleteReport(String mQuestion, String mType){
-        question = mQuestion;
-        type = mType;
+        currentQuestion = mQuestion;
+        currentType = mType;
 
         String targetURL = getString(R.string.serverURL) + "/deleteReport";
         StringRequest postRequest = new StringRequest(Request.Method.POST, targetURL,
@@ -173,7 +186,7 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
                     @Override
                     public void onResponse(String response) {
                         // response
-                        Toast.makeText(AdminFrontPage.this, question + " has been deleted from database.", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(AdminFrontPage.this, currentQuestion + " has been deleted from database.", Toast.LENGTH_SHORT).show();
                         Log.d("DELETE BUTTON SENT", response);
                     }
                 },
@@ -188,11 +201,12 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> report = new HashMap<String, String>();
-                report.put("questionID", question);
-                report.put("questionType", type);
+                report.put("questionID", currentQuestion);
+                report.put("questionType", currentType);
                 return report;
             }
         };
+        Toast.makeText(AdminFrontPage.this, currentQuestion + " has been deleted from database.", Toast.LENGTH_SHORT).show();
         requests.addToRequestQueue(postRequest);
     }
 
