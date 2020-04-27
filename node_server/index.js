@@ -27,6 +27,7 @@ var technical = require('./models/Technical.js');
 var flash = require('./models/flash.js');
 var User = require('./models/User.js');
 var report = require('./models/Report.js');
+var deleted = require('./models/Deleted.js');
 
 // set up for pug enginer
 app.set('views', './views'); //folder where views are stored
@@ -454,7 +455,7 @@ app.get('/getReported', function(req,res){
 
 /**
    ****Should only be accessed by an admin******
-   Deletes a question from the database, use with caution
+   Removes question from flash, technical and reported and puts it in deleted
    @author kottk055
    @req   type: Flash or Technical
           question: Question
@@ -463,9 +464,17 @@ app.post('/deleteQuestion', function(req,res){
     console.log("/deleteQuestion called...");
     var type = req.body.type;
     var questionStr = req.body.question;
-    var success = function(){
+    var answer, author;
+    var errorHandle = function(){
+        deleted.deleteOne({question:questionStr}, function(err, result){
+            if(err) console.log("Error removing deleted section",
+                                err);
+            else console.log("Error handled");
+        });
+    };
+    var deleteReport = function(){
         console.log("Looking for report");
-        report.deleteOne({questionID:questionStr}, function(err,result){
+        report.deleteOne({question:questionStr}, function(err,result){
             if(err){
                 console.log("Error: ", err);
                 res.send("Question deleted from but there was an error finding a report");
@@ -478,36 +487,79 @@ app.post('/deleteQuestion', function(req,res){
             }
         });
     };
+    var deleteQuestion = function(){
+        if(type === "Flash"){
+            console.log("Looking in Flash...");
+            flash.deleteOne({question:questionStr}, function(err,result){
+                if(err){
+                    console.log("Error", err);
+                    res.send("There was an error deleting the question");
+                    errorHandle();
+                }else{
+                    console.log("Flash question deleted");
+                    deleteReport();
+                }
+            });
+        }else if(type === "Technical"){
+            technical.deleteOne({question:questionStr},function(err,result){
+                if(err){
+                    console.log("Error", err);
+                    res.send("There was an error deleting the question");
+                    errorHandle();
+                }else{
+                    console.log("Technical question deleted");
+                    deleteReport();
+                }
+            });
+        }
+    };
+    var moveToDeleted = function(){
+        var removedQuestion = {
+            question : questionStr,
+            answer : answer,
+            author : author
+        };
+        deleted.create(removedQuestion, function(err, doc){
+            if(err){
+                console.log("Error", err);
+                res.send("An error occured");
+            }
+            else{
+                console.log("Question created in deleted");
+                deleteQuestion();
+            }
+        });
+    };
+    //Get extra data
     if(type === "Flash"){
-        console.log("Looking in Flash...");
-        flash.deleteOne({question:questionStr}, function(err,result){
+        flash.findOne({question:questionStr}, function(err, doc){
             if(err){
                 console.log("Error", err);
-                res.send("There was an error deleting the question")
-            }else if(result.n === 0){//No error but nothing deleted
-                console.log("Question not found in flash")
-                res.send("Question could not be found");
-            }else{
-                console.log("Flash question w/ id: "+id+" deleted");
-                success();
+                res.send("Could not find question");
+            }
+            else{
+                answer = doc.answer;
+                author = doc.author;
+                moveToDeleted();
             }
         });
-    }else if(type === "Technical"){
-        technical.deleteOne({question:questionStr},function(err,result){
+    }
+    else if(type === "Technical"){
+        technical.findOne({question:questionStr}, function(err, doc){
             if(err){
                 console.log("Error", err);
-                res.send("There was an error deleting the question")
-            }else if(result.n === 0){//No error but nothing deleted
-                console.log("Question not found in technical")
-                res.send("Question could not be found");
-            }else{
-                console.log("Technical question w/ id: "+id+" deleted");
-                success();
+                res.send("Could not find question");
+            }
+            else{
+                answer = null;
+                author = doc.author;
+                moveToDeleted();
             }
         });
-    }else{
-        console.log("Question type incorrect");
-        res.send("Need question type to delete a question");
+    }
+    else{
+        console.log("Wrong type given");
+        res.send("Error: Need type to be Flash or Technical");
     }
 });
 
