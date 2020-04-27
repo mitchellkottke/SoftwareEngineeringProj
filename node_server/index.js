@@ -377,7 +377,7 @@ app.post('/deleteReport', function(req, res){
     console.log("deleteReport called...");
     var questionStr = req.body.question;
     var type = req.body.questionType;
-    report.deleteOne({questionID:questionStr,questionType:type}, function(err,result){
+    report.deleteOne({question:questionStr,questionType:type}, function(err,result){
         console.log("Searching to delete");
         if(err){
             console.log("Error", err);
@@ -394,19 +394,6 @@ app.post('/deleteReport', function(req, res){
         }
     });
 });
-
-// TRYING OUT A DELETE REQUEST
-app.delete('/deleteTheReport/:id', (req, res) =>
- report.findOneAndRemove({
-  _id: req.params.id
- }, (err, report) => {
-  if(err) {
-   res.send('error removing')
-  } else {
-   console.log(report);
-   res.status(204);
- }
-}));
 
 /** Checks to see if the given question has been reported
         @author bock0077
