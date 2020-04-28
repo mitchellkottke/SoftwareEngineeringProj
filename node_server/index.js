@@ -28,6 +28,7 @@ var flash = require('./models/flash.js');
 var User = require('./models/User.js');
 var report = require('./models/Report.js');
 var deleted = require('./models/Deleted.js');
+var block = require('./models/Block.js');
 
 // set up for pug enginer
 app.set('views', './views'); //folder where views are stored
@@ -560,7 +561,7 @@ app.post('/blockUser', function(req,res) {
 	var blockedUser = req.body.user;
 	console.log("Adding user to blockedUser database");
 	block.create({user:blockedUser}, function(err,doc){
-	if(blockedUser || !doc){
+	if(err || !doc){
 	 console.log("Could not find blockedUser in report");
             res.send("User was not successfully added to the database");
             error = 1;
