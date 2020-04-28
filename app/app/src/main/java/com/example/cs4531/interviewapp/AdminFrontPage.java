@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -38,6 +39,9 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
 
     private ArrayAdapter<String> mListViewAdapter;
 
+    private String userToBlock;
+    private EditText userToBlockEditText;
+
     private String question;
     private String type;
     private String reasonReport;
@@ -55,12 +59,14 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
 
     Button deleteReport;
     Button deleteQuestion;
+    Button blockUser;
 
     private ArrayList<ExampleItem> exampleList = new ArrayList<>();
 
     private int thePosition;
 
     //NEW
+    private String BlockUser;
     private String currentQuestion;
     private String currentType;
 
@@ -68,6 +74,8 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_front_page);
+
+        userToBlockEditText = (EditText)(findViewById(R.id.blockUserEditText));
 
         mDrawerLayout= (DrawerLayout) findViewById(R.id.nav_drawer);
         mToggle = new ActionBarDrawerToggle(AdminFrontPage.this, mDrawerLayout, R.string.open, R.string.close);
@@ -129,6 +137,9 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         deleteQuestion = findViewById(R.id.deleteQuestion);
         deleteQuestion.setText("Delete Question");
 
+        blockUser = findViewById(R.id.blockUser);
+        blockUser.setText("Block User");
+
         mAdapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -157,6 +168,12 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
             }
         });
 
+        blockUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                blockUser(userToBlockEditText.getText().toString());
+            }
+        });
     }//end of onCreate
 
     /**
@@ -170,6 +187,44 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         exampleList.remove(thePosition);
         mAdapter.notifyItemRemoved(position);
     }
+    /**
+     * blockUser blocks a specific user from
+     * reporting questions
+     * @author bock0077
+     * @param BlockUser the user being blocked
+     */
+    public void blockUser(String BlockUser) {
+        userToBlock = BlockUser;
+
+        String targetURL = getString(R.string.serverURL) + "/blockUser";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, targetURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Log.d("BLOCK USER BUTTON SENT", response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> report = new HashMap<String, String>();
+                report.put("user", userToBlock);
+                return report;
+            }
+        };
+        Toast.makeText(AdminFrontPage.this, userToBlock + " has been blocked from reporting questions.", Toast.LENGTH_SHORT).show();
+        requests.addToRequestQueue(postRequest);
+    }
+
+
 
     /**
      * deleteReport deletes the question from the
