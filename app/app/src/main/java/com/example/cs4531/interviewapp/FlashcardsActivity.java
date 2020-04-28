@@ -42,16 +42,20 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
     public RestRequests requests; //our RestRequests class
     public String answerString; //the answer response
 
+    private String userToCheck;
     private String roText; //report option text
     private String questionType = "Flash"; //question type will always be Flash
     private String userID = "default";//for now the test user is quinz001
     private String questionID; //the question
     private GoogleSignInAccount account;//Google account of current user
 
+    private Button Report;
+
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         Intent intent = getIntent();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashcards);
@@ -70,10 +74,45 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         getQuestion(tv);
         account = intent.getParcelableExtra("account");
 
+        Report = findViewById(R.id.report_question);
+
+        userToCheck = account.getEmail().substring(0,8);
+
+        String targetURL = getString(R.string.serverURL) + "/isBlocked";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, targetURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Log.d("IS BLOCKED SENT", response);
+                        if(response.equals("User is blocked")) {
+                            blockedAccount();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> report = new HashMap<String, String>();
+                report.put("user", userToCheck);
+                return report;
+            }
+        };
+        requests.addToRequestQueue(postRequest);
         //ALSO NEW
         mAuth = FirebaseAuth.getInstance();
     }
 
+    public void blockedAccount() {
+        Report.setEnabled(false);
+    }
     /**
      * @author smatthys
      * @param item
