@@ -117,7 +117,7 @@
         android:layout_marginTop="625dp"
         android:layout_marginEnd="6dp"
         android:gravity="center_horizontal"
-        android:text="This question has been reported and will be reviewed by an administrator"
+        android:text=""
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
 
         app:fontFamily="@font/textbook" />

@@ -325,25 +325,31 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         final TextView qv = (TextView)findViewById(R.id.qAView);
         final String questionStr = qv.getText().toString();
         String targetURL = getString(R.string.serverURL) + "/isReported";
-        JSONObject jsonObj = new JSONObject();
-        try {
-            jsonObj.put("question", questionStr);
-        }
-        catch (JSONException e){
-        }
-        JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, targetURL,jsonObj,
-                new Response.Listener<JSONObject>() {
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, targetURL,
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        flag.setText(response.toString());
+                    public void onResponse(String response) {
+                        flag.setText(response);
+
                     }
-                },new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError e){
-                flag.setText("");
-            }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", error.toString());
+                    }
                 }
-                );
-        requests.addToRequestQueue(sr);
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> report = new HashMap<String, String>();
+                report.put("question", questionStr);
+                return report;
+            }
+        };
+        requests.addToRequestQueue(postRequest);
+
     }
 }//****END OF CLASS****
