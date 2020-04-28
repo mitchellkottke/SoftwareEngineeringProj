@@ -68,6 +68,8 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         navigationView.setNavigationItemSelectedListener(this);
         TextView tv = (TextView)findViewById(R.id.qAView); //Question view
         TextView answerView = (TextView)findViewById(R.id.answerView);
+
+
         requests = RestRequests.getInstance(getApplicationContext());
         tv.setText("");
         final Button answerButton = (Button)findViewById(R.id.getAnswer);
@@ -213,7 +215,9 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
                         tv.setText(error.toString());
                     }
                 });
+        getReported();
         requests.addToRequestQueue(sr);
+
     }
 
     /**
@@ -316,5 +320,30 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
             }
         });
     }
-
+    public void getReported(){
+        final TextView flag = (TextView)findViewById(R.id.reported_flag);
+        final TextView qv = (TextView)findViewById(R.id.qAView);
+        final String questionStr = qv.getText().toString();
+        String targetURL = getString(R.string.serverURL) + "/isReported";
+        JSONObject jsonObj = new JSONObject();
+        try {
+            jsonObj.put("question", questionStr);
+        }
+        catch (JSONException e){
+        }
+        JsonObjectRequest sr = new JsonObjectRequest(Request.Method.POST, targetURL,jsonObj,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        flag.setText(response.toString());
+                    }
+                },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError e){
+                flag.setText("");
+            }
+                }
+                );
+        requests.addToRequestQueue(sr);
+    }
 }//****END OF CLASS****
