@@ -376,7 +376,8 @@ app.post('/reportQuestion', function(req, res){
 */
 app.post('/deleteReport', function(req, res){
     console.log("deleteReport called...");
-    var questionStr = req.body.question;
+    //var questionStr = req.body.question;
+    var questionStr = req.body.questionID;
     var type = req.body.questionType;
     report.deleteOne({question:questionStr,questionType:type}, function(err,result){
         console.log("Searching to delete");
@@ -554,7 +555,7 @@ app.post('/deleteQuestion', function(req,res){
 /**
 	Blocks a user from reporting questions in case they are abusing the power
 	@author bock0077
-	@req
+	@req user
 */
 app.post('/blockUser', function(req,res) {
 	console.log("/blockUser called...");
@@ -573,7 +574,27 @@ app.post('/blockUser', function(req,res) {
     });
 });
 
-
+/**
+	Checks to see if a user has been blocked
+	@author bock0077
+	@req user
+*/
+app.post('/isBlocked', function(req,res) {
+	console.log("/isBlocked called..."); 
+	var userCheck = req.body.user; 
+	console.log("Checking if user has been blocked");
+	block.find({user:userCheck}, function(err,doc){
+	if(err || !doc){
+	console.log("The user is not blocked");
+		res.send("User was not found in the database");
+		error = 1;
+	}
+	else {
+	console.log("User was found in the database");
+	res.send("User is blocked");
+	}
+});
+});
 
 /**
  * .listen on port:1234 with launch alter to console
