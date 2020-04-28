@@ -106,6 +106,7 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
                         questionView.setText(error.toString());
                     }
                 });
+        getReported();
         requests.addToRequestQueue(sr);
     }
 
@@ -246,7 +247,7 @@ public class RecordVideoActivity extends AppCompatActivity implements Navigation
     }
     public void getReported(){
         final TextView flag = (TextView)findViewById(R.id.reported_flag);
-        final TextView qv = (TextView)findViewById(R.id.qAView);
+        final TextView qv = (TextView)findViewById(R.id.questionView);
         final String questionStr = qv.getText().toString();
         String targetURL = getString(R.string.serverURL) + "/isReported";
 
