@@ -583,7 +583,7 @@ app.post('/isBlocked', function(req,res) {
 	console.log("/isBlocked called..."); 
 	var userCheck = req.body.user; 
 	console.log("Checking if user has been blocked");
-	block.find({user:userCheck}, function(err,doc){
+	block.findOne({user:userCheck}, function(err,doc){
 	if(err || !doc){
 	console.log("The user is not blocked");
 		res.send("User was not found in the database");
