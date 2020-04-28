@@ -410,12 +410,13 @@ app.post('/isReported', function(req, res){
     report.findOne({question:questionStr},function(err, doc){
 	if(err || !doc){
 	    console.log("Could not find question in report");
-	    res.send("Question is not flagged");
+	    res.send("");
 	    error = 1;
 	}
 	else{
 	    console.log("Found: "+doc);
-	    res.send("Question has been flagged");
+	    res.send("This question has been reported and will be"+
+                     " reviewed by an adminstrator");
 	}
     });
 });
@@ -594,6 +595,45 @@ app.post('/isBlocked', function(req,res) {
 	res.send("User is blocked");
 	}
 });
+});
+
+/**
+   Allows a question to be updated
+   @author kottk055
+   @req question: The question that needs to change
+        type: Flash or Technical
+        newQuestion: The updated question
+ */
+app.post('/editQuestion', function(req,res){
+    console.log("/editQuestion called...");
+    var questionStr = req.body.question;
+    var type = req.body.type;
+    var change = req.body.newQuestion;
+    if(type === "Flash"){
+        console.log("Searching flash");
+        flash.findOneAndUpdate({question:questionStr},{question:change},function(err,doc){
+            if(err || !doc){
+                console.log("Could not find question");
+                res.send("Error, question not found");
+            }else{
+                console.log("Question found and updated");
+                res.send("Question updated");
+            }
+        });
+    }else if(type === "Technical"){
+        technical.findOneAndUpdate({question:questionStr},{question:change},function(err,doc){
+            if(err || !doc){
+                console.log("Could not find question");
+                res.send("Error, question not found");
+            }else{
+                console.log("Question found and updated");
+                res.send("Question updated");
+            }
+        });
+    }else{
+        console.log("Wrong type given");
+        res.send("Wrong type given");
+    }
 });
 
 /**
