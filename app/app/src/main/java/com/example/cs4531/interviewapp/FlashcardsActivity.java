@@ -55,7 +55,6 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Report = findViewById(R.id.report_question);
 
         Intent intent = getIntent();
         super.onCreate(savedInstanceState);
@@ -75,6 +74,8 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
         getQuestion(tv);
         account = intent.getParcelableExtra("account");
 
+        Report = findViewById(R.id.report_question);
+
         userToCheck = account.getEmail().substring(0,8);
 
         String targetURL = getString(R.string.serverURL) + "/isBlocked";
@@ -84,7 +85,7 @@ public class FlashcardsActivity extends AppCompatActivity implements NavigationV
                     public void onResponse(String response) {
                         // response
                         Log.d("IS BLOCKED SENT", response);
-                        if(response == "User was found in the database") {
+                        if(response.equals("User is blocked")) {
                             blockedAccount();
                         }
                     }
