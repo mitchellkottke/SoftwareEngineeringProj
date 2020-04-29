@@ -447,12 +447,12 @@ app.get('/getReported', function(req,res){
    ****Should only be accessed by an admin******
    Removes question from flash, technical and reported and puts it in deleted
    @author kottk055
-   @req   type: Flash or Technical
+   @req   questionType: Flash or Technical
           question: Question
 */
 app.post('/deleteQuestion', function(req,res){
     console.log("/deleteQuestion called...");
-    var type = req.body.type;
+    var type = req.body.questionType;
     var questionStr = req.body.question;
     var answer, author;
     var errorHandle = function(){
@@ -504,11 +504,19 @@ app.post('/deleteQuestion', function(req,res){
         }
     };
     var moveToDeleted = function(){
-        var removedQuestion = {
-            question : questionStr,
-            answer : answer,
-            author : author
-        };
+        var removedQuestion;
+        if(answer){
+                removedQuestion = {
+                    question : questionStr,
+                    answer : answer,
+                    author : author
+                };
+        }else{
+            removedQuestion = {
+                question : questionStr,
+                author : author
+            };
+        }
         deleted.create(removedQuestion, function(err, doc){
             if(err){
                 console.log("Error", err);
