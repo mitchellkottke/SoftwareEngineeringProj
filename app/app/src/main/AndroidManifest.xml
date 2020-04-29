@@ -25,6 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".AdminFrontPage"></activity>
+        <activity android:name=".ReportOtherActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/Home"></activity>

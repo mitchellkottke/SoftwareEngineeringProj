@@ -230,8 +230,6 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         requests.addToRequestQueue(postRequest);
     }
 
-
-
     /**
      * deleteReport deletes the question from the
      * reportedQuestions collections db
@@ -249,7 +247,7 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
                     @Override
                     public void onResponse(String response) {
                         // response
-                        Log.d("DELETE BUTTON SENT", response);
+                        Log.d("DELETE REPORT BUTTON SENT", response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -263,7 +261,7 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> report = new HashMap<String, String>();
-                report.put("question", currentQuestion);
+                report.put("questionID", currentQuestion);
                 report.put("questionType", currentType);
                 return report;
             }
@@ -289,7 +287,7 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
                     public void onResponse(String response) {
                         // response
                         //Toast.makeText(AdminFrontPage.this, "DELETE BUTTON CLICKED", Toast.LENGTH_LONG).show();
-                        Log.d("DELETE BUTTON SENT", response);
+                        Log.d("DELETE QUESTION SENT", response);
                     }
                 },
                 new Response.ErrorListener() {
