@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 import java.io.Console;
 
 public class AdminLogInPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -29,10 +31,15 @@ public class AdminLogInPage extends AppCompatActivity implements NavigationView.
     private Button login;
     private int counter = 3;
 
+    private GoogleSignInAccount account;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_login);
+
+        Intent intent = getIntent();
+        account = intent.getParcelableExtra("account");
 
         mDrawerLayout= (DrawerLayout) findViewById(R.id.nav_drawer);
         mToggle = new ActionBarDrawerToggle(AdminLogInPage.this, mDrawerLayout, R.string.open, R.string.close);
@@ -59,6 +66,7 @@ public class AdminLogInPage extends AppCompatActivity implements NavigationView.
     private void validate(String userName, String userPass){
         if((userName.equals("Admin")) && (userPass.equals("1234"))){
             Intent intent = new Intent(AdminLogInPage.this, AdminFrontPage.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }else{
             counter--;
@@ -96,27 +104,33 @@ public class AdminLogInPage extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
         if(id == R.id.nav_home){
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         if (id == R.id.nav_recordVideo){
             Intent intent = new Intent(this, RecordVideoActivity.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         if (id == R.id.nav_flashcards){
             Intent intent = new Intent(this, FlashcardsActivity.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         if (id == R.id.nav_resources){
             Intent intent = new Intent(this, ResourcesActivity.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         if (id == R.id.nav_myAccount){
             Intent intent = new Intent(this, LogIn.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         //For Admin Page
         if (id == R.id.nav_admin){
             Intent intent = new Intent(this, AdminLogInPage.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         return false;

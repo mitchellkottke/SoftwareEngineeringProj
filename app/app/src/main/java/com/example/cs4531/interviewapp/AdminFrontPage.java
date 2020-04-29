@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,10 +71,15 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
     private String currentQuestion;
     private String currentType;
 
+    private GoogleSignInAccount account;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_front_page);
+
+        Intent intent = getIntent();
+        account = intent.getParcelableExtra("account");
 
         userToBlockEditText = (EditText)(findViewById(R.id.blockUserEditText));
 
@@ -331,27 +337,33 @@ public class AdminFrontPage extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
         if(id == R.id.nav_home){
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         if (id == R.id.nav_recordVideo){
             Intent intent = new Intent(this, RecordVideoActivity.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         if (id == R.id.nav_flashcards){
             Intent intent = new Intent(this, FlashcardsActivity.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         if (id == R.id.nav_resources){
             Intent intent = new Intent(this, ResourcesActivity.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         if (id == R.id.nav_myAccount){
             Intent intent = new Intent(this, LogIn.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         //For Admin Page
         if (id == R.id.nav_admin){
             Intent intent = new Intent(this, AdminLogInPage.class);
+            intent.putExtra("account", account);
             startActivity(intent);
         }
         return false;
